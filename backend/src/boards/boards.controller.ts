@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -30,21 +29,13 @@ export class BoardsController {
     @Request() req: Req & { user: User },
     @Body() createBoardDto: CreateBoardDto,
   ) {
-    const existingBoard = await this.boardsService.findOneBy(
-      'url',
-      createBoardDto.url,
-    );
-
-    if (existingBoard !== undefined) {
-      throw new BadRequestException({ url: 'already exists' });
-    }
-
     createBoardDto.user = req.user;
-    const { id, url } = await this.boardsService.create(createBoardDto);
+    createBoardDto.data = {};
+    const { id } = await this.boardsService.create(createBoardDto);
 
     await this.creditsService.createFromRequest(req, req.user);
 
-    return { id, url };
+    return { id };
   }
 
   @Get()

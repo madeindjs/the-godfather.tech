@@ -1,9 +1,10 @@
-import { IsUrl } from 'class-validator';
+import { IsObject, IsOptional } from 'class-validator';
 import { User } from '../../users/entities/user.entity';
 
 export class CreateBoardDto {
-  @IsUrl()
-  url: string;
+  @IsOptional()
+  @IsObject()
+  data?: any;
 
   user: User;
 }

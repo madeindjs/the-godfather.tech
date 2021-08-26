@@ -1,4 +1,3 @@
-import { getQueueToken } from '@nestjs/bull';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { RepositoryMock } from '../../test/mocks/repository.mock';
@@ -16,7 +15,6 @@ describe('UsersController', () => {
       controllers: [UsersController],
       providers: [
         UsersService,
-        { provide: getQueueToken('github'), useValue: { add: jest.fn() } },
         { provide: getRepositoryToken(User), useClass: RepositoryMock },
       ],
     }).compile();

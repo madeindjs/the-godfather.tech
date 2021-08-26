@@ -54,7 +54,7 @@ export class UsersController {
     @Param('id') id: string,
     @Request() req: Request & { user: User },
   ) {
-    const user = await this.usersService.findOne(+id);
+    const user = await this.usersService.findOne(id);
 
     if (user === undefined) {
       throw new NotFoundException();
@@ -81,7 +81,7 @@ export class UsersController {
       throw new UnauthorizedException();
     }
 
-    return this.usersService.update(+id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -96,11 +96,11 @@ export class UsersController {
       throw new UnauthorizedException();
     }
 
-    await this.usersService.remove(+id);
+    await this.usersService.remove(id);
   }
 
   private async ensureUserExists(id: string) {
-    const user = await this.usersService.findOne(+id);
+    const user = await this.usersService.findOne(id);
 
     if (user === undefined) {
       throw new NotFoundException();

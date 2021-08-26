@@ -5,14 +5,14 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppState } from '../state.interface';
-import { User, UsersService } from './users.service';
+import { Board, BoardsService } from './boards.service';
 
-describe('UsersService', () => {
-  let service: UsersService;
+describe('BoardsService', () => {
+  let service: BoardsService;
   let httpTestingController: HttpTestingController;
   let store: MockStore<AppState>;
 
-  const initialState: AppState = { login: undefined, users: { users: [] } };
+  const initialState: AppState = { login: undefined, boards: { boards: [] } };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe('UsersService', () => {
       providers: [provideMockStore({ initialState })],
     });
     httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(UsersService);
+    service = TestBed.inject(BoardsService);
     store = TestBed.inject(MockStore);
   });
 
@@ -32,29 +32,29 @@ describe('UsersService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return expected users', () => {
-    const expectedUsers: User[] = [
+  it('should return expected boards', () => {
+    const expectedBoards: Board[] = [
       {
         email: 'toto@toto.fr',
         firstname: 'toto',
         lastname: 'toto',
-        username: 'toto',
+        boardname: 'toto',
         uuid: 'toto',
       },
     ];
 
     service
-      .getUsers()
-      .subscribe((users) => expect(users).toEqual(expectedUsers));
+      .getAll()
+      .subscribe((boards) => expect(boards).toEqual(expectedBoards));
 
     const req = httpTestingController.expectOne(
-      'https://fakerapi.it/api/v1/users'
+      'https://fakerapi.it/api/v1/boards'
     );
 
-    req.flush({ data: expectedUsers });
+    req.flush({ data: expectedBoards });
 
     // store
-    //   .select((state: AppState) => state.users.users)
-    //   .subscribe((users) => expect(users).toEqual(expectedUsers));
+    //   .select((state: AppState) => state.boards.boards)
+    //   .subscribe((boards) => expect(boards).toEqual(expectedBoards));
   });
 });

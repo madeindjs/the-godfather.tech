@@ -7,7 +7,7 @@ describe('LoginGuard', () => {
   let guard: LoginGuard;
   const initialState: AppState = {
     login: { user: undefined },
-    users: { users: [] },
+    boards: { users: [] },
   };
 
   let store: MockStore;

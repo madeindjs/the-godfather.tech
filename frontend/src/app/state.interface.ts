@@ -1,7 +1,7 @@
+import { BoardsState } from './boards.reducer';
 import { LoginState } from './login/login.reducer';
-import { UsersState } from './users.reducer';
 
 export interface AppState {
-  users: UsersState;
+  boards: BoardsState;
   login: LoginState;
 }

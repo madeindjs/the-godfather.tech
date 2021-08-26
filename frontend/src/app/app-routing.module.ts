@@ -9,10 +9,10 @@ const routes: Routes = [
       import('./home-page/home-page.module').then((m) => m.HomePageModule),
   },
   {
-    path: 'users',
+    path: 'boards',
     canActivate: [LoginGuard],
     loadChildren: () =>
-      import('./users/users.module').then((m) => m.UsersModule),
+      import('./boards/boards.module').then((m) => m.BoardsModule),
   },
   {
     path: 'login',

@@ -72,19 +72,6 @@ describe('BoardController (e2e)', () => {
         .expect(201);
     });
 
-    it('should not create because board already exists', async () => {
-      const { url } = await boardsService.create({
-        url: `www.${new Date().getTime()}.fr`,
-        user,
-      });
-
-      await request(app.getHttpServer())
-        .post('/boards')
-        .set('Authorization', `Bearer ${token}`)
-        .send({ url })
-        .expect(400);
-    });
-
     it('should not create because missing tokenn', () => {
       return request(app.getHttpServer())
         .post('/boards')
@@ -100,7 +87,6 @@ describe('BoardController (e2e)', () => {
 
     beforeAll(async () => {
       board = await boardsService.create({
-        url: `www.${new Date().getTime()}.fr`,
         user,
       });
     });
@@ -118,7 +104,6 @@ describe('BoardController (e2e)', () => {
 
     beforeAll(async () => {
       board = await boardsService.create({
-        url: `www.${new Date().getTime()}.fr`,
         user,
       });
     });

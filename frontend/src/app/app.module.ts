@@ -5,15 +5,15 @@ import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { boardsReducer } from './boards.reducer';
 import { LoginModule } from './login/login.module';
 import { loginReducer } from './login/login.reducer';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { usersReducer } from './users.reducer';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return localStorageSync({ keys: ['users', 'login'], rehydrate: true })(
+  return localStorageSync({ keys: ['boards', 'login'], rehydrate: true })(
     reducer
   );
 }
@@ -26,7 +26,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(
-      { users: usersReducer, login: loginReducer },
+      { boards: boardsReducer, login: loginReducer },
       { metaReducers }
     ),
     LoginModule,

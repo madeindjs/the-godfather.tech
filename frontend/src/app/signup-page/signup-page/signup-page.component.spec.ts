@@ -8,7 +8,7 @@ describe('SignupPageComponent', () => {
   let fixture: ComponentFixture<SignupPageComponent>;
   const initialState: AppState = {
     login: { user: undefined },
-    users: { users: [] },
+    boards: { users: [] },
   };
 
   beforeEach(async () => {

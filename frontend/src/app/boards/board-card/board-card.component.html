@@ -1,0 +1,6 @@
+<section class="board-card" *ngIf="board !== undefined">
+  <p>
+    <strong>{{ board.id }}</strong>
+  </p>
+  <button (click)="removeBoard()">delete</button>
+</section>

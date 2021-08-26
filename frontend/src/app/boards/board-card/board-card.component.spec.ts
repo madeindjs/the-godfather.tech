@@ -1,25 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppState } from 'src/app/state.interface';
-import { LoginCardComponent } from './login-card.component';
+import { BoardCardComponent } from './board-card.component';
 
-describe('LoginCardComponent', () => {
-  let component: LoginCardComponent;
-  let fixture: ComponentFixture<LoginCardComponent>;
+describe('BoardCardComponent', () => {
+  let component: BoardCardComponent;
+  let fixture: ComponentFixture<BoardCardComponent>;
   const initialState: AppState = {
-    login: { user: { email: 'toto@toto.fr', password: 'test' } },
-    boards: { users: [] },
+    login: { board: undefined },
+    boards: { boards: [] },
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [BoardCardComponent],
       providers: [provideMockStore({ initialState })],
-      declarations: [LoginCardComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginCardComponent);
+    fixture = TestBed.createComponent(BoardCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

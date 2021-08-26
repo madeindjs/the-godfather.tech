@@ -54,7 +54,7 @@ export class LoginService {
       })
       .pipe(
         mergeMap(() =>
-          this.http.post(`${environment.backend.url}/users`, {
+          this.http.post(`${environment.backend.url}/auth`, {
             email: user.email,
             password: user.password,
           })

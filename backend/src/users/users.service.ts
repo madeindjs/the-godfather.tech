@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HashService } from '../hash/hash.service';
@@ -8,8 +8,6 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly logger = new Logger(UsersService.name);
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -29,7 +27,7 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.userRepository.findOne({ id });
   }
 
@@ -42,7 +40,7 @@ export class UsersService {
   }
 
   async update(
-    id: number,
+    id: string,
     { password, resetPasswordToken, metadata }: UpdateUserDto,
   ) {
     const user = await this.findOne(id);
@@ -67,7 +65,7 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.findOne(id);
 
     if (user === undefined) {

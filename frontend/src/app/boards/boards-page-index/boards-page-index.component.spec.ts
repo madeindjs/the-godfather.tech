@@ -2,27 +2,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppState } from 'src/app/state.interface';
-import { UsersService } from '../users.service';
-import { UsersPageIndexComponent } from './users-page-index.component';
+import { BoardsService } from '../boards.service';
+import { BoardsPageIndexComponent } from './boards-page-index.component';
 
 describe('UsersPageIndexComponent', () => {
-  let component: UsersPageIndexComponent;
-  let fixture: ComponentFixture<UsersPageIndexComponent>;
+  let component: BoardsPageIndexComponent;
+  let fixture: ComponentFixture<BoardsPageIndexComponent>;
   const initialState: AppState = {
     login: { user: undefined },
-    users: { users: [] },
+    boards: { users: [] },
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UsersPageIndexComponent],
+      declarations: [BoardsPageIndexComponent],
       imports: [HttpClientModule],
-      providers: [UsersService, provideMockStore({ initialState })],
+      providers: [BoardsService, provideMockStore({ initialState })],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersPageIndexComponent);
+    fixture = TestBed.createComponent(BoardsPageIndexComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

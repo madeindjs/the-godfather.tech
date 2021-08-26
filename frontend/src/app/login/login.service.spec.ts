@@ -8,7 +8,7 @@ describe('LoginService', () => {
   let service: LoginService;
   const initialState: AppState = {
     login: { user: { email: 'test@test.fr', token: 'toto' } },
-    users: { users: [] },
+    boards: { users: [] },
   };
 
   beforeEach(() => {

@@ -1,8 +1,11 @@
 <!-- src/app/nav-bar/nav-bar.component.html -->
 <nav>
   <a routerLink="/">home</a>
-  <a routerLink="/users" [ngClass]="{ unauthorized: !(loggedUser$ | async) }"
-    >users <span class="NavBar-count">({{ usersCount$ | async }})</span></a
+  <a routerLink="/boards" [ngClass]="{ unauthorized: !(loggedUser$ | async) }"
+    >board
+    <span *ngIf="boardsCount$ | async" class="NavBar-count"
+      >({{ boardsCount$ | async }})</span
+    ></a
   >
   <a routerLink="/about">about</a>
   <a routerLink="/login">
