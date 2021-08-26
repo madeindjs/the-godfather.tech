@@ -1,6 +1,7 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmOptions } from '../../test/type-orm-module-options';
+import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
 import { PasswordResetController } from './password-reset.controller';
@@ -14,7 +15,8 @@ describe('PasswordResetController', () => {
       imports: [
         UsersModule,
         TypeOrmModule.forFeature([User]),
-        TypeOrmModule.forRoot(getTypeOrmOptions([User])),
+        ConfigModule.forRoot({ envFilePath: '.test.env' }),
+        getTypeOrmModule([User]),
       ],
       providers: [PasswordResetService],
       controllers: [PasswordResetController],

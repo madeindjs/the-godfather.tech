@@ -1,6 +1,7 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmOptions } from '../../test/type-orm-module-options';
+import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { User } from '../users/entities/user.entity';
 import { Website } from './entities/website.entity';
 import { WebsitesService } from './websites.service';
@@ -14,7 +15,8 @@ describe('WebsiteService', () => {
       providers: [WebsitesService],
       imports: [
         TypeOrmModule.forFeature([Website]),
-        TypeOrmModule.forRoot(getTypeOrmOptions([Website, User])),
+        ConfigModule.forRoot({ envFilePath: '.test.env' }),
+        getTypeOrmModule([Website, User]),
       ],
     }).compile();
 

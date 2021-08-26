@@ -1,28 +1,24 @@
-import { BullModule, getQueueToken } from '@nestjs/bull';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmOptions } from '../../test/type-orm-module-options';
+import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
 import { PasswordResetService } from './password-reset.service';
 
 describe('PasswordResetService', () => {
   let service: PasswordResetService;
-  const exampleQueueMock = { add: jest.fn() };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         UsersModule,
         TypeOrmModule.forFeature([User]),
-        TypeOrmModule.forRoot(getTypeOrmOptions([User])),
-        BullModule.registerQueue({ name: 'github' }),
+        ConfigModule.forRoot({ envFilePath: '.test.env' }),
+        getTypeOrmModule([User]),
       ],
       providers: [PasswordResetService],
-    })
-      .overrideProvider(getQueueToken('github'))
-      .useValue(exampleQueueMock)
-      .compile();
+    }).compile();
 
     service = module.get<PasswordResetService>(PasswordResetService);
   });

@@ -1,6 +1,7 @@
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmOptions } from '../../test/type-orm-module-options';
+import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { User } from '../users/entities/user.entity';
 import { CreditsController } from './credits.controller';
 import { CreditsService } from './credits.service';
@@ -15,7 +16,8 @@ describe('CreditsController', () => {
       providers: [CreditsService],
       imports: [
         TypeOrmModule.forFeature([Credit]),
-        TypeOrmModule.forRoot(getTypeOrmOptions([Credit, User])),
+        ConfigModule.forRoot({ envFilePath: '.test.env' }),
+        getTypeOrmModule([User, Credit]),
       ],
     }).compile();
 

@@ -48,12 +48,6 @@ export class UsersController {
     return req.user.toPublicObject();
   }
 
-  @Post('me/fetch-again')
-  @UseGuards(JwtAuthGuard)
-  updateMetadata(@Request() req: Request & { user: User }) {
-    return this.usersService.setBackgroundJobs(req.user);
-  }
-
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async findOne(

@@ -1,8 +1,8 @@
-import { BullModule, getQueueToken } from '@nestjs/bull';
+import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmOptions } from '../../test/type-orm-module-options';
+import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { HashModule } from '../hash/hash.module';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
@@ -11,25 +11,21 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  const exampleQueueMock = { add: jest.fn() };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [AuthService, UsersService],
       imports: [
         TypeOrmModule.forFeature([User]),
-        TypeOrmModule.forRoot(getTypeOrmOptions([User])),
+        ConfigModule.forRoot({ envFilePath: '.test.env' }),
+        getTypeOrmModule([User]),
         UsersModule,
         HashModule,
         JwtModule.register({
           secret: 'test',
         }),
-        BullModule.registerQueue({ name: 'github' }),
       ],
-    })
-      .overrideProvider(getQueueToken('github'))
-      .useValue(exampleQueueMock)
-      .compile();
+    }).compile();
 
     service = moduleRef.get(AuthService);
   });

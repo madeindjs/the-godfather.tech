@@ -1,9 +1,6 @@
-import { InjectQueue } from '@nestjs/bull';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Queue } from 'bull';
 import { Repository } from 'typeorm';
-import { GithubUserSearchJob } from '../github-user/interfaces/github.interface';
 import { HashService } from '../hash/hash.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -17,7 +14,6 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly hashService: HashService,
-    @InjectQueue('github') private githubQueue: Queue<GithubUserSearchJob>,
   ) {}
 
   async create({ email, password }: CreateUserDto) {
@@ -26,13 +22,7 @@ export class UsersService {
       passwordHashed: this.hashService.hashString(password),
     });
 
-    await this.setBackgroundJobs(user);
     return user;
-  }
-
-  async setBackgroundJobs({ email }: User) {
-    const job = await this.githubQueue.add({ email });
-    this.logger.debug(`pushed job #${job?.id} as ${job?.name}`);
   }
 
   findAll() {
