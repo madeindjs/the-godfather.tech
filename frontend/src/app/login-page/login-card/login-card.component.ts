@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { disconnectAction } from 'src/app/login/login.actions';
-import { LoginUser } from 'src/app/login/login.service';
+import { LoggedUser } from 'src/app/login/login.service';
 import { AppState } from 'src/app/state.interface';
 
 @Component({
@@ -10,7 +10,7 @@ import { AppState } from 'src/app/state.interface';
   styleUrls: ['./login-card.component.scss'],
 })
 export class LoginCardComponent {
-  @Input() loggedUser: LoginUser;
+  @Input() loggedUser: LoggedUser;
   constructor(private readonly store: Store<AppState>) {}
 
   get email() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LoginUser } from 'src/app/login/login.service';
+import { LoggedUser } from 'src/app/login/login.service';
 import { AppState } from 'src/app/state.interface';
 
 @Component({
@@ -10,11 +10,11 @@ import { AppState } from 'src/app/state.interface';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
-  loginUser$: Observable<LoginUser>;
+  loggedUser$: Observable<LoggedUser>;
 
   constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.loginUser$ = this.store.select((state) => state.login.user);
+    this.loggedUser$ = this.store.select((state) => state.login.user);
   }
 }

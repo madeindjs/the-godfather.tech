@@ -22,9 +22,10 @@
     </p>
   </div>
   <div class="LoginForm-submit">
-    <button (click)="login()" [disabled]="!valid">
-      login as {{ user.email }}
+    <button (click)="signup()" [disabled]="!valid">
+      signup as {{ user.email }}
     </button>
   </div>
 </form>
-<p>You don't have an account, <a routerLink="/signup">create an account</a></p>
+
+<p>Already have an account? <a routerLink="/login">Login</a></p>

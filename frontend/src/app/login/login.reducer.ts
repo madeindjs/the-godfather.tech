@@ -1,10 +1,10 @@
 // src/app/users.reducer.ts
 import { createReducer, on } from '@ngrx/store';
 import { disconnectAction, loginAction } from './login.actions';
-import { LoginUser } from './login.service';
+import { LoggedUser } from './login.service';
 
 export interface LoginState {
-  user: LoginUser;
+  user: LoggedUser;
 }
 
 export const initialState: LoginState = { user: undefined };
