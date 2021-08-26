@@ -9,9 +9,9 @@ import { User } from '../../users/entities/user.entity';
 
 @Entity()
 @Unique(['user', 'url'])
-export class Website {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Board {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ type: 'text', nullable: false })
   url: string;

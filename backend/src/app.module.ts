@@ -4,14 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { BoardsModule } from './boards/boards.module';
+import { Board } from './boards/entities/board.entity';
 import { CreditsModule } from './credits/credits.module';
 import { Credit } from './credits/entities/credit.entity';
 import { HashModule } from './hash/hash.module';
 import { PasswordResetModule } from './password-reset/password-reset.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { Website } from './website/entities/website.entity';
-import { WebsitesModule } from './website/websites.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { WebsitesModule } from './website/websites.module';
           database: configService.get('DATABASE_DB'),
           username: configService.get('DATABASE_USER'),
           password: configService.get('DATABASE_PASSWORD'),
-          entities: [User, Website, Credit],
+          entities: [User, Board, Credit],
           synchronize: true,
           logging: true,
         });
@@ -41,7 +41,7 @@ import { WebsitesModule } from './website/websites.module';
           database: configService.get('DATABASE_DB'),
           username: configService.get('DATABASE_USER'),
           password: configService.get('DATABASE_PASSWORD'),
-          entities: [User, Website, Credit],
+          entities: [User, Board, Credit],
           synchronize: true,
           logging: true,
         };
@@ -51,7 +51,7 @@ import { WebsitesModule } from './website/websites.module';
     HashModule,
     AuthModule,
     PasswordResetModule,
-    WebsitesModule,
+    BoardsModule,
     CreditsModule,
   ],
   controllers: [AppController],

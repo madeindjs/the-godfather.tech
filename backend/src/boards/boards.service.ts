@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
-import { CreateWebsiteDto } from './dto/create-website.dto';
-import { Website } from './entities/website.entity';
+import { CreateBoardDto } from './dto/create-board.dto';
+import { Board } from './entities/board.entity';
 
 @Injectable()
-export class WebsitesService {
+export class BoardsService {
   constructor(
-    @InjectRepository(Website)
-    private readonly websiteRepository: Repository<Website>,
+    @InjectRepository(Board)
+    private readonly websiteRepository: Repository<Board>,
   ) {}
 
-  create(createWebsiteDto: CreateWebsiteDto) {
+  create(createWebsiteDto: CreateBoardDto) {
     return this.websiteRepository.save(createWebsiteDto);
   }
 
@@ -20,15 +20,15 @@ export class WebsitesService {
     return this.websiteRepository.find({ user });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.websiteRepository.findOne({ id });
   }
 
-  findOneBy(field: keyof Website, value: string) {
+  findOneBy(field: keyof Board, value: string) {
     return this.websiteRepository.findOne({ [field]: value });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.websiteRepository.delete({ id });
   }
 }

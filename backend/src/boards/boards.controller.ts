@@ -14,13 +14,13 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreditsGuard } from '../credits/credits.guard';
 import { CreditsService } from '../credits/credits.service';
 import { User } from '../users/entities/user.entity';
-import { CreateWebsiteDto } from './dto/create-website.dto';
-import { WebsitesService } from './websites.service';
+import { BoardsService } from './boards.service';
+import { CreateBoardDto } from './dto/create-board.dto';
 
-@Controller('websites')
-export class WebsitesController {
+@Controller('boards')
+export class BoardsController {
   constructor(
-    private readonly websiteService: WebsitesService,
+    private readonly boardsService: BoardsService,
     private readonly creditsService: CreditsService,
   ) {}
 
@@ -28,19 +28,19 @@ export class WebsitesController {
   @UseGuards(JwtAuthGuard, CreditsGuard)
   async create(
     @Request() req: Req & { user: User },
-    @Body() createWebsiteDto: CreateWebsiteDto,
+    @Body() createBoardDto: CreateBoardDto,
   ) {
-    const existingWebsite = await this.websiteService.findOneBy(
+    const existingBoard = await this.boardsService.findOneBy(
       'url',
-      createWebsiteDto.url,
+      createBoardDto.url,
     );
 
-    if (existingWebsite !== undefined) {
+    if (existingBoard !== undefined) {
       throw new BadRequestException({ url: 'already exists' });
     }
 
-    createWebsiteDto.user = req.user;
-    const { id, url } = await this.websiteService.create(createWebsiteDto);
+    createBoardDto.user = req.user;
+    const { id, url } = await this.boardsService.create(createBoardDto);
 
     await this.creditsService.createFromRequest(req, req.user);
 
@@ -50,18 +50,18 @@ export class WebsitesController {
   @Get()
   @UseGuards(JwtAuthGuard)
   findAll(@Request() req: Request & { user: User }) {
-    return this.websiteService.findAll(req.user);
+    return this.boardsService.findAll(req.user);
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   findOne(@Request() req: Request & { user: User }, @Param('id') id: string) {
-    return this.websiteService.findOne(+id);
+    return this.boardsService.findOne(id);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   remove(@Request() req: Request & { user: User }, @Param('id') id: string) {
-    return this.websiteService.remove(+id);
+    return this.boardsService.remove(id);
   }
 }

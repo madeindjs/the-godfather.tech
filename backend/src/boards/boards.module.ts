@@ -4,18 +4,18 @@ import { AuthModule } from '../auth/auth.module';
 import { CreditsModule } from '../credits/credits.module';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
-import { Website } from './entities/website.entity';
-import { WebsitesController } from './websites.controller';
-import { WebsitesService } from './websites.service';
+import { BoardsController } from './boards.controller';
+import { BoardsService } from './boards.service';
+import { Board } from './entities/board.entity';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
-    TypeOrmModule.forFeature([User, Website]),
+    TypeOrmModule.forFeature([User, Board]),
     CreditsModule,
   ],
-  controllers: [WebsitesController],
-  providers: [WebsitesService],
+  controllers: [BoardsController],
+  providers: [BoardsService],
 })
-export class WebsitesModule {}
+export class BoardsModule {}

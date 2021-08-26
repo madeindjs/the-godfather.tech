@@ -5,26 +5,26 @@ import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { CreditsModule } from '../credits/credits.module';
 import { Credit } from '../credits/entities/credit.entity';
 import { User } from '../users/entities/user.entity';
-import { Website } from './entities/website.entity';
-import { WebsitesController } from './websites.controller';
-import { WebsitesService } from './websites.service';
+import { BoardsController } from './boards.controller';
+import { BoardsService } from './boards.service';
+import { Board } from './entities/board.entity';
 
 describe('WebsitesController', () => {
-  let controller: WebsitesController;
+  let controller: BoardsController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [WebsitesController],
-      providers: [WebsitesService],
+      controllers: [BoardsController],
+      providers: [BoardsService],
       imports: [
         CreditsModule,
-        TypeOrmModule.forFeature([Website, Credit]),
+        TypeOrmModule.forFeature([Board, Credit]),
         ConfigModule.forRoot({ envFilePath: '.test.env' }),
-        getTypeOrmModule([Website, User, Credit]),
+        getTypeOrmModule([Board, User, Credit]),
       ],
     }).compile();
 
-    controller = module.get<WebsitesController>(WebsitesController);
+    controller = module.get<BoardsController>(BoardsController);
   });
 
   it('should be defined', () => {
