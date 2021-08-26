@@ -1,0 +1,29 @@
+$footer-gutter: 0.7rem;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+main,
+footer {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: calc(100% - 2rem);
+  width: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
+
+footer {
+  text-align: center;
+  border-top: 1px solid lightgrey;
+  padding-top: $footer-gutter;
+  margin-top: $footer-gutter;
+  margin-bottom: $footer-gutter;
+  font-size: $footer-gutter;
+}

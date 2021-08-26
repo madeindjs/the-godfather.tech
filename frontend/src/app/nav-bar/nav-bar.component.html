@@ -1,0 +1,12 @@
+<!-- src/app/nav-bar/nav-bar.component.html -->
+<nav>
+  <a routerLink="/">home</a>
+  <a routerLink="/users" [ngClass]="{ unauthorized: !(loggedUser$ | async) }"
+    >users <span class="NavBar-count">({{ usersCount$ | async }})</span></a
+  >
+  <a routerLink="/about">about</a>
+  <a routerLink="/login">
+    <span *ngIf="loggedUser$ | async">{{ loggedUser$ | async }}</span>
+    <span *ngIf="!(loggedUser$ | async)">Login</span>
+  </a>
+</nav>

@@ -1,0 +1,6 @@
+<h1>Login</h1>
+<app-login-form *ngIf="!(loginUser$ | async)"></app-login-form>
+<app-login-card
+  *ngIf="loginUser$ | async"
+  [loggedUser]="loginUser$ | async"
+></app-login-card>

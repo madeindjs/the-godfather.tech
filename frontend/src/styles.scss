@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  font-family: "Courier New", Courier, monospace;
+
+  &::after {
+    content: "";
+    display: block;
+    background-color: black;
+    width: 10%;
+    min-width: 200px;
+    height: 5px;
+  }
+}
+
+button,
+.button {
+  min-width: 200px;
+
+  background-color: transparent;
+  color: black;
+
+  border: 2px solid black;
+  font-weight: bold;
+  font-family: "Courier New", Courier, monospace;
+  cursor: pointer;
+
+  transition-property: color background-color;
+  transition-timing-function: linear;
+  transition-duration: 0.2s;
+
+  font-size: 1rem;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+.error {
+  color: red;
+  text-decoration: wavy;
+  font-size: small;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.form-control {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 1rem;
+
+  label {
+    width: 100px;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+input {
+  border: 2px solid black;
+  font-size: 1rem;
+  font-family: "Courier New", Courier, monospace;
+
+  &:hover,
+  &:focus {
+    border-color: cadetblue;
+  }
+}
