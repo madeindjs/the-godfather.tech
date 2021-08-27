@@ -1,6 +1,8 @@
 <section class="board-card" *ngIf="board !== undefined">
   <p>
-    <strong>{{ board.id }}</strong>
+    <strong
+      ><a [routerLink]="['/boards', board.id]">{{ board.id }}</a></strong
+    >
   </p>
   <button (click)="removeBoard()">delete</button>
 </section>
