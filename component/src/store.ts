@@ -7,7 +7,6 @@ interface StoreDBLocalStorage {
   boards: Array<Board>;
   columns: Array<Column>;
   cards: Array<Card>;
-  apiKey: string | undefined;
   version: number;
 }
 
@@ -15,7 +14,6 @@ interface StoreDB {
   boards: Map<Uuid, Board>;
   columns: Map<Uuid, Column>;
   cards: Map<Uuid, Card>;
-  apiKey: string | undefined;
 }
 
 export type StoreChangeEvent =
@@ -33,7 +31,6 @@ export class Store {
     boards: new Map<Uuid, Board>(),
     columns: new Map<Uuid, Column>(),
     cards: new Map<Uuid, Card>(),
-    apiKey: "",
   };
 
   constructor() {
@@ -46,7 +43,6 @@ export class Store {
     try {
       const previousStore: StoreDBLocalStorage = JSON.parse(savedState);
 
-      this.db.apiKey = previousStore.apiKey;
       previousStore.boards.forEach((board) =>
         this.db.boards.set(board.uuid, board)
       );
@@ -59,14 +55,6 @@ export class Store {
     } catch (_e) {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
-  }
-
-  set apiKey(apiKey: string | undefined) {
-    this.db.apiKey = apiKey;
-  }
-
-  get apiKey(): string | undefined {
-    return this.db.apiKey;
   }
 
   // Board
@@ -205,7 +193,6 @@ export class Store {
 
   toObject(): StoreDBLocalStorage {
     return {
-      apiKey: this.db.apiKey,
       boards: Array.from(this.db.boards.values()),
       columns: Array.from(this.db.columns.values()),
       cards: Array.from(this.db.cards.values()),

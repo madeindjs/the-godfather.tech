@@ -18,9 +18,6 @@ class BoardComponent extends HTMLElement {
       case "api-url":
         this.apiUrl = newValue;
         break;
-      case "api-key":
-        store.apiKey = newValue;
-        break;
       case "uuid":
         store.onChangeListeners.delete(oldValue);
         store.onChangeListeners.set(newValue, (event) =>
@@ -60,13 +57,6 @@ class BoardComponent extends HTMLElement {
     store.onChangeListeners.set(this.board.uuid, (event) =>
       this.renderOnStoreChange(event)
     );
-
-    const apiKey = this.getAttribute("api-key");
-    if (apiKey) {
-      store.apiKey = apiKey;
-    } else {
-      throw Error("Board have no API Key. Specify it with `api-key` attribute");
-    }
 
     this.render();
   }
@@ -119,9 +109,7 @@ class BoardComponent extends HTMLElement {
       this.render();
     }
 
-    postJson(this.apiUrl, store.toObject(), {
-      Authorization: `bearer ${store.apiKey}`,
-    });
+    postJson(this.apiUrl, store.toObject(), {});
   }
 }
 

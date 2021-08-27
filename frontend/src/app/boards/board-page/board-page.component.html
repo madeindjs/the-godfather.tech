@@ -2,7 +2,7 @@
 
 <h1>Board {{ uuid$ | async }}</h1>
 
-<kanban-board api-key="123456" [uuid]="uuid$ | async"></kanban-board>
+<kanban-board [api-url]="apiUrl" [uuid]="uuid$ | async"></kanban-board>
 
 <h2>Include this board on your page</h2>
 
