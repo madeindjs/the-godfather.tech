@@ -31,6 +31,17 @@ export class CreditsService {
     return this.creditRepository.save({ user, amount });
   }
 
+  async getBoughtAmount(user: User): Promise<number> {
+    const { amount } = await this.creditRepository
+      .createQueryBuilder()
+      .select('SUM(amount) AS amount')
+      .where({ user })
+      .andWhere('amount > 0')
+      .getRawOne();
+
+    return Number(amount);
+  }
+
   async getAmount(user: User): Promise<number> {
     const { amount } = await this.creditRepository
       .createQueryBuilder()
@@ -38,7 +49,7 @@ export class CreditsService {
       .where({ user })
       .getRawOne();
 
-    return amount;
+    return Number(amount);
   }
 
   findAll(user: User) {

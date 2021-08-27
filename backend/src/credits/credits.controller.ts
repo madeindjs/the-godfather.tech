@@ -9,10 +9,19 @@ export class CreditsController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  async findAll(@Request() req: Request & { user: User }) {
-    const credits = await this.creditsService.findAll(req.user);
+  async findAll(@Request() { user }: Request & { user: User }) {
+    const credits = await this.creditsService.findAll(user);
     const rest = credits.reduce((a, b) => a + b.amount, 0);
     return { history: credits, rest };
+  }
+
+  @Get('summary')
+  @UseGuards(JwtAuthGuard)
+  async summary(@Request() { user }: Request & { user: User }) {
+    return {
+      total: await this.creditsService.getBoughtAmount(user),
+      current: await this.creditsService.getAmount(user),
+    };
   }
 
   @Post()

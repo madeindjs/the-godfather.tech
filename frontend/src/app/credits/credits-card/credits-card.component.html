@@ -1,0 +1,4 @@
+<section>
+  <p>Credits: {{ current$ | async }}/{{ total$ | async }}</p>
+  <progress [max]="total$ | async" [value]="current$ | async"></progress>
+</section>
