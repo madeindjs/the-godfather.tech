@@ -1,9 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { AppState } from '../state.interface';
+import { setCreditsSummaryAction } from './credits.actions';
 
-interface CreditsSummary {
+export interface CreditsSummary {
   total: number;
   current: number;
 }
@@ -12,11 +16,24 @@ interface CreditsSummary {
   providedIn: 'root',
 })
 export class CreditsService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store<AppState>
+  ) {}
 
   getSummary(): Observable<CreditsSummary> {
-    return this.http.get<CreditsSummary>(
-      `${environment.backend.url}/credits/summary`
-    );
+    return this.http
+      .get<CreditsSummary>(`${environment.backend.url}/credits/summary`)
+      .pipe(
+        tap((summary) =>
+          this.store.dispatch(setCreditsSummaryAction({ summary }))
+        )
+      );
+  }
+
+  buy(amount: number = 10): Observable<void> {
+    return this.http.post<void>(`${environment.backend.url}/credits/summary`, {
+      amount,
+    });
   }
 }

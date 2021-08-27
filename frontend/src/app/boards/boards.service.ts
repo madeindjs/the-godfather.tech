@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { map, mergeMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { setBoardsAction } from '../boards.actions';
+import { CreditsService } from '../credits/credits.service';
 
 export interface Board {
   id: string;
@@ -14,12 +15,17 @@ export interface Board {
   providedIn: 'any',
 })
 export class BoardsService {
-  constructor(private readonly http: HttpClient, private store: Store) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store,
+    private readonly creditsService: CreditsService
+  ) {}
 
   create() {
-    return this.http
-      .post<Board>(`${environment.backend.url}/boards`, {})
-      .pipe(mergeMap(() => this.getAll()));
+    return this.http.post<Board>(`${environment.backend.url}/boards`, {}).pipe(
+      mergeMap(() => this.getAll()),
+      mergeMap(() => this.creditsService.getSummary())
+    );
   }
 
   remove(id: string) {

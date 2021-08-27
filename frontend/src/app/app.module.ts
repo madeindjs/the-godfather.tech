@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthorizationInterceptor } from './authorization.interceptor';
 import { boardsReducer } from './boards.reducer';
+import { creditsReducer } from './credits/credits.reducer';
 import { LoginModule } from './login/login.module';
 import { loginReducer } from './login/login.reducer';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -15,9 +16,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return localStorageSync({ keys: ['boards', 'login'], rehydrate: true })(
-    reducer
-  );
+  return localStorageSync({ keys: ['login'], rehydrate: true })(reducer);
 }
 const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
@@ -36,7 +35,7 @@ const interceptors: Array<Provider> = [
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(
-      { boards: boardsReducer, login: loginReducer },
+      { boards: boardsReducer, login: loginReducer, credits: creditsReducer },
       { metaReducers }
     ),
     LoginModule,

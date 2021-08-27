@@ -9,7 +9,13 @@
   >
   <a routerLink="/about">about</a>
   <a routerLink="/login">
-    <span *ngIf="loggedUser$ | async">{{ loggedUser$ | async }}</span>
+    <span *ngIf="loggedUser$ | async"
+      >{{ loggedUser$ | async }}
+
+      <small *ngIf="currentCredits$ | async"
+        >(credit: {{ currentCredits$ | async }})</small
+      >
+    </span>
     <span *ngIf="!(loggedUser$ | async)">Login</span>
   </a>
 </nav>

@@ -13,6 +13,7 @@ import { AppState } from '../state.interface';
 export class NavBarComponent implements OnInit {
   public boardsCount$: Observable<number>;
   public loggedUser$: Observable<string | undefined>;
+  public currentCredits$: Observable<number>;
 
   constructor(private readonly store: Store<AppState>) {}
 
@@ -20,6 +21,10 @@ export class NavBarComponent implements OnInit {
     this.boardsCount$ = this.store
       .select((state) => state.boards?.boards)
       .pipe(map((boards) => boards?.length));
+
+    this.currentCredits$ = this.store.select(
+      (state) => state.credits.summary.current
+    );
 
     this.loggedUser$ = this.store
       .select((state) => state.login.user)

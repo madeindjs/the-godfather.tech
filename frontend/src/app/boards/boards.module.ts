@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
 import { AuthorizationInterceptor } from '../authorization.interceptor';
+import { CreditsModule } from '../credits/credits.module';
 import { BoardCardComponent } from './board-card/board-card.component';
 import { BoardsListComponent } from './boards-list/boards-list.component';
 import { BoardsPageIndexComponent } from './boards-page-index/boards-page-index.component';
@@ -22,7 +23,7 @@ const interceptors: Array<Provider> = [
     BoardCardComponent,
     BoardsPageIndexComponent,
   ],
-  imports: [CommonModule, HttpClientModule, BoardsRoutingModule],
+  imports: [CommonModule, HttpClientModule, BoardsRoutingModule, CreditsModule],
   exports: [BoardsListComponent],
   providers: [BoardsService, ...interceptors],
 })
