@@ -8,7 +8,9 @@
     "clean": "rm dist/* 2> /dev/null || true",
     "build": "npm run clean && webpack --config webpack.prod.config.js",
     "watch": "webpack watch --config webpack.config.js",
+    "watch:prod": "webpack watch --config webpack.prod.config.js",
     "serve": "webpack serve --config webpack.config.js",
+    "serve:prod": "webpack serve --config webpack.prod.config.js",
     "test": "mocha -r ts-node/register 'src/**/*.spec.ts'"
   },
   "keywords": [],

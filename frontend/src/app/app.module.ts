@@ -1,6 +1,6 @@
 // frontend/src/app/app.module.ts
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule, Provider } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -50,5 +50,6 @@ const interceptors: Array<Provider> = [
   ],
   providers: [...interceptors],
   bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class AppModule {}

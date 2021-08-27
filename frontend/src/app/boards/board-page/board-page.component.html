@@ -1,1 +1,21 @@
 <p>board-page works!</p>
+
+<h1>Board {{ uuid$ | async }}</h1>
+
+<kanban-board api-key="123456" [uuid]="uuid$ | async"></kanban-board>
+
+<h2>Include this board on your page</h2>
+
+<p>Add script in your HTML</p>
+
+<pre>{{ scripTag }}</pre>
+
+<p>
+  Then add this
+  <a
+    href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements"
+    >custom elements</a
+  >:
+</p>
+
+<pre>{{ htmlTag$ | async }}</pre>
