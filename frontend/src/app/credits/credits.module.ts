@@ -9,6 +9,6 @@ import { CreditsService } from './credits.service';
   declarations: [CreditsCardComponent, BuyCreditsComponent],
   imports: [CommonModule, HttpClientModule],
   providers: [CreditsService],
-  exports: [CreditsCardComponent],
+  exports: [CreditsCardComponent, BuyCreditsComponent],
 })
 export class CreditsModule {}

@@ -2,10 +2,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { setBoardsAction } from '../boards.actions';
 import { CreditsService } from '../credits/credits.service';
+import { ToastService } from '../toast/toast.service';
 
 export interface Board {
   id: string;
@@ -18,20 +19,25 @@ export class BoardsService {
   constructor(
     private readonly http: HttpClient,
     private readonly store: Store,
-    private readonly creditsService: CreditsService
+    private readonly creditsService: CreditsService,
+    private readonly toastService: ToastService
   ) {}
 
   create() {
     return this.http.post<Board>(`${environment.backend.url}/boards`, {}).pipe(
       mergeMap(() => this.getAll()),
-      mergeMap(() => this.creditsService.getSummary())
+      mergeMap(() => this.creditsService.getSummary()),
+      tap(() => this.toastService.success('Board created'))
     );
   }
 
   remove(id: string) {
     return this.http
       .delete<Board>(`${environment.backend.url}/boards/${id}`)
-      .pipe(mergeMap(() => this.getAll()));
+      .pipe(
+        mergeMap(() => this.getAll()),
+        tap(() => this.toastService.success('Board removed'))
+      );
   }
 
   getAll() {

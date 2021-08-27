@@ -12,6 +12,8 @@ import { creditsReducer } from './credits/credits.reducer';
 import { LoginModule } from './login/login.module';
 import { loginReducer } from './login/login.reducer';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ToastModule } from './toast/toast.module';
+import { toastsReducer } from './toast/toast.reducer';
 
 export function localStorageSyncReducer(
   reducer: ActionReducer<any>
@@ -35,10 +37,16 @@ const interceptors: Array<Provider> = [
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(
-      { boards: boardsReducer, login: loginReducer, credits: creditsReducer },
+      {
+        boards: boardsReducer,
+        login: loginReducer,
+        credits: creditsReducer,
+        toasts: toastsReducer,
+      },
       { metaReducers }
     ),
     LoginModule,
+    ToastModule,
   ],
   providers: [...interceptors],
   bootstrap: [AppComponent],

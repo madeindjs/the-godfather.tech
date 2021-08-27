@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { AppState } from 'src/app/state.interface';
 import { CreditsService } from '../credits.service';
 
 @Component({
@@ -12,11 +13,14 @@ export class CreditsCardComponent implements OnInit {
   public total$: Observable<number>;
   public current$: Observable<number>;
 
-  constructor(private readonly creditsService: CreditsService) {}
+  constructor(
+    private readonly creditsService: CreditsService,
+    private readonly store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
-    const creditSummary$ = this.creditsService.getSummary().pipe(share());
-    this.total$ = creditSummary$.pipe(map((s) => s.total));
-    this.current$ = creditSummary$.pipe(map((s) => s.current));
+    this.creditsService.getSummary().subscribe();
+    this.total$ = this.store.select((state) => state.credits.summary.total);
+    this.current$ = this.store.select((state) => state.credits.summary.current);
   }
 }

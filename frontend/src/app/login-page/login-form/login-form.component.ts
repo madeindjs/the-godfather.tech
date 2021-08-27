@@ -44,9 +44,11 @@ export class LoginFormComponent implements OnInit {
   }
 
   login() {
-    return this.loginService.login({
-      email: String(this.emailField.value),
-      password: String(this.passwordField.value),
-    });
+    return this.loginService
+      .login({
+        email: String(this.emailField.value),
+        password: String(this.passwordField.value),
+      })
+      .subscribe();
   }
 }

@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { map, mergeMap, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppState } from '../state.interface';
+import { ToastService } from '../toast/toast.service';
 import { disconnectAction, loginAction } from './login.actions';
 
 export interface LoginUser {
@@ -24,7 +25,8 @@ export class LoginService {
 
   constructor(
     private store: Store<AppState>,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly toastService: ToastService
   ) {}
 
   getToken(): Observable<string | undefined> {
@@ -38,51 +40,44 @@ export class LoginService {
   }
 
   login(user: LoginUser) {
-    this.http
+    return this.http
       .post(`${environment.backend.url}/auth`, {
         email: user.email,
         password: user.password,
       })
-      .subscribe(
-        (res: { access_token: string }) => {
+      .pipe(
+        tap((res: { access_token: string }) => {
           this.store.dispatch(
             loginAction({
               user: { email: user.email, token: res.access_token },
             })
           );
-        },
-        (e) => {
-          console.error(e);
-        }
+        }),
+        tap(() => this.toastService.success('Welcome!'))
       );
   }
 
   signUp(user: LoginUser) {
-    this.http
+    return this.http
       .post(`${environment.backend.url}/users`, {
         email: user.email,
         password: user.password,
       })
       .pipe(
-        mergeMap(() =>
-          this.http.post(`${environment.backend.url}/auth`, {
-            email: user.email,
-            password: user.password,
-          })
-        )
-      )
-      .subscribe(
-        (res: { access_token: string }) => {
+        map((res: { access_token: string }) => {
           this.store.dispatch(
             loginAction({
               user: { email: user.email, token: res.access_token },
             })
           );
           console.log(res.access_token);
-        },
-        (e) => {
-          console.error(e);
-        }
+        }),
+        mergeMap(() =>
+          this.http.post(`${environment.backend.url}/auth`, {
+            email: user.email,
+            password: user.password,
+          })
+        )
       );
   }
 

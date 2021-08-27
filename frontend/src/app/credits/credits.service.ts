@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppState } from '../state.interface';
+import { ToastService } from '../toast/toast.service';
 import { setCreditsSummaryAction } from './credits.actions';
 
 export interface CreditsSummary {
@@ -18,7 +19,8 @@ export interface CreditsSummary {
 export class CreditsService {
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store<AppState>
+    private readonly store: Store<AppState>,
+    private readonly toastService: ToastService
   ) {}
 
   getSummary(): Observable<CreditsSummary> {
@@ -28,12 +30,20 @@ export class CreditsService {
         tap((summary) =>
           this.store.dispatch(setCreditsSummaryAction({ summary }))
         )
+        // mergeMap(() => this.store.select((state) => state.credits.summary))
       );
   }
 
   buy(amount: number = 10): Observable<void> {
-    return this.http.post<void>(`${environment.backend.url}/credits/summary`, {
-      amount,
-    });
+    return this.http
+      .post<void>(`${environment.backend.url}/credits`, {
+        amount,
+      })
+      .pipe(
+        tap(() => this.getSummary().subscribe()),
+        tap(() =>
+          this.toastService.success(`You just bought ${amount} credits`)
+        )
+      );
   }
 }
