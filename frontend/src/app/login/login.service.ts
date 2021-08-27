@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { mergeMap, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppState } from '../state.interface';
 import { disconnectAction, loginAction } from './login.actions';
@@ -25,6 +26,16 @@ export class LoginService {
     private store: Store<AppState>,
     private readonly http: HttpClient
   ) {}
+
+  getToken(): Observable<string | undefined> {
+    return this.store
+      .select((state: AppState) => state.login?.user?.token)
+      .pipe(take(1));
+  }
+
+  getLoggedUserInformation() {
+    return this.http.get(`${environment.backend.url}/users/me`);
+  }
 
   login(user: LoginUser) {
     this.http

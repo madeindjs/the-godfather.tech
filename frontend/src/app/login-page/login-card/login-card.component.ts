@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { disconnectAction } from 'src/app/login/login.actions';
-import { LoggedUser } from 'src/app/login/login.service';
+import { LoggedUser, LoginService } from 'src/app/login/login.service';
 import { AppState } from 'src/app/state.interface';
 
 @Component({
@@ -9,9 +10,19 @@ import { AppState } from 'src/app/state.interface';
   templateUrl: './login-card.component.html',
   styleUrls: ['./login-card.component.scss'],
 })
-export class LoginCardComponent {
+export class LoginCardComponent implements OnInit {
   @Input() loggedUser: LoggedUser;
-  constructor(private readonly store: Store<AppState>) {}
+
+  loggedInformation$: Observable<object>;
+
+  constructor(
+    private readonly store: Store<AppState>,
+    private readonly loginService: LoginService
+  ) {}
+
+  ngOnInit(): void {
+    this.loggedInformation$ = this.loginService.getLoggedUserInformation();
+  }
 
   get email() {
     return this.loggedUser?.email;

@@ -1,4 +1,7 @@
 <p>
   logged as <a [href]="'mailto:' + email">{{ email }}</a>
 </p>
+<pre>
+  {{ loggedInformation$ | async }}
+</pre>
 <button (click)="disconnect()">disconnect</button>
