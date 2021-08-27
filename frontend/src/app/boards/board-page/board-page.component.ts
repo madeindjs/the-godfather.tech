@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 export class BoardPageComponent implements OnInit {
   public uuid$: Observable<string>;
   public htmlTag$: Observable<string>;
+  public htmlAttributes$: Observable<string>;
   public readonly scripTag =
     '<script src="http://dist.lvh.me/main.js"></script>';
   public readonly apiUrl = environment.backend.url;
@@ -23,11 +24,12 @@ export class BoardPageComponent implements OnInit {
       map((paramMap) => paramMap.get('id'))
     );
 
-    this.htmlTag$ = this.uuid$.pipe(
-      map(
-        (uuid) =>
-          `<kanban-board\n  uuid="${uuid}"\n  api-url="${this.apiUrl}">\n</kanban-board>`
-      )
+    this.htmlAttributes$ = this.uuid$.pipe(
+      map((uuid) => `uuid="${uuid}"\ api-url="${this.apiUrl}"`)
+    );
+
+    this.htmlTag$ = this.htmlAttributes$.pipe(
+      map((attributes) => `<kanban-board ${attributes}></kanban-board>`)
     );
   }
 }
