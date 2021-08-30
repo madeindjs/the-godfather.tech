@@ -10,10 +10,6 @@ class CardComponent extends HTMLElement {
     this.attachShadow({mode: "open"});
   }
 
-  attributeChangedCallback(name: any, oldValue: any, newValue: any) {
-    console.log(`updated attributes %o`, {name, oldValue, newValue});
-  }
-
   /**
    * Invoked each time the custom element is appended into a document-connected element. This will happen each time the node is moved, and may happen before the element's contents have been fully parsed.
    */
@@ -26,10 +22,6 @@ class CardComponent extends HTMLElement {
     this.card = store.getCard(uuid);
 
     this.render();
-  }
-
-  disconnectedCallback() {
-    console.log("board destroyed");
   }
 
   render() {

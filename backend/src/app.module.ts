@@ -21,31 +21,17 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        console.log({
-          type: 'postgres',
-          port: 5432,
-          host: configService.get('DATABASE_HOST'),
-          database: configService.get('DATABASE_DB'),
-          username: configService.get('DATABASE_USER'),
-          password: configService.get('DATABASE_PASSWORD'),
-          entities: [User, Board, Credit],
-          synchronize: true,
-          logging: true,
-        });
-
-        return {
-          type: 'postgres',
-          port: 5432,
-          host: configService.get('DATABASE_HOST'),
-          database: configService.get('DATABASE_DB'),
-          username: configService.get('DATABASE_USER'),
-          password: configService.get('DATABASE_PASSWORD'),
-          entities: [User, Board, Credit],
-          synchronize: true,
-          logging: true,
-        };
-      },
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        port: 5432,
+        host: configService.get('DATABASE_HOST'),
+        database: configService.get('DATABASE_DB'),
+        username: configService.get('DATABASE_USER'),
+        password: configService.get('DATABASE_PASSWORD'),
+        entities: [User, Board, Credit],
+        synchronize: true,
+        logging: true,
+      }),
     }),
     UsersModule,
     HashModule,

@@ -50,8 +50,6 @@ export class Store {
         this.db.columns.set(column.uuid, column)
       );
       previousStore.cards.forEach((card) => this.db.cards.set(card.uuid, card));
-
-      console.log("Loaded state %o (%o)", this.db, previousStore);
     } catch (_e) {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
     }

@@ -35,6 +35,8 @@ class BoardComponent extends HTMLElement {
   connectedCallback() {
     const apiUrl = this.getAttribute("api-url");
 
+    console.log(this.attributes);
+
     if (apiUrl) {
       this.apiUrl = apiUrl;
     }

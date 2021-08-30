@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, mergeMap, take, tap } from 'rxjs/operators';
+import { mergeMap, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppState } from '../state.interface';
 import { ToastService } from '../toast/toast.service';
@@ -46,13 +46,13 @@ export class LoginService {
         password: user.password,
       })
       .pipe(
-        tap((res: { access_token: string }) => {
+        tap((res: { access_token: string }) =>
           this.store.dispatch(
             loginAction({
               user: { email: user.email, token: res.access_token },
             })
-          );
-        }),
+          )
+        ),
         tap(() => this.toastService.success('Welcome!'))
       );
   }
@@ -64,14 +64,13 @@ export class LoginService {
         password: user.password,
       })
       .pipe(
-        map((res: { access_token: string }) => {
+        tap((res: { access_token: string }) =>
           this.store.dispatch(
             loginAction({
               user: { email: user.email, token: res.access_token },
             })
-          );
-          console.log(res.access_token);
-        }),
+          )
+        ),
         mergeMap(() =>
           this.http.post(`${environment.backend.url}/auth`, {
             email: user.email,
