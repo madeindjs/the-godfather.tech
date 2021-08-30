@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule, NO_ERRORS_SCHEMA, Provider } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Provider } from '@angular/core';
 import { AuthorizationInterceptor } from '../authorization.interceptor';
 import { CreditsModule } from '../credits/credits.module';
 import { BoardCardComponent } from './board-card/board-card.component';
@@ -28,6 +28,6 @@ const interceptors: Array<Provider> = [
   imports: [CommonModule, HttpClientModule, BoardsRoutingModule, CreditsModule],
   exports: [BoardsListComponent],
   providers: [BoardsService, ...interceptors],
-  schemas: [NO_ERRORS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class BoardsModule {}

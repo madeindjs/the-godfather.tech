@@ -2,18 +2,26 @@ require("./column.component");
 require("./new-column.component");
 import {Board} from "../interfaces";
 import {store, StoreChangeEvent} from "../store";
-import {postJson} from "../utils/fetch.utils";
+import {putJson} from "../utils/fetch.utils";
+import {Logger} from "../utils/logger.utils";
 
 class BoardComponent extends HTMLElement {
+  private readonly logger = new Logger("BoardComponent");
   private board?: Board;
   private apiUrl: string = "http://embed-kanban.io/v1/boards/";
 
+  static get observedAttributes() {
+    return ["api-url", "uuid"];
+  }
+
   constructor() {
     super();
+    this.logger.log("constructor");
     this.attachShadow({mode: "open"});
   }
 
   attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+    this.logger.log(`attributeChangedCallback %s (%s)`, name, newValue);
     switch (name) {
       case "api-url":
         this.apiUrl = newValue;
@@ -23,9 +31,20 @@ class BoardComponent extends HTMLElement {
         store.onChangeListeners.set(newValue, (event) =>
           this.renderOnStoreChange(event)
         );
-        this.board = store.getBoard(newValue);
-
+        this.board = this.loadOrCreateBoard(newValue);
         break;
+    }
+  }
+
+  private loadOrCreateBoard(uuid: string): Board {
+    try {
+      return store.getBoard(uuid);
+    } catch (error) {
+      const board = store.createBoard(uuid);
+      store.createColumn(board, "TODO");
+      store.createColumn(board, "DONE");
+      this.logger.log("Could not retrieve last board, create new one");
+      return board;
     }
   }
 
@@ -33,24 +52,15 @@ class BoardComponent extends HTMLElement {
    * Invoked each time the custom element is appended into a document-connected element. This will happen each time the node is moved, and may happen before the element's contents have been fully parsed.
    */
   connectedCallback() {
-    const apiUrl = this.getAttribute("api-url");
-
-    console.log(this.attributes);
+    const apiUrl = this.getAttributeNode("api-url");
 
     if (apiUrl) {
-      this.apiUrl = apiUrl;
+      this.apiUrl = apiUrl.value;
     }
 
     const uuid = this.getAttribute("uuid");
     if (uuid) {
-      try {
-        this.board = store.getBoard(uuid);
-      } catch (error) {
-        this.board = store.createBoard(uuid);
-        store.createColumn(this.board, "TODO");
-        store.createColumn(this.board, "DONE");
-        console.error("Could not retrieve last board, create new one");
-      }
+      this.board = this.loadOrCreateBoard(uuid);
     } else {
       this.board = store.createBoard();
       store.createColumn(this.board, "TODO");
@@ -67,13 +77,19 @@ class BoardComponent extends HTMLElement {
     if (this.board) {
       store.onChangeListeners.delete(this.board.uuid);
     }
+    this.logger.log("disconnectedCallback");
   }
 
   render() {
+    if (!this.shadowRoot) {
+      this.attachShadow({mode: "open"});
+    }
+
+    this.removeShadowRootChildren();
+
     if (!this.board || !this.shadowRoot) {
       throw Error("Cannot render board");
     }
-    this.shadowRoot.innerHTML = "";
 
     const wrapper = document.createElement("div");
     wrapper.setAttribute("class", "KanbanBoard");
@@ -100,6 +116,19 @@ class BoardComponent extends HTMLElement {
     this.shadowRoot?.append(style, wrapper);
   }
 
+  private removeShadowRootChildren() {
+    if (!this.shadowRoot) {
+      return;
+    }
+
+    let child = this.shadowRoot.lastElementChild;
+    //remove the last child while it exists
+    while (child) {
+      this.shadowRoot.removeChild(child);
+      child = this.shadowRoot.lastElementChild;
+    }
+  }
+
   private renderOnStoreChange(event: StoreChangeEvent) {
     const events: StoreChangeEvent[] = [
       "new-column",
@@ -111,7 +140,7 @@ class BoardComponent extends HTMLElement {
       this.render();
     }
 
-    postJson(this.apiUrl, store.toObject(), {});
+    putJson(`${this.apiUrl}/boards/`, store.toObject(), {});
   }
 }
 
