@@ -9,26 +9,30 @@ import { Board } from './entities/board.entity';
 export class BoardsService {
   constructor(
     @InjectRepository(Board)
-    private readonly websiteRepository: Repository<Board>,
+    private readonly boardRepository: Repository<Board>,
   ) {}
 
   create(createWebsiteDto: CreateBoardDto) {
-    return this.websiteRepository.save(createWebsiteDto);
+    return this.boardRepository.save(createWebsiteDto);
+  }
+
+  update(board: Board) {
+    return this.boardRepository.save(board);
   }
 
   findAll(user: User) {
-    return this.websiteRepository.find({ user });
+    return this.boardRepository.find({ user });
   }
 
   findOne(id: string) {
-    return this.websiteRepository.findOne({ id });
+    return this.boardRepository.findOne({ id });
   }
 
   findOneBy(field: keyof Board, value: string) {
-    return this.websiteRepository.findOne({ [field]: value });
+    return this.boardRepository.findOne({ [field]: value });
   }
 
   remove(id: string) {
-    return this.websiteRepository.delete({ id });
+    return this.boardRepository.delete({ id });
   }
 }

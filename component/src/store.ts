@@ -1,29 +1,17 @@
 import {v4 as uuidv4} from "uuid";
-import {Board, Card, Column, Uuid} from "./interfaces";
+import {
+  Board,
+  BoardDefinition,
+  Card,
+  Column,
+  StoreChangeEvent,
+  StoreDB,
+  StoreDBLocalStorage,
+  Uuid,
+} from "./interfaces";
 
 const LOCAL_STORAGE_KEY = "embedKanban";
-
-interface StoreDBLocalStorage {
-  boards: Array<Board>;
-  columns: Array<Column>;
-  cards: Array<Card>;
-  version: number;
-}
-
-interface StoreDB {
-  boards: Map<Uuid, Board>;
-  columns: Map<Uuid, Column>;
-  cards: Map<Uuid, Card>;
-}
-
-export type StoreChangeEvent =
-  | "new-card"
-  | "edit-card"
-  | "delete-card"
-  | "new-column"
-  | "edit-column"
-  | "delete-column"
-  | "new-board";
+const version = 1;
 
 export class Store {
   public onChangeListeners = new Map<Uuid, (event: StoreChangeEvent) => void>();
@@ -67,7 +55,7 @@ export class Store {
     return board;
   }
 
-  getBoardColumn(columnUuid: Uuid): Board {
+  findBoardFromColumn(columnUuid: Uuid): Board {
     for (const [_, board] of this.db.boards) {
       if (board.columns.includes(columnUuid)) {
         return board;
@@ -131,7 +119,7 @@ export class Store {
     column.cards.forEach((card) => this.removeCard(card));
 
     this.db.columns.delete(uuid);
-    const board = this.getBoardColumn(uuid);
+    const board = this.findBoardFromColumn(uuid);
     board.columns = board.columns.filter((column) => column !== uuid);
 
     this.onChange("delete-column");
@@ -149,7 +137,7 @@ export class Store {
     return card;
   }
 
-  getColumnCard(cardUuid: Uuid): Column {
+  findColumnFromCard(cardUuid: Uuid): Column {
     for (const [_, column] of this.db.columns) {
       if (column.cards.includes(cardUuid)) {
         return column;
@@ -181,7 +169,7 @@ export class Store {
 
   removeCard(uuid: Uuid): void {
     this.db.cards.delete(uuid);
-    const column = this.getColumnCard(uuid);
+    const column = this.findColumnFromCard(uuid);
     column.cards = column.cards.filter((card) => card !== uuid);
 
     this.onChange("delete-card");
@@ -189,21 +177,48 @@ export class Store {
 
   // Changes
 
-  toObject(): StoreDBLocalStorage {
-    return {
-      boards: Array.from(this.db.boards.values()),
-      columns: Array.from(this.db.columns.values()),
-      cards: Array.from(this.db.cards.values()),
-      version: 1,
-    };
-  }
-
   onChange(message: StoreChangeEvent) {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.toObject()));
 
     for (const [_, listener] of this.onChangeListeners) {
       listener(message);
     }
+  }
+
+  //
+
+  getBoardDefinition(boardUuid: Uuid): BoardDefinition;
+  getBoardDefinition(board: Board): BoardDefinition;
+  getBoardDefinition(board: unknown): BoardDefinition {
+    if (typeof board === "string") {
+      board = this.getBoard(board);
+    }
+
+    const columns = this.getColumns(board as Board);
+
+    const cards: Card[] = [];
+
+    for (const column of columns) {
+      for (const cardUuid of column.cards) {
+        cards.push(this.getCard(cardUuid));
+      }
+    }
+
+    return {
+      version,
+      columns,
+      cards,
+      uuid: (board as Board).uuid,
+    };
+  }
+
+  toObject(): StoreDBLocalStorage {
+    return {
+      boards: Array.from(this.db.boards.values()),
+      columns: Array.from(this.db.columns.values()),
+      cards: Array.from(this.db.cards.values()),
+      version,
+    };
   }
 }
 

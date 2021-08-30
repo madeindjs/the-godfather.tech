@@ -3,9 +3,12 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
+  Put,
   Request,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { Request as Req } from 'express';
@@ -15,6 +18,7 @@ import { CreditsService } from '../credits/credits.service';
 import { User } from '../users/entities/user.entity';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Controller('boards')
 export class BoardsController {
@@ -46,13 +50,48 @@ export class BoardsController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  findOne(@Request() req: Request & { user: User }, @Param('id') id: string) {
-    return this.boardsService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const board = await this.boardsService.findOne(id);
+    if (board === undefined) {
+      throw new NotFoundException();
+    }
+    return board;
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateBoardDto: UpdateBoardDto,
+  ) {
+    const board = await this.boardsService.findOne(id);
+
+    if (board === undefined) {
+      throw new NotFoundException();
+    }
+
+    board.data = updateBoardDto.data;
+
+    await this.boardsService.update(board);
+
+    return board;
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  remove(@Request() req: Request & { user: User }, @Param('id') id: string) {
+  async remove(
+    @Param('id') id: string,
+    @Request() req: Request & { user: User },
+  ) {
+    const board = await this.boardsService.findOne(id);
+
+    if (board === undefined) {
+      throw new NotFoundException();
+    }
+
+    if (board.user.id !== req.user.id) {
+      throw new UnauthorizedException();
+    }
+
     return this.boardsService.remove(id);
   }
 }

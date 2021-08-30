@@ -1,7 +1,7 @@
 require("./column.component");
 require("./new-column.component");
-import {Board} from "../interfaces";
-import {store, StoreChangeEvent} from "../store";
+import {Board, StoreChangeEvent} from "../interfaces";
+import {store} from "../store";
 import {putJson} from "../utils/fetch.utils";
 import {Logger} from "../utils/logger.utils";
 
@@ -140,7 +140,15 @@ class BoardComponent extends HTMLElement {
       this.render();
     }
 
-    putJson(`${this.apiUrl}/boards/`, store.toObject(), {});
+    if (!this.board) {
+      return;
+    }
+
+    putJson(
+      `${this.apiUrl}/boards/${this.board.uuid}`,
+      {data: store.getBoardDefinition(this.board.uuid)},
+      {}
+    );
   }
 }
 
