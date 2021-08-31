@@ -1,17 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Card } from '../board.service';
+import { Component, Input } from '@angular/core';
+import { BoardService, Card } from '../board.service';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   @Input() card!: Card;
+  @Input() apiUrl!: string;
 
-  constructor() {}
+  constructor(private readonly boardService: BoardService) {}
 
-  ngOnInit(): void {
-    console.log(this.card);
+  public onModelChange() {
+    this.boardService.updateCard(this.apiUrl, this.card).subscribe();
   }
 }

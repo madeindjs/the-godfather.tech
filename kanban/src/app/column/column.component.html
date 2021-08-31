@@ -4,6 +4,10 @@
   </div>
 
   <div class="Column-cards">
-    <app-card *ngFor="let card of cards" [card]="card"></app-card>
+    <app-card
+      *ngFor="let card of cards"
+      [card]="card"
+      [apiUrl]="apiUrl"
+    ></app-card>
   </div>
 </div>

@@ -9,6 +9,7 @@ import { Card, Column } from '../board.service';
 export class ColumnComponent implements OnInit {
   @Input() column!: Column;
   @Input() cards!: Card[];
+  @Input() apiUrl!: string;
 
   constructor() {}
 

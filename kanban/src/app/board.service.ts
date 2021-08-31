@@ -32,4 +32,8 @@ export class BoardService {
   fetchBoard(apiUrl: string, uuid: string): Observable<Board> {
     return this.http.get<Board>(`${apiUrl}/boards/${uuid}`);
   }
+
+  updateCard(apiUrl: string, card: Card) {
+    return this.http.put<Board>(`${apiUrl}/cards/${card.id}`, card);
+  }
 }

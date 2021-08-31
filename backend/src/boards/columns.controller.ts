@@ -18,7 +18,7 @@ import { User } from '../users/entities/user.entity';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 
-@Controller('boards')
+@Controller('columns')
 export class BoardsController {
   constructor(
     private readonly boardsService: BoardsService,

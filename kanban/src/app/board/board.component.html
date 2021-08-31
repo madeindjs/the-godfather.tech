@@ -8,6 +8,7 @@
       *ngFor="let column of columns$ | async"
       [column]="column.column"
       [cards]="column.cards"
+      [apiUrl]="apiUrl"
     ></app-column>
   </div>
 </div>

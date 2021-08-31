@@ -1,6 +1,10 @@
 <div class="Card">
   <div class="Card-name">
-    <input type="text" [(ngModel)]="card.name" />
+    <input
+      type="text"
+      [(ngModel)]="card.name"
+      (ngModelChange)="onModelChange()"
+    />
   </div>
   <div class="Card-description">
     <input type="text" [(ngModel)]="card.description" />
