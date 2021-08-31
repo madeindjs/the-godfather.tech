@@ -3,20 +3,37 @@ import {
   Component,
   ComponentFactoryResolver,
   ComponentRef,
+  Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewContainerRef,
 } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-board-host',
   templateUrl: './board-host.component.html',
   styleUrls: ['./board-host.component.scss'],
 })
-export class BoardHostComponent implements OnInit {
+export class BoardHostComponent implements OnInit, OnChanges {
+  @Input() uuid!: string | null;
+
+  componentRef!: ComponentRef<{
+    uuid: string | null;
+    apiUrl: string;
+  }>;
+
   constructor(
     private cfr: ComponentFactoryResolver,
     private vcref: ViewContainerRef
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.uuid.currentValue && this.componentRef) {
+      this.componentRef.instance.uuid = this.uuid;
+    }
+  }
 
   async ngOnInit(): Promise<void> {
     // await loadRemoteEntry()
@@ -26,11 +43,10 @@ export class BoardHostComponent implements OnInit {
       remoteName: 'kanban',
       exposedModule: './BoardComponent',
     });
-    const componentRef: ComponentRef<{
-      search: string;
-    }> = this.vcref.createComponent(
+    this.componentRef = this.vcref.createComponent(
       this.cfr.resolveComponentFactory(BoardComponent)
     );
-    componentRef.instance.search = '1';
+    this.componentRef.instance.uuid = this.uuid;
+    this.componentRef.instance.apiUrl = environment.backend.url;
   }
 }

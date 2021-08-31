@@ -1,3 +1,12 @@
-<p>board works!</p>
-<app-column></app-column>
-<app-column></app-column>
+<div class="Board">
+  <div class="Board-Title">
+    Board <strong>{{ name$ | async }}</strong>
+  </div>
+
+  <div class="Board-Columns">
+    <app-column
+      *ngFor="let column of columns$ | async"
+      [column]="column"
+    ></app-column>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+.Board {
+  &-Title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &-Columns {
+    display: flex;
+    justify-content: space-around;
+  }
+}
