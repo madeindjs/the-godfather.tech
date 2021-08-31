@@ -15,4 +15,8 @@ export class CardComponent {
   public onModelChange() {
     this.boardService.updateCard(this.apiUrl, this.card).subscribe();
   }
+
+  public removeCard() {
+    this.boardService.removeCard(this.apiUrl, this.card).subscribe();
+  }
 }

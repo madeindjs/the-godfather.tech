@@ -33,7 +33,18 @@ export class BoardService {
     return this.http.get<Board>(`${apiUrl}/boards/${uuid}`);
   }
 
+  createCard(
+    apiUrl: string,
+    { boardId, columnId }: { columnId: string; boardId: string }
+  ) {
+    return this.http.post<Board>(`${apiUrl}/cards/`, { boardId, columnId });
+  }
+
   updateCard(apiUrl: string, card: Card) {
     return this.http.put<Board>(`${apiUrl}/cards/${card.id}`, card);
+  }
+
+  removeCard(apiUrl: string, card: Card) {
+    return this.http.delete<Board>(`${apiUrl}/cards/${card.id}`);
   }
 }

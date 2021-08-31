@@ -13,8 +13,10 @@ export class CardsService {
     private readonly cardRepository: Repository<Card>,
   ) {}
 
-  create({ name, boardId }: CreateCardDto) {
-    return this.cardRepository.save({ boardId, name });
+  create(card: CreateCardDto) {
+    card.name ??= 'New Card';
+
+    return this.cardRepository.save(card);
   }
 
   update(card: UpdateCardDto) {
