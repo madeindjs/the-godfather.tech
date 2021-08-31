@@ -56,7 +56,7 @@ export class BoardsService {
   findOne(id: string) {
     return this.boardRepository.findOne({
       where: { id },
-      relations: ['columns', 'cards'],
+      relations: ['columns', 'cards', 'user'],
     });
   }
 
@@ -64,7 +64,9 @@ export class BoardsService {
     return this.boardRepository.findOne({ [field]: value });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    await this.cardRepository.delete({ boardId: id });
+    await this.boardColumnRepository.delete({ boardId: id });
     return this.boardRepository.delete({ id });
   }
 }

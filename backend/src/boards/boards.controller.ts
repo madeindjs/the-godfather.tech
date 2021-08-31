@@ -46,7 +46,6 @@ export class BoardsController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   async findOne(@Param('id') id: string) {
     const board = await this.boardsService.findOne(id);
     if (board === undefined) {
