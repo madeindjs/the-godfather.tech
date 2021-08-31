@@ -2,6 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export interface Card {
+  id: string;
+  name: string;
+  descriptions: string;
+  boardId: string;
+  columnId: string;
+}
+
 export interface Column {
   id: string;
   name: string;
@@ -12,6 +20,7 @@ export interface Board {
   id: string;
   name: string;
   columns: Column[];
+  cards: Card[];
 }
 
 @Injectable({

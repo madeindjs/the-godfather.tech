@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, share } from 'rxjs/operators';
-import { Board, BoardService, Column } from '../board.service';
+import { Board, BoardService, Card, Column } from '../board.service';
 
 @Component({
   selector: 'app-board',
@@ -20,7 +20,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
   board$!: Observable<Board>;
   name$!: Observable<string>;
-  columns$: Observable<Column[]> = of([]);
+  columns$: Observable<{ column: Column; cards: Card[] }[]> = of([]);
 
   constructor(private readonly boardService: BoardService) {}
 
@@ -38,6 +38,13 @@ export class BoardComponent implements OnInit, OnChanges {
       .pipe(share());
 
     this.name$ = this.board$.pipe(map((board) => board.name));
-    this.columns$ = this.board$.pipe(map((board) => board.columns));
+    this.columns$ = this.board$.pipe(
+      map((board) =>
+        board.columns.map((column) => ({
+          column,
+          cards: board.cards.filter((card) => card.columnId === column.id),
+        }))
+      )
+    );
   }
 }

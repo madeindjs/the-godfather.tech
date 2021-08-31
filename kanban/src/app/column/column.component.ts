@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Column } from '../board.service';
+import { Card, Column } from '../board.service';
 
 @Component({
   selector: 'app-column',
@@ -8,6 +8,7 @@ import { Column } from '../board.service';
 })
 export class ColumnComponent implements OnInit {
   @Input() column!: Column;
+  @Input() cards!: Card[];
 
   constructor() {}
 

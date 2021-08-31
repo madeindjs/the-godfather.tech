@@ -6,7 +6,8 @@
   <div class="Board-Columns">
     <app-column
       *ngFor="let column of columns$ | async"
-      [column]="column"
+      [column]="column.column"
+      [cards]="column.cards"
     ></app-column>
   </div>
 </div>
