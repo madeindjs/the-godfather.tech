@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { mergeMap, tap } from 'rxjs/operators';
 
 export interface Card {
   id: string;
@@ -27,10 +28,25 @@ export interface Board {
   providedIn: 'root',
 })
 export class BoardService {
+  private boards = new Map<string, BehaviorSubject<Board>>();
+
   constructor(private readonly http: HttpClient) {}
 
   fetchBoard(apiUrl: string, uuid: string): Observable<Board> {
-    return this.http.get<Board>(`${apiUrl}/boards/${uuid}`);
+    return this.http.get<Board>(`${apiUrl}/boards/${uuid}`).pipe(
+      mergeMap((board) => {
+        const board$ = this.boards.get(board.id);
+
+        if (board$) {
+          board$.next(board);
+          return board$;
+        } else {
+          const newBoard$ = new BehaviorSubject<Board>(board);
+          this.boards.set(board.id, newBoard$);
+          return newBoard$;
+        }
+      })
+    );
   }
 
   createCard(
@@ -45,6 +61,19 @@ export class BoardService {
   }
 
   removeCard(apiUrl: string, card: Card) {
-    return this.http.delete<Board>(`${apiUrl}/cards/${card.id}`);
+    return this.http.delete<Board>(`${apiUrl}/cards/${card.id}`).pipe(
+      tap((board) => {
+        const board$ = this.boards.get(board.id);
+
+        if (board$) {
+          board$.next(board);
+          return board$;
+        } else {
+          const newBoard$ = new BehaviorSubject<Board>(board);
+          this.boards.set(board.id, newBoard$);
+          return newBoard$;
+        }
+      })
+    );
   }
 }

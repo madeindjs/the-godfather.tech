@@ -32,8 +32,6 @@ export class BoardComponent implements OnInit, OnChanges {
     this.fetchBoard();
   }
 
-  onCardChange() {}
-
   fetchBoard() {
     this.board$ = this.boardService
       .fetchBoard(this.apiUrl, this.uuid)
