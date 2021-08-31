@@ -9,6 +9,7 @@ import { BoardsListComponent } from './boards-list/boards-list.component';
 import { BoardsPageIndexComponent } from './boards-page-index/boards-page-index.component';
 import { BoardsRoutingModule } from './boards-routing.module';
 import { BoardsService } from './boards.service';
+import { BoardHostComponent } from './board-host/board-host.component';
 
 const interceptors: Array<Provider> = [
   {
@@ -24,6 +25,7 @@ const interceptors: Array<Provider> = [
     BoardCardComponent,
     BoardsPageIndexComponent,
     BoardPageComponent,
+    BoardHostComponent,
   ],
   imports: [CommonModule, HttpClientModule, BoardsRoutingModule, CreditsModule],
   exports: [BoardsListComponent],

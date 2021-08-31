@@ -10,7 +10,7 @@ sharedMappings.register(path.join(__dirname, "tsconfig.json"), [
 
 module.exports = {
   output: {
-    uniqueName: "frontend2",
+    uniqueName: "kanban",
     publicPath: "auto",
   },
   optimization: {
@@ -24,16 +24,17 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       // For remotes (please adjust)
-      // name: "frontend2",
-      // filename: "remoteEntry.js",
-      // exposes: {
-      //     './Component': './/src/app/app.component.ts',
-      // },
+      name: "kanban",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./BoardComponent": ".//src/app/board/board.component.ts",
+      },
 
       // For hosts (please adjust)
-      remotes: {
-        kanban: "kanban@http://kanban.lvh.me/remoteEntry.js",
-      },
+      // remotes: {
+      //     "mfe1": "mfe1@http://localhost:3000/remoteEntry.js",
+
+      // },
 
       shared: share({
         "@angular/core": {
