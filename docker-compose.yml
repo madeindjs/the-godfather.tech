@@ -11,14 +11,14 @@ services:
     depends_on:
       - postgres
 
-  component:
+  kanban:
     image: node:16-alpine
     working_dir: /usr/src/app
-    command: sh -c "npm install && npm run watch:prod"
+    command: sh -c "npm install && npm run start"
     volumes:
-      - ./component:/usr/src/app
+      - ./kanban:/usr/src/app
     expose:
-      - 3000
+      - 4200
 
   frontend:
     image: node:16-alpine
@@ -46,11 +46,10 @@ services:
   nginx:
     volumes:
       - ./docker/nginx/dev.conf:/etc/nginx/conf.d/app.conf
-      - ./component/dist:/usr/share/nginx/kanban
     image: nginx
     ports:
       - 80:80
     depends_on:
       - frontend
       - backend
-      - component
+      - kanban

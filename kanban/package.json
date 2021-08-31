@@ -1,17 +1,15 @@
 {
-  "name": "frontend2",
+  "name": "kanban",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
-    "@angular-architects/module-federation": "^12.4.1",
     "@angular/animations": "~12.2.0",
     "@angular/common": "~12.2.0",
     "@angular/compiler": "~12.2.0",
@@ -20,15 +18,13 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "@ngrx/store": "^12.4.0",
-    "ngrx-store-localstorage": "^12.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~12.2.3",
-    "@angular/cli": "~12.2.3",
+    "@angular-devkit/build-angular": "~12.2.2",
+    "@angular/cli": "~12.2.2",
     "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
