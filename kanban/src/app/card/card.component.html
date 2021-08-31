@@ -1,5 +1,8 @@
-<p>card works!</p>
-
 <div class="Card">
-  <input type="text" [(ngModel)]="card.name" [value]="card.name" />
+  <div class="Card-name">
+    <input type="text" [(ngModel)]="card.name" />
+  </div>
+  <div class="Card-description">
+    <input type="text" [(ngModel)]="card.description" />
+  </div>
 </div>

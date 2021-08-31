@@ -1,0 +1,15 @@
+.Card {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(50, 50, 50, 0.2);
+
+  &-name {
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+  }
+}

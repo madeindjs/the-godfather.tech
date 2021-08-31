@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 export interface Card {
   id: string;
   name: string;
-  descriptions: string;
+  description: string;
   boardId: string;
   columnId: string;
 }
