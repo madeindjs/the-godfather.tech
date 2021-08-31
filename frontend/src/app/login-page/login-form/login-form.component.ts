@@ -13,7 +13,7 @@ export class LoginFormComponent implements OnInit {
     email: 'test@test.fr',
     password: '123456',
   };
-  public form: FormGroup;
+  public form!: FormGroup;
   public readonly passwordMinLength = 4;
 
   constructor(private readonly loginService: LoginService) {}
@@ -46,8 +46,8 @@ export class LoginFormComponent implements OnInit {
   login() {
     return this.loginService
       .login({
-        email: String(this.emailField.value),
-        password: String(this.passwordField.value),
+        email: String(this.emailField?.value),
+        password: String(this.passwordField?.value),
       })
       .subscribe();
   }

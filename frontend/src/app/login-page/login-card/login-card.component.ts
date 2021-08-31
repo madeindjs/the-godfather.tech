@@ -11,9 +11,9 @@ import { AppState } from 'src/app/state.interface';
   styleUrls: ['./login-card.component.scss'],
 })
 export class LoginCardComponent implements OnInit {
-  @Input() loggedUser: LoggedUser;
+  @Input() loggedUser: LoggedUser | undefined | null;
 
-  loggedInformation$: Observable<object>;
+  loggedInformation$!: Observable<object>;
 
   constructor(
     private readonly store: Store<AppState>,

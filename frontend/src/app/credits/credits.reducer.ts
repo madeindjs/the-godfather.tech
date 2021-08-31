@@ -17,6 +17,6 @@ const _creditsReducer = createReducer(
   }))
 );
 
-export function creditsReducer(state, action) {
+export function creditsReducer(state: CreditsState, action: any) {
   return _creditsReducer(state, action);
 }

@@ -21,6 +21,6 @@ const _toastsReducer = createReducer(
   }))
 );
 
-export function toastsReducer(state, action) {
+export function toastsReducer(state: ToastsState, action: any) {
   return _toastsReducer(state, action);
 }

@@ -8,5 +8,5 @@ import { LoginUser } from 'src/app/login/login.service';
   styleUrls: ['./signup-page.component.scss'],
 })
 export class SignupPageComponent {
-  loginUser$: Observable<LoginUser>;
+  loginUser$!: Observable<LoginUser>;
 }

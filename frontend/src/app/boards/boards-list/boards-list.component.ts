@@ -10,7 +10,7 @@ import { Board, BoardsService } from '../boards.service';
   styleUrls: ['./boards-list.component.scss'],
 })
 export class BoardsListComponent implements OnInit {
-  public boards$: Observable<Board[]>;
+  public boards$!: Observable<Board[]>;
 
   constructor(
     private readonly store: Store<AppState>,

@@ -7,7 +7,7 @@ import { Board, BoardsService } from '../boards.service';
   styleUrls: ['./board-card.component.scss'],
 })
 export class BoardCardComponent {
-  @Input() board: Board;
+  @Input() board!: Board;
 
   constructor(private readonly boardsService: BoardsService) {}
 

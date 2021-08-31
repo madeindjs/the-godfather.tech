@@ -10,11 +10,11 @@ import { Toast } from '../toast.service';
   styleUrls: ['./toast.component.scss'],
 })
 export class ToastComponent implements OnInit {
-  public toasts$: Observable<Toast[]>;
+  public toasts$!: Observable<Toast[]>;
 
   constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.toasts$ = this.store.select((state) => state.toasts.display);
+    this.toasts$ = this.store.select((state: AppState) => state.toasts.display);
   }
 }

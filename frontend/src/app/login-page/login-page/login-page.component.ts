@@ -10,7 +10,7 @@ import { AppState } from 'src/app/state.interface';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
-  loggedUser$: Observable<LoggedUser>;
+  loggedUser$!: Observable<LoggedUser | undefined>;
 
   constructor(private readonly store: Store<AppState>) {}
 

@@ -1,4 +1,4 @@
-// src/app/users.reducer.ts
+// src/app/boards.reducer.ts
 import { createReducer, on } from '@ngrx/store';
 import { removeBoardAction, setBoardsAction } from './boards.actions';
 import { Board } from './boards/boards.service';
@@ -21,6 +21,6 @@ const _boardsReducer = createReducer(
   }))
 );
 
-export function boardsReducer(state, action) {
+export function boardsReducer(state: BoardsState, action: any) {
   return _boardsReducer(state, action);
 }

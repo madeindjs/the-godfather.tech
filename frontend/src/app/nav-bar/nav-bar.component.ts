@@ -11,9 +11,9 @@ import { AppState } from '../state.interface';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
-  public boardsCount$: Observable<number>;
-  public loggedUser$: Observable<string | undefined>;
-  public currentCredits$: Observable<number>;
+  public boardsCount$!: Observable<number>;
+  public loggedUser$!: Observable<string | undefined>;
+  public currentCredits$!: Observable<number>;
 
   constructor(private readonly store: Store<AppState>) {}
 

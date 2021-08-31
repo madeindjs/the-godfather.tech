@@ -4,7 +4,7 @@ import { disconnectAction, loginAction } from './login.actions';
 import { LoggedUser } from './login.service';
 
 export interface LoginState {
-  user: LoggedUser;
+  user?: LoggedUser;
 }
 
 export const initialState: LoginState = { user: undefined };
@@ -21,6 +21,6 @@ const _loginReducer = createReducer(
   }))
 );
 
-export function loginReducer(state, action) {
+export function loginReducer(state: LoginState, action: any) {
   return _loginReducer(state, action);
 }

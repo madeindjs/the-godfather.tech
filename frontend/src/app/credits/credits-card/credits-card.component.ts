@@ -10,8 +10,8 @@ import { CreditsService } from '../credits.service';
   styleUrls: ['./credits-card.component.scss'],
 })
 export class CreditsCardComponent implements OnInit {
-  public total$: Observable<number>;
-  public current$: Observable<number>;
+  public total$!: Observable<number>;
+  public current$!: Observable<number>;
 
   constructor(
     private readonly creditsService: CreditsService,

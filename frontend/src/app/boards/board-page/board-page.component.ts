@@ -10,9 +10,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./board-page.component.scss'],
 })
 export class BoardPageComponent implements OnInit {
-  public uuid$: Observable<string>;
-  public htmlTag$: Observable<string>;
-  public htmlAttributes$: Observable<string>;
+  public uuid$!: Observable<string | null>;
+  public htmlTag$!: Observable<string>;
+  public htmlAttributes$!: Observable<string>;
   public readonly scripTag =
     '<script src="http://dist.lvh.me/main.js"></script>';
   public readonly apiUrl = environment.backend.url;

@@ -46,10 +46,10 @@ export class LoginService {
         password: user.password,
       })
       .pipe(
-        tap((res: { access_token: string }) =>
+        tap((res) =>
           this.store.dispatch(
             loginAction({
-              user: { email: user.email, token: res.access_token },
+              user: { email: user.email, token: (res as any).access_token },
             })
           )
         ),
@@ -64,10 +64,10 @@ export class LoginService {
         password: user.password,
       })
       .pipe(
-        tap((res: { access_token: string }) =>
+        tap((res) =>
           this.store.dispatch(
             loginAction({
-              user: { email: user.email, token: res.access_token },
+              user: { email: user.email, token: (res as any).access_token },
             })
           )
         ),

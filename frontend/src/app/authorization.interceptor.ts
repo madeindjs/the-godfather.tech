@@ -7,7 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, ObservableInput } from 'rxjs';
+import { Observable, ObservableInput, of } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 import { disconnectAction } from './login/login.actions';
 import { LoginService } from './login/login.service';
@@ -38,7 +38,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     );
   }
 
-  private handleError(error): ObservableInput<any> {
+  private handleError(error: any): ObservableInput<any> {
     if (error?.error?.error === 'TokenExpiredError') {
       this.store.dispatch(disconnectAction());
       this.router.navigate(['/login']);
@@ -46,7 +46,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
         type: 'warning',
         message: 'You have been un logged. Please log you again',
       });
-      return;
+      return of(undefined);
     }
 
     if (error.status === 402) {
@@ -56,7 +56,7 @@ export class AuthorizationInterceptor implements HttpInterceptor {
           'You have not sufficient credits to do this action. Please buy new one.',
       });
       this.router.navigate(['/login']);
-      return;
+      return of(undefined);
     }
 
     console.log(error);
