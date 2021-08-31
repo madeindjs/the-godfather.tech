@@ -46,7 +46,7 @@ curl -X POST -d email=test@test.fr -d password=azerty  localhost:3000/auth
 curl -X POST  -H "Authorization: Bearer $TKN"  localhost:3000/credits
 
 # create website
-curl -H "Authorization: Bearer $TKN" -d url=www.2244.fr localhost:3000/websites
+curl -X POST -H "Authorization: bearer $TKN" -d "name=test"  http://api.lvh.me/boards | jq
 ```
 
 ## Test

@@ -5,7 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { BoardsModule } from './boards/boards.module';
+import { BoardColumn } from './boards/entities/board-column.entity';
 import { Board } from './boards/entities/board.entity';
+import { Card } from './boards/entities/card.entity';
 import { CreditsModule } from './credits/credits.module';
 import { Credit } from './credits/entities/credit.entity';
 import { HashModule } from './hash/hash.module';
@@ -28,7 +30,7 @@ import { UsersModule } from './users/users.module';
         database: configService.get('DATABASE_DB'),
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
-        entities: [User, Board, Credit],
+        entities: [User, Board, Credit, Board, BoardColumn, Card],
         synchronize: true,
         logging: true,
       }),

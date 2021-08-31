@@ -32,11 +32,11 @@ export class BoardsController {
     @Body() createBoardDto: CreateBoardDto,
   ) {
     createBoardDto.user = req.user;
-    const board = await this.boardsService.create(createBoardDto);
+    const { id } = await this.boardsService.create(createBoardDto);
 
     await this.creditsService.createFromRequest(req, req.user);
 
-    return board;
+    return { id };
   }
 
   @Get()

@@ -2,6 +2,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { randomUUID } from 'crypto';
 import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { HashModule } from '../hash/hash.module';
 import { User } from '../users/entities/user.entity';
@@ -37,7 +38,7 @@ describe('AuthService', () => {
   describe('getToken', () => {
     it('should get token', async () => {
       const user = new User();
-      user.id = 1;
+      user.id = randomUUID();
       user.email = 'toto@toto.fr';
       expect(await service.getToken(user)).toBeTruthy();
     });

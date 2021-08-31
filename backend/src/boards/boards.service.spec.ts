@@ -1,32 +1,31 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getConnectionToken, TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmModule } from '../../test/type-orm-module-options';
 import { User } from '../users/entities/user.entity';
 import { BoardsService } from './boards.service';
+import { BoardColumn } from './entities/board-column.entity';
 import { Board } from './entities/board.entity';
+import { Card } from './entities/card.entity';
 
-describe('WebsiteService', () => {
+describe('BoardService', () => {
   let service: BoardsService;
-  let connection;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [BoardsService],
       imports: [
-        TypeOrmModule.forFeature([Board]),
+        TypeOrmModule.forFeature([Board, BoardColumn, Card]),
         ConfigModule.forRoot({ envFilePath: '.test.env' }),
-        getTypeOrmModule([Board, User]),
+        getTypeOrmModule([Board, User, BoardColumn, Card]),
       ],
     }).compile();
-
-    connection = module.get(getConnectionToken());
 
     service = module.get<BoardsService>(BoardsService);
   });
 
-  afterEach(async () => {
-    await connection.close();
+  describe('create', () => {
+    it('should create column', async () => {});
   });
 
   it('should be defined', () => {

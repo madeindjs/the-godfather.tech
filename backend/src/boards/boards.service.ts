@@ -3,20 +3,49 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
+import { BoardColumn } from './entities/board-column.entity';
 import { Board } from './entities/board.entity';
+import { Card } from './entities/card.entity';
 
 @Injectable()
 export class BoardsService {
   constructor(
     @InjectRepository(Board)
     private readonly boardRepository: Repository<Board>,
+    @InjectRepository(BoardColumn)
+    private readonly boardColumnRepository: Repository<BoardColumn>,
+    @InjectRepository(Card)
+    private readonly cardRepository: Repository<Card>,
   ) {}
 
-  create(createWebsiteDto: CreateBoardDto) {
-    return this.boardRepository.save(createWebsiteDto);
+  async create(createBoardDto: CreateBoardDto) {
+    const board: Board = await this.boardRepository.save(createBoardDto);
+
+    const todoColumn = await this.boardColumnRepository.save({
+      board,
+      name: 'To do',
+    });
+
+    await this.cardRepository.save({
+      board,
+      column: todoColumn,
+      name: 'First card',
+      description: 'This is you first card. You can add more card like this.',
+    });
+
+    await this.boardColumnRepository.save([
+      { board, name: 'Doing' },
+      { board, name: 'Done' },
+    ]);
+
+    return this.findOne(board.id);
   }
 
-  update(board: Board) {
+  async update({ id, user, name }: UpdateBoardDto) {
+    const board = await this.boardRepository.findOneOrFail({ id, user });
+    board.name = name;
+
     return this.boardRepository.save(board);
   }
 
@@ -25,7 +54,10 @@ export class BoardsService {
   }
 
   findOne(id: string) {
-    return this.boardRepository.findOne({ id });
+    return this.boardRepository.findOne({
+      where: { id },
+      relations: ['columns', 'cards'],
+    });
   }
 
   findOneBy(field: keyof Board, value: string) {
