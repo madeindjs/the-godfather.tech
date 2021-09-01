@@ -33,18 +33,18 @@ export class BoardService {
   constructor(private readonly http: HttpClient) {}
 
   fetchBoard(apiUrl: string, uuid: string): Observable<Board> {
-    return this.http
-      .get<Board>(`${apiUrl}/boards/${uuid}`)
-      .pipe(mergeMap((board) => this.updateBoardCollection(board)));
+    return this.http.get<Board>(`${apiUrl}/boards/${uuid}`).pipe(
+      tap(() => this.initializeSee(apiUrl, uuid)),
+      mergeMap((board) => this.updateBoardCollection(board))
+    );
   }
 
   createCard(
     apiUrl: string,
     { boardId, columnId }: { columnId: string; boardId: string }
   ) {
-    return this.http
-      .post<Board>(`${apiUrl}/cards/`, { boardId, columnId })
-      .pipe(tap((board) => this.updateBoardCollection(board)));
+    return this.http.post<Card>(`${apiUrl}/cards/`, { boardId, columnId });
+    // .pipe(tap((board) => this.updateBoardCollection(board)));
   }
 
   updateCard(apiUrl: string, card: Card) {
@@ -52,9 +52,8 @@ export class BoardService {
   }
 
   removeCard(apiUrl: string, card: Card) {
-    return this.http
-      .delete<Board>(`${apiUrl}/cards/${card.id}`)
-      .pipe(tap((board) => this.updateBoardCollection(board)));
+    return this.http.delete<Card>(`${apiUrl}/cards/${card.id}`);
+    // .pipe(tap((board) => this.updateBoardCollection(board)));
   }
 
   private updateBoardCollection(board: Board): BehaviorSubject<Board> {
@@ -68,5 +67,13 @@ export class BoardService {
       this.boards.set(board.id, newBoard$);
       return newBoard$;
     }
+  }
+
+  private initializeSee(apiUrl: string, uuid: string) {
+    const eventSource = new EventSource(`${apiUrl}/boards/${uuid}/sse`);
+    eventSource.onmessage = ({ data }) => {
+      const board: Board = JSON.parse(data);
+      this.updateBoardCollection(board);
+    };
   }
 }

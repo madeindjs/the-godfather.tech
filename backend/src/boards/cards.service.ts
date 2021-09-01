@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { Board } from './entities/board.entity';
 import { Card } from './entities/card.entity';
+import {
+  CreatCardEvent,
+  createCardEventName,
+  RemoveCardEvent,
+  removeCardEventName,
+  UpdateCardEvent,
+  updateCardEventName,
+} from './events';
 
 @Injectable()
 export class CardsService {
   constructor(
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  create(card: CreateCardDto) {
-    card.name ??= 'New Card';
+  async create(cardDto: CreateCardDto) {
+    cardDto.name ??= 'New Card';
 
-    return this.cardRepository.save(card);
+    const card = await this.cardRepository.save(cardDto);
+
+    this.eventEmitter.emit(createCardEventName, { card } as CreatCardEvent);
+
+    return card;
   }
 
-  update(card: UpdateCardDto) {
-    return this.cardRepository.save(card);
+  async update(cardDto: UpdateCardDto) {
+    const card = this.cardRepository.save(cardDto);
+    this.eventEmitter.emit(updateCardEventName, {
+      card: cardDto,
+    } as UpdateCardEvent);
+    return card;
   }
 
   findAll(board: Board) {
@@ -35,7 +53,9 @@ export class CardsService {
     return this.cardRepository.findOne({ [field]: value });
   }
 
-  remove(id: string) {
-    return this.cardRepository.delete({ id });
+  async remove(id: string) {
+    const card = await this.findOne(id);
+    this.eventEmitter.emit(removeCardEventName, { card } as RemoveCardEvent);
+    return this.cardRepository.delete(card);
   }
 }

@@ -20,9 +20,8 @@ export class CardsController {
   ) {}
 
   @Post()
-  async create(@Body() createBoardDto: CreateCardDto) {
-    await this.cardsService.create(createBoardDto);
-    return this.boardsService.findOne(createBoardDto.boardId);
+  create(@Body() createBoardDto: CreateCardDto) {
+    return this.cardsService.create(createBoardDto);
   }
 
   @Put(':id')
@@ -48,8 +47,6 @@ export class CardsController {
       throw new NotFoundException();
     }
 
-    await this.cardsService.remove(id);
-
-    return this.boardsService.findOne(card.boardId);
+    return this.cardsService.remove(id);
   }
 }
