@@ -20,8 +20,9 @@ export class CardsController {
   ) {}
 
   @Post()
-  create(@Body() createBoardDto: CreateCardDto) {
-    return this.cardsService.create(createBoardDto);
+  async create(@Body() createBoardDto: CreateCardDto) {
+    await this.cardsService.create(createBoardDto);
+    return this.boardsService.findOne(createBoardDto.boardId);
   }
 
   @Put(':id')
