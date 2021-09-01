@@ -12,4 +12,18 @@
   input {
     width: 100%;
   }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+
+    button {
+      width: 30px;
+      border-radius: 60px;
+      min-width: unset;
+      border: none;
+      background-color: lightcoral;
+    }
+  }
 }
