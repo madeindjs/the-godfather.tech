@@ -1,16 +1,18 @@
 <div class="Card">
-  <div class="Card-actions">
-    <button title="delete" (click)="removeCard()">X</button>
-  </div>
-
-  <div class="Card-name">
-    <input
-      type="text"
-      [(ngModel)]="card.name"
-      (ngModelChange)="onModelChange()"
-    />
+  <div class="Card-title">
+    <div class="Card-name">
+      <input
+        type="text"
+        [(ngModel)]="card.name"
+        (ngModelChange)="onModelChange()"
+      />
+    </div>
+    <div class="Card-actions">
+      <button title="delete" (click)="removeCard()">X</button>
+    </div>
   </div>
   <div class="Card-description">
-    <input type="text" [(ngModel)]="card.description" />
+    <textarea [(ngModel)]="card.description" (ngModelChange)="onModelChange()">
+    </textarea>
   </div>
 </div>
