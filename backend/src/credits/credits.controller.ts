@@ -3,7 +3,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../users/entities/user.entity';
 import { CreditsService } from './credits.service';
 
-@Controller('credits')
+@Controller('/api/v1/credits')
 export class CreditsController {
   constructor(private readonly creditsService: CreditsService) {}
 

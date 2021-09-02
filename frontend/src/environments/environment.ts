@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   backend: {
-    url: 'http://api.lvh.me',
+    url: 'http://api.lvh.me/api/v1',
   },
 };
 

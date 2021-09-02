@@ -13,3 +13,23 @@ This is a monorepo of Embed Kanban with theses repositories
 ```sh
 docker-compose up
 ```
+
+## Production
+
+Build a fresh Docker image
+
+```sh
+docker build -t "embed-kanban:lastest"  .
+```
+
+Then run it
+
+```sh
+docker run \
+  -e JWT_SECRET=azerty \
+  -e DATABASE_USER=kanban \
+  -e DATABASE_PASSWORD=password \
+  -e DATABASE_HOST=postgres \
+  -e DATABASE_DB=kanban_de \
+  "embed-kanban:lastest"
+```

@@ -14,15 +14,6 @@ export function getTypeOrmOptionsFactory(
   entities: any[],
 ): (...args: any[]) => TypeOrmModuleOptions {
   return (configService: ConfigService) => {
-    console.log({
-      entities,
-      type: 'postgres',
-      host: configService.get('DATABASE_HOST'),
-      database: configService.get('DATABASE_DB'),
-      username: configService.get('DATABASE_USER'),
-      password: configService.get('DATABASE_PASSWORD'),
-    });
-
     return {
       entities,
       type: 'postgres',

@@ -51,7 +51,7 @@ describe('BoardController (e2e)', () => {
   describe('/ GET', () => {
     it('should get board', () => {
       return request(app.getHttpServer())
-        .get('/boards')
+        .get('/api/v1/boards')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
     });
@@ -64,7 +64,7 @@ describe('BoardController (e2e)', () => {
   describe('/ (POST)', () => {
     it('should create', () => {
       return request(app.getHttpServer())
-        .post('/boards')
+        .post('/api/v1/boards')
         .set('Authorization', `Bearer ${token}`)
         .send({
           url: `www.${new Date().getTime()}.fr`,
@@ -74,7 +74,7 @@ describe('BoardController (e2e)', () => {
 
     it('should not create because missing tokenn', () => {
       return request(app.getHttpServer())
-        .post('/boards')
+        .post('/api/v1/boards')
         .send({
           url: `www.${new Date().getTime()}.fr`,
         })
@@ -88,6 +88,7 @@ describe('BoardController (e2e)', () => {
     beforeAll(async () => {
       board = await boardsService.create({
         user,
+        name: 'test',
       });
     });
 
@@ -105,12 +106,13 @@ describe('BoardController (e2e)', () => {
     beforeAll(async () => {
       board = await boardsService.create({
         user,
+        name: 'test',
       });
     });
 
     it('should delete board', async () => {
       await request(app.getHttpServer())
-        .delete(`/boards/${board.id}`)
+        .delete(`api/v1//boards/${board.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 

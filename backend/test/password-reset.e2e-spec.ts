@@ -35,7 +35,7 @@ describe('UsersController (e2e)', () => {
       expect(userBefore.resetPasswordToken).toBeNull();
 
       await request(app.getHttpServer())
-        .post(`/password-reset/`)
+        .post(`/api/v1/password-reset/`)
         .send({ email: userBefore.email })
         .expect(201);
 
@@ -53,7 +53,7 @@ describe('UsersController (e2e)', () => {
       await passwordResetService.reset(userBefore);
 
       await request(app.getHttpServer())
-        .patch(`/password-reset/${userBefore.resetPasswordToken}`)
+        .patch(`/api/v1/password-reset/${userBefore.resetPasswordToken}`)
         .send({ password: userBefore.email })
         .expect(200);
 

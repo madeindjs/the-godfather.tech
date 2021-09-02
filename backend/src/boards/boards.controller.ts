@@ -30,7 +30,7 @@ import {
   updateCardEventName,
 } from './events';
 
-@Controller('boards')
+@Controller('/api/v1/boards')
 export class BoardsController {
   constructor(
     private readonly boardsService: BoardsService,

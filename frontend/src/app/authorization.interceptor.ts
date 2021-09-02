@@ -59,8 +59,6 @@ export class AuthorizationInterceptor implements HttpInterceptor {
       return of(undefined);
     }
 
-    console.log(error);
-
     this.toastService.display({
       type: 'danger',
       message: 'Something bad happens',

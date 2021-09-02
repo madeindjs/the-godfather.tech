@@ -32,21 +32,21 @@ describe('UsersController (e2e)', () => {
   describe('/ (POST)', () => {
     it('should create', () => {
       return request(app.getHttpServer())
-        .post('/auth')
+        .post('/api/v1/auth')
         .send({ email: user.email, password })
         .expect(201);
     });
 
     it('should not create because of password mismatch', () => {
       return request(app.getHttpServer())
-        .post('/auth')
+        .post('/api/v1/auth')
         .send({ email: user.email, password: 'aaaaaaa' })
         .expect(400);
     });
 
     it('should not create because user not exists', () => {
       return request(app.getHttpServer())
-        .post('/auth')
+        .post('/api/v1/auth')
         .send({ email: `tata@tata.fr`, password })
         .expect(400);
     });

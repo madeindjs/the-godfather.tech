@@ -34,7 +34,7 @@ describe('UsersController (e2e)', () => {
   describe('/ (POST)', () => {
     it('should create', () => {
       return request(app.getHttpServer())
-        .post('/users')
+        .post('/api/v1/users')
         .send({
           email: `test@test-${new Date().getTime()}.fr`,
           password: 'tototo',
@@ -49,14 +49,14 @@ describe('UsersController (e2e)', () => {
       });
 
       await request(app.getHttpServer())
-        .post('/users')
+        .post('/api/v1/users')
         .send({ email, password: '123456' })
         .expect(400);
     });
 
     it('should not create because missing password', () => {
       return request(app.getHttpServer())
-        .post('/users')
+        .post('/api/v1/users')
         .send({ email: 'test@test.fr' })
         .expect(400);
     });
@@ -81,14 +81,14 @@ describe('UsersController (e2e)', () => {
 
     it('should get user', () => {
       return request(app.getHttpServer())
-        .get(`/users/${user.id}`)
+        .get(`/api/v1/users/${user.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
     });
 
     it('should get 401', () => {
       return request(app.getHttpServer())
-        .get(`/users/${otherUser.id}`)
+        .get(`/api/v1/users/${otherUser.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(401);
     });
@@ -113,7 +113,7 @@ describe('UsersController (e2e)', () => {
 
     it('should update user', async () => {
       await request(app.getHttpServer())
-        .patch(`/users/${user.id}`)
+        .patch(`/api/v1/users/${user.id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({ password: 'tatata' })
         .expect(200);
@@ -125,7 +125,7 @@ describe('UsersController (e2e)', () => {
 
     it('should get 404', () => {
       return request(app.getHttpServer())
-        .patch(`/users/${otherUser.id}`)
+        .patch(`/api/v1/users/${otherUser.id}`)
         .set('Authorization', `Bearer ${token}`)
         .send({ password: 'tatata' })
         .expect(401);
@@ -151,7 +151,7 @@ describe('UsersController (e2e)', () => {
 
     it('should delete user', async () => {
       await request(app.getHttpServer())
-        .delete(`/users/${user.id}`)
+        .delete(`/api/v1/users/${user.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
 
@@ -161,7 +161,7 @@ describe('UsersController (e2e)', () => {
 
     it('should get 401', () => {
       return request(app.getHttpServer())
-        .delete(`/users/${otherUser.id}`)
+        .delete(`/api/v1/users/${otherUser.id}`)
         .set('Authorization', `Bearer ${token}`)
         .expect(401);
     });

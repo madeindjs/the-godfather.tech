@@ -19,7 +19,7 @@ import { BoardsService } from './boards.service';
 import { CreateBoardColumnDto } from './dto/create-board-column.dto';
 import { UpdateBoardColumnDto } from './dto/update-board-column.dto';
 
-@Controller('columns')
+@Controller('/api/v1/columns')
 export class BoardColumnsController {
   constructor(
     private readonly boardsService: BoardsService,

@@ -1,4 +1,5 @@
 import { ConfigModule } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmModule } from '../../test/type-orm-module-options';
@@ -20,7 +21,8 @@ describe('BoardsController', () => {
       providers: [BoardsService],
       imports: [
         CreditsModule,
-        TypeOrmModule.forFeature([Board, Credit, BoardColumn]),
+        TypeOrmModule.forFeature([Board, Credit, BoardColumn, Card]),
+        EventEmitterModule.forRoot(),
         ConfigModule.forRoot({ envFilePath: '.test.env' }),
         getTypeOrmModule([Board, User, Credit, BoardColumn, Card]),
       ],
