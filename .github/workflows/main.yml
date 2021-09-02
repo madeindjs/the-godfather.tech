@@ -3,7 +3,7 @@
 name: CI Nest.js app through Github Actions
 on: push
 jobs:
-  build:
+  backend-unit-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,11 +13,12 @@ jobs:
           node-version: 16.x
 
       - name: Setup
+        working-directory: backend
         run: npm ci
 
       - name: Test
-        run: |
-          npm test
+        working-directory: backend
+        run: npm test
 
       # - name: E2E Test
       #   run: |
