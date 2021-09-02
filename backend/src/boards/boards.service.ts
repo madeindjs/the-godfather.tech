@@ -35,8 +35,8 @@ export class BoardsService {
     });
 
     await this.boardColumnRepository.save([
-      { board, name: 'Doing' },
-      { board, name: 'Done' },
+      { boardId: board.id, name: 'Doing' },
+      { boardId: board.id, name: 'Done' },
     ]);
 
     return this.findOne(board.id);

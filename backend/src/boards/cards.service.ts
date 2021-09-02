@@ -55,7 +55,7 @@ export class CardsService {
 
   async remove(id: string) {
     const card = await this.findOne(id);
+    await this.cardRepository.delete(card);
     this.eventEmitter.emit(removeCardEventName, { card } as RemoveCardEvent);
-    return this.cardRepository.delete(card);
   }
 }
