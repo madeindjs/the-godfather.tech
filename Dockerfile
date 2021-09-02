@@ -24,8 +24,8 @@ FROM node:16-alpine as FinalBuild
 WORKDIR /usr/app
 COPY --from=BackendBuild /usr/app/dist /usr/app/backend
 COPY --from=BackendBuild /usr/app/node_modules /usr/app/node_modules
-COPY --from=FrontendBuild /usr/app/dist /usr/app/public
-COPY --from=KanbanBuild /usr/app/dist /usr/app/public/kanban
+COPY --from=FrontendBuild /usr/app/dist/frontend /usr/app/public
+COPY --from=KanbanBuild /usr/app/dist/kanban /usr/app/public/kanban
 
 EXPOSE 3000
 CMD [ "node", "backend/main" ]

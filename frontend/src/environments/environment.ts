@@ -7,6 +7,9 @@ export const environment = {
   backend: {
     url: 'http://api.lvh.me/api/v1',
   },
+  kanban: {
+    remoteEntry: 'http://kanban.lvh.me/remoteEntry.js',
+  },
 };
 
 /*

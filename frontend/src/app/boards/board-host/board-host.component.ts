@@ -39,7 +39,7 @@ export class BoardHostComponent implements OnInit, OnChanges {
     // await loadRemoteEntry()
 
     const { BoardComponent } = await loadRemoteModule({
-      remoteEntry: 'http://kanban.lvh.me/remoteEntry.js',
+      remoteEntry: environment.kanban.remoteEntry,
       remoteName: 'kanban',
       exposedModule: './BoardComponent',
     });

@@ -10,7 +10,7 @@ sharedMappings.register(path.join(__dirname, "tsconfig.json"), [
 
 module.exports = {
   output: {
-    uniqueName: "frontend2",
+    uniqueName: "frontend",
     publicPath: "auto",
   },
   optimization: {
@@ -24,7 +24,7 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       // For remotes (please adjust)
-      // name: "frontend2",
+      // name: "frontend",
       // filename: "remoteEntry.js",
       // exposes: {
       //     './Component': './/src/app/app.component.ts',
