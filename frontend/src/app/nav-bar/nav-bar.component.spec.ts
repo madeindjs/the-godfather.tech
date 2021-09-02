@@ -8,7 +8,9 @@ describe('NavBarComponent', () => {
   let fixture: ComponentFixture<NavBarComponent>;
   const initialState: AppState = {
     login: { user: undefined },
-    boards: { users: [] },
+    boards: { boards: [] },
+    credits: { summary: { total: 0, current: 0 } },
+    toasts: { display: [] },
   };
 
   beforeEach(async () => {

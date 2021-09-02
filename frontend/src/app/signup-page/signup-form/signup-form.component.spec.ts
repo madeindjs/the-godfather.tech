@@ -9,12 +9,12 @@ import { SignupFormComponent } from './signup-form.component';
 describe('SignupFormComponent', () => {
   let component: SignupFormComponent;
   let fixture: ComponentFixture<SignupFormComponent>;
-  let store: Store;
+  let store: Store<AppState>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SignupFormComponent],
-      imports: [StoreModule.forRoot({ signup: loginReducer })],
+      imports: [StoreModule.forRoot({ login: loginReducer as any })],
       providers: [LoginService],
     }).compileComponents();
 
@@ -32,15 +32,15 @@ describe('SignupFormComponent', () => {
     it('should update store', (done) => {
       const email = 'toto@toto.fr';
       const password = 'tototo';
-      component.emailField.setValue(email);
-      component.passwordField.setValue(password);
+      component.emailField?.setValue(email);
+      component.passwordField?.setValue(password);
       component.signup();
 
       store
         .select((state: AppState) => state.login.user)
         .subscribe((user) => {
           expect(user).toBeDefined();
-          expect(user.email).toEqual(email);
+          expect(user?.email).toEqual(email);
           done();
         });
     });
@@ -48,20 +48,20 @@ describe('SignupFormComponent', () => {
 
   describe('validity', () => {
     it('should accept form', () => {
-      component.emailField.setValue('toto@toto.fr');
-      component.passwordField.setValue('tototo');
+      component.emailField?.setValue('toto@toto.fr');
+      component.passwordField?.setValue('tototo');
       expect(component.form.valid).toBeTrue();
     });
 
     it('should reject form (email is not valid)', () => {
-      component.emailField.setValue('toto');
-      component.passwordField.setValue('tototo');
+      component.emailField?.setValue('toto');
+      component.passwordField?.setValue('tototo');
       expect(component.form.valid).toBeFalse();
     });
 
     it('should reject form (password is too short)', () => {
-      component.emailField.setValue('toto@toto.fr');
-      component.passwordField.setValue('to');
+      component.emailField?.setValue('toto@toto.fr');
+      component.passwordField?.setValue('to');
       expect(component.form.valid).toBeFalse();
     });
   });

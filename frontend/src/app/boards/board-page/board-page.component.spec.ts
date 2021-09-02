@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BoardPageComponent } from './board-page.component';
 
 describe('BoardPageComponent', () => {
@@ -8,9 +7,8 @@ describe('BoardPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoardPageComponent ]
-    })
-    .compileComponents();
+      declarations: [BoardPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

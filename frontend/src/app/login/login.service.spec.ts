@@ -7,8 +7,10 @@ import { LoginService } from './login.service';
 describe('LoginService', () => {
   let service: LoginService;
   const initialState: AppState = {
-    login: { user: { email: 'test@test.fr', token: 'toto' } },
-    boards: { users: [] },
+    login: { user: undefined },
+    boards: { boards: [] },
+    credits: { summary: { total: 0, current: 0 } },
+    toasts: { display: [] },
   };
 
   beforeEach(() => {

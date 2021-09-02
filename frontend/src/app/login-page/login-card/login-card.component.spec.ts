@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppState } from 'src/app/state.interface';
@@ -7,13 +8,16 @@ describe('LoginCardComponent', () => {
   let component: LoginCardComponent;
   let fixture: ComponentFixture<LoginCardComponent>;
   const initialState: AppState = {
-    login: { user: { email: 'toto@toto.fr', password: 'test' } },
-    boards: { users: [] },
+    login: { user: undefined },
+    boards: { boards: [] },
+    credits: { summary: { total: 0, current: 0 } },
+    toasts: { display: [] },
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideMockStore({ initialState })],
+      imports: [HttpClientModule],
       declarations: [LoginCardComponent],
     }).compileComponents();
   });

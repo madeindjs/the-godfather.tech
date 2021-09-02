@@ -7,7 +7,9 @@ describe('LoginGuard', () => {
   let guard: LoginGuard;
   const initialState: AppState = {
     login: { user: undefined },
-    boards: { users: [] },
+    boards: { boards: [] },
+    credits: { summary: { total: 0, current: 0 } },
+    toasts: { display: [] },
   };
 
   let store: MockStore;
@@ -27,7 +29,7 @@ describe('LoginGuard', () => {
   it('should allow when user is connected', (done) => {
     store.setState({
       ...initialState,
-      login: { user: { email: 'test@test.fr', password: '123456' } },
+      login: { user: { email: 'test@test.fr', token: '123456' } },
     } as AppState);
 
     guard.canActivate().subscribe((result) => {

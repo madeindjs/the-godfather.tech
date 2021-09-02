@@ -12,7 +12,12 @@ describe('BoardsService', () => {
   let httpTestingController: HttpTestingController;
   let store: MockStore<AppState>;
 
-  const initialState: AppState = { login: undefined, boards: { boards: [] } };
+  const initialState: AppState = {
+    login: { user: undefined },
+    boards: { boards: [] },
+    credits: { summary: { total: 0, current: 0 } },
+    toasts: { display: [] },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,15 +38,7 @@ describe('BoardsService', () => {
   });
 
   it('should return expected boards', () => {
-    const expectedBoards: Board[] = [
-      {
-        email: 'toto@toto.fr',
-        firstname: 'toto',
-        lastname: 'toto',
-        boardname: 'toto',
-        uuid: 'toto',
-      },
-    ];
+    const expectedBoards: Board[] = [];
 
     service
       .getAll()
