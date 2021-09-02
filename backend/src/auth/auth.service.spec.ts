@@ -1,12 +1,10 @@
-import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { randomUUID } from 'crypto';
-import { getTypeOrmModule } from '../../test/type-orm-module-options';
+import { getMockedRepository } from '../../test/mocks/repository.mock';
 import { HashModule } from '../hash/hash.module';
 import { User } from '../users/entities/user.entity';
-import { UsersModule } from '../users/users.module';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 
@@ -15,12 +13,13 @@ describe('AuthService', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [AuthService, UsersService],
+      providers: [
+        AuthService,
+        UsersService,
+        { provide: UsersService, useValue: getMockedRepository() },
+        { provide: getRepositoryToken(User), useValue: getMockedRepository() },
+      ],
       imports: [
-        TypeOrmModule.forFeature([User]),
-        ConfigModule.forRoot({ envFilePath: '.test.env' }),
-        getTypeOrmModule([User]),
-        UsersModule,
         HashModule,
         JwtModule.register({
           secret: 'test',

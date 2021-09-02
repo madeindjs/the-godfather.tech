@@ -1,9 +1,8 @@
-import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { getTypeOrmModule } from '../../test/type-orm-module-options';
-import { CreditsModule } from '../credits/credits.module';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { getMockedRepository } from '../../test/mocks/repository.mock';
+import { CreditsService } from '../credits/credits.service';
 import { Credit } from '../credits/entities/credit.entity';
 import { User } from '../users/entities/user.entity';
 import { BoardsController } from './boards.controller';
@@ -18,14 +17,25 @@ describe('BoardsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BoardsController],
-      providers: [BoardsService],
-      imports: [
-        CreditsModule,
-        TypeOrmModule.forFeature([Board, Credit, BoardColumn, Card]),
-        EventEmitterModule.forRoot(),
-        ConfigModule.forRoot({ envFilePath: '.test.env' }),
-        getTypeOrmModule([Board, User, Credit, BoardColumn, Card]),
+      providers: [
+        BoardsService,
+        { provide: getRepositoryToken(User), useValue: getMockedRepository() },
+        { provide: getRepositoryToken(Board), useValue: getMockedRepository() },
+        {
+          provide: getRepositoryToken(Credit),
+          useValue: getMockedRepository(),
+        },
+        {
+          provide: getRepositoryToken(BoardColumn),
+          useValue: getMockedRepository(),
+        },
+        { provide: getRepositoryToken(Card), useValue: getMockedRepository() },
+        {
+          provide: CreditsService,
+          useValue: {},
+        },
       ],
+      imports: [EventEmitterModule.forRoot()],
     }).compile();
 
     controller = module.get<BoardsController>(BoardsController);

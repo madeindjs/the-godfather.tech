@@ -1,11 +1,15 @@
-export const repositoryMockFactory = jest.fn(() => ({ findOne: jest.fn() }));
+export interface MockedRepository {
+  findOneOrFail: jest.Mock;
+  findOne: jest.Mock;
+  save: jest.Mock;
+  delete: jest.Mock;
+}
 
-export class RepositoryMock<Entity extends { id?: number }> {
-  private rows: Set<Entity> = new Set();
-
-  public save(entity: Entity) {
-    entity.id ??= Date.now();
-
-    this.rows.add(entity);
-  }
+export function getMockedRepository(): MockedRepository {
+  return {
+    findOneOrFail: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(),
+    delete: jest.fn(),
+  };
 }

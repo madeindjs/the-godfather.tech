@@ -2,27 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { randomUUID } from 'crypto';
 import { User } from 'src/users/entities/user.entity';
+import {
+  getMockedRepository,
+  MockedRepository,
+} from '../../test/mocks/repository.mock';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardColumn } from './entities/board-column.entity';
 import { Board } from './entities/board.entity';
 import { Card } from './entities/card.entity';
-
-interface MockedRepository {
-  findOneOrFail: jest.Mock;
-  findOne: jest.Mock;
-  save: jest.Mock;
-  delete: jest.Mock;
-}
-
-function getMockedRepository(): MockedRepository {
-  return {
-    findOneOrFail: jest.fn(),
-    findOne: jest.fn(),
-    save: jest.fn(),
-    delete: jest.fn(),
-  };
-}
 
 describe('BoardService', () => {
   let service: BoardsService;

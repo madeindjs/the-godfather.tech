@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { RepositoryMock } from '../../test/mocks/repository.mock';
+import { getMockedRepository } from '../../test/mocks/repository.mock';
 import { HashModule } from '../hash/hash.module';
 import { User } from './entities/user.entity';
 import { UsersController } from './users.controller';
@@ -15,7 +15,7 @@ describe('UsersController', () => {
       controllers: [UsersController],
       providers: [
         UsersService,
-        { provide: getRepositoryToken(User), useClass: RepositoryMock },
+        { provide: getRepositoryToken(User), useValue: getMockedRepository() },
       ],
     }).compile();
 
