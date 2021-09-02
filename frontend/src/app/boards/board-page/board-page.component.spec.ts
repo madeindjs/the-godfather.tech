@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 import { BoardPageComponent } from './board-page.component';
 
 describe('BoardPageComponent', () => {
@@ -8,6 +10,14 @@ describe('BoardPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BoardPageComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: of({ get: () => 'test' }),
+          },
+        },
+      ],
     }).compileComponents();
   });
 

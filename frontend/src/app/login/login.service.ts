@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { mergeMap, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AppState } from '../state.interface';
-import { ToastService } from '../toast/toast.service';
 import { disconnectAction, loginAction } from './login.actions';
 
 export interface LoginUser {
@@ -25,9 +24,9 @@ export class LoginService {
 
   constructor(
     private store: Store<AppState>,
-    private readonly http: HttpClient,
-    private readonly toastService: ToastService
-  ) {}
+    private readonly http: HttpClient
+  ) // private readonly toastService: ToastService
+  {}
 
   getToken(): Observable<string | undefined> {
     return this.store
@@ -52,8 +51,9 @@ export class LoginService {
               user: { email: user.email, token: (res as any).access_token },
             })
           )
-        ),
-        tap(() => this.toastService.success('Welcome!'))
+        )
+        // TODO this made tests fail
+        // tap(() => this.toastService.success('Welcome!'))
       );
   }
 

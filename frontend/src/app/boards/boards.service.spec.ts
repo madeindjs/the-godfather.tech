@@ -45,10 +45,10 @@ describe('BoardsService', () => {
       .subscribe((boards) => expect(boards).toEqual(expectedBoards));
 
     const req = httpTestingController.expectOne(
-      'https://fakerapi.it/api/v1/boards'
+      'http://api.lvh.me/api/v1/boards'
     );
 
-    req.flush({ data: expectedBoards });
+    req.flush(expectedBoards);
 
     // store
     //   .select((state: AppState) => state.boards.boards)

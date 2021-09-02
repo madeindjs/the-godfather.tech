@@ -1,13 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AppState } from '../state.interface';
 import { ToastService } from './toast.service';
 
 describe('ToastService', () => {
   let service: ToastService;
+  const initialState: AppState = {
+    login: { user: undefined },
+    boards: { boards: [] },
+    credits: { summary: { total: 0, current: 0 } },
+    toasts: { display: [] },
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      providers: [provideMockStore({ initialState }), ToastService],
     });
     service = TestBed.inject(ToastService);
   });

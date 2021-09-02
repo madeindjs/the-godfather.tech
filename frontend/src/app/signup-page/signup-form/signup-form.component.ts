@@ -44,11 +44,9 @@ export class SignupFormComponent implements OnInit {
   }
 
   signup() {
-    return this.loginService
-      .signUp({
-        email: String(this.emailField?.value),
-        password: String(this.passwordField?.value),
-      })
-      .subscribe();
+    return this.loginService.signUp({
+      email: String(this.emailField?.value),
+      password: String(this.passwordField?.value),
+    });
   }
 }
