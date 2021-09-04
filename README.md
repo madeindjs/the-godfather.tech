@@ -16,6 +16,8 @@ docker-compose up
 
 ### Docker
 
+Build image is available here: [arousseau/embed-kanban](https://hub.docker.com/repository/docker/arousseau/embed-kanban).
+
 Build a fresh Docker image
 
 ```sh

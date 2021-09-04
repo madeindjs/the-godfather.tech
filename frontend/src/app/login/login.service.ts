@@ -25,8 +25,7 @@ export class LoginService {
   constructor(
     private store: Store<AppState>,
     private readonly http: HttpClient
-  ) // private readonly toastService: ToastService
-  {}
+  ) {}
 
   getToken(): Observable<string | undefined> {
     return this.store
@@ -64,18 +63,18 @@ export class LoginService {
         password: user.password,
       })
       .pipe(
+        mergeMap(() =>
+          this.http.post(`${environment.backend.url}/auth`, {
+            email: user.email,
+            password: user.password,
+          })
+        ),
         tap((res) =>
           this.store.dispatch(
             loginAction({
               user: { email: user.email, token: (res as any).access_token },
             })
           )
-        ),
-        mergeMap(() =>
-          this.http.post(`${environment.backend.url}/auth`, {
-            email: user.email,
-            password: user.password,
-          })
         )
       );
   }

@@ -1,9 +1,11 @@
 //src/app/signup-page/signup-form/signup-form.component.spec.ts
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { loginReducer } from 'src/app/login/login.reducer';
 import { LoginService } from 'src/app/login/login.service';
+import { ToastService } from 'src/app/toast/toast.service';
 import { SignupFormComponent } from './signup-form.component';
 
 describe('SignupFormComponent', () => {
@@ -18,8 +20,9 @@ describe('SignupFormComponent', () => {
       imports: [
         StoreModule.forRoot({ login: loginReducer as any }),
         HttpClientTestingModule,
+        RouterTestingModule,
       ],
-      providers: [LoginService],
+      providers: [LoginService, ToastService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignupFormComponent);

@@ -21,6 +21,10 @@ export class ToastService {
     this.display({ type: 'success', message });
   }
 
+  error(message: string) {
+    this.display({ type: 'danger', message });
+  }
+
   display(toast: Pick<Toast, 'message' | 'type'>) {
     const id = Date.now();
 

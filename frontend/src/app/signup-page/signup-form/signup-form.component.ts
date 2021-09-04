@@ -1,7 +1,9 @@
 // src/app/signup-page/signup-form/signup-form.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService, LoginUser } from 'src/app/login/login.service';
+import { ToastService } from 'src/app/toast/toast.service';
 
 @Component({
   selector: 'app-signup-form',
@@ -16,7 +18,11 @@ export class SignupFormComponent implements OnInit {
   public form!: FormGroup;
   public readonly passwordMinLength = 4;
 
-  constructor(private readonly loginService: LoginService) {}
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly toastService: ToastService,
+    private readonly router: Router
+  ) {}
 
   get valid() {
     return this.form.valid;
@@ -44,9 +50,19 @@ export class SignupFormComponent implements OnInit {
   }
 
   signup() {
-    return this.loginService.signUp({
-      email: String(this.emailField?.value),
-      password: String(this.passwordField?.value),
-    });
+    return this.loginService
+      .signUp({
+        email: String(this.emailField?.value),
+        password: String(this.passwordField?.value),
+      })
+      .subscribe(
+        () => {
+          this.toastService.success(
+            `You just created an account for ${this.emailField?.value}`
+          );
+          this.router.navigate(['/login']);
+        },
+        () => this.toastService.error('Cannot login with theses credentials')
+      );
   }
 }
