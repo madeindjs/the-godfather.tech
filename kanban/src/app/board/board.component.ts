@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
 import { Board, BoardService, Card, Column } from '../board.service';
 
 @Component({
@@ -32,6 +32,10 @@ export class BoardComponent implements OnInit, OnChanges {
     this.fetchBoard();
   }
 
+  cardTrackBy(index: number, card: Card) {
+    return card.id;
+  }
+
   fetchBoard() {
     this.board$ = this.boardService
       .fetchBoard(this.apiUrl, this.uuid)
@@ -44,7 +48,8 @@ export class BoardComponent implements OnInit, OnChanges {
           column,
           cards: board.cards.filter((card) => card.columnId === column.id),
         }))
-      )
+      ),
+      tap((c) => console.log('trigger change %o', c))
     );
   }
 }

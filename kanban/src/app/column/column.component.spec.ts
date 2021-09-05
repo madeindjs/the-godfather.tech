@@ -16,7 +16,6 @@ describe('ColumnComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ColumnComponent);
     component = fixture.componentInstance;
-    component.cards = [];
     component.column = { boardId: '1', name: 'Test', id: '1' };
     fixture.detectChanges();
   });

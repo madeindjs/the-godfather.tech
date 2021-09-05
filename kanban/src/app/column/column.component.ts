@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { BoardService, Card, Column } from '../board.service';
+import { BoardService, Column } from '../board.service';
 
 @Component({
   selector: 'app-column',
@@ -9,7 +9,6 @@ import { BoardService, Card, Column } from '../board.service';
 })
 export class ColumnComponent {
   @Input() column!: Column;
-  @Input() cards!: Card[];
   @Input() apiUrl!: string;
   @Output() onChange = new EventEmitter();
 

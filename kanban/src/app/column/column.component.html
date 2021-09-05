@@ -4,11 +4,7 @@
   </div>
 
   <div class="Column-cards">
-    <app-card
-      *ngFor="let card of cards"
-      [card]="card"
-      [apiUrl]="apiUrl"
-    ></app-card>
+    <ng-content></ng-content>
   </div>
   <div class="Column-actions">
     <button title="Create card" (click)="createCard()">+</button>

@@ -10,6 +10,8 @@ export class CardComponent {
   @Input() card!: Card;
   @Input() apiUrl!: string;
 
+  isRemoved = false;
+
   constructor(private readonly boardService: BoardService) {}
 
   public onModelChange() {
@@ -17,6 +19,8 @@ export class CardComponent {
   }
 
   public removeCard() {
-    this.boardService.removeCard(this.apiUrl, this.card).subscribe();
+    this.boardService
+      .removeCard(this.apiUrl, this.card)
+      .subscribe(() => (this.isRemoved = true));
   }
 }

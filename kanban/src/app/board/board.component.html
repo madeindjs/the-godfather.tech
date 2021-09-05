@@ -7,8 +7,13 @@
     <app-column
       *ngFor="let column of columns$ | async"
       [column]="column.column"
-      [cards]="column.cards"
       [apiUrl]="apiUrl"
-    ></app-column>
+    >
+      <app-card
+        *ngFor="let card of column.cards; trackBy: cardTrackBy"
+        [card]="card"
+        [apiUrl]="apiUrl"
+      ></app-card>
+    </app-column>
   </div>
 </div>

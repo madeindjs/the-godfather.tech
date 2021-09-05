@@ -61,10 +61,12 @@ export class BoardService {
 
     if (board$) {
       board$.next(board);
+      console.log('Update board');
       return board$;
     } else {
       const newBoard$ = new BehaviorSubject<Board>(board);
       this.boards.set(board.id, newBoard$);
+      console.log('Set board');
       return newBoard$;
     }
   }
@@ -73,7 +75,11 @@ export class BoardService {
     const eventSource = new EventSource(`${apiUrl}/boards/${uuid}/sse`);
     eventSource.onmessage = ({ data }) => {
       const board: Board = JSON.parse(data);
+      console.group('SSE');
+      console.log('Receive an update for board %o', board);
+      console.groupEnd();
       this.updateBoardCollection(board);
     };
+    eventSource.onerror = () => this.initializeSee(apiUrl, uuid);
   }
 }
