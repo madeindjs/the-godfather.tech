@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -22,7 +23,10 @@ export class BoardComponent implements OnInit, OnChanges {
   name$!: Observable<string>;
   columns$: Observable<{ column: Column; cards: Card[] }[]> = of([]);
 
-  constructor(private readonly boardService: BoardService) {}
+  constructor(
+    private readonly boardService: BoardService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.fetchBoard();
@@ -30,6 +34,16 @@ export class BoardComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.fetchBoard();
+  }
+
+  onCardCreated() {
+    console.log('onCardCreated');
+    // this.cdr.markForCheck();
+  }
+
+  onCardRemoved() {
+    console.log('onCardRemoved');
+    // this.cdr.markForCheck();
   }
 
   cardTrackBy(index: number, card: Card) {
@@ -49,7 +63,8 @@ export class BoardComponent implements OnInit, OnChanges {
           cards: board.cards.filter((card) => card.columnId === column.id),
         }))
       ),
-      tap((c) => console.log('trigger change %o', c))
+      tap((c) => console.log('trigger change %o', c)),
+      tap(() => this.cdr.markForCheck())
     );
   }
 }

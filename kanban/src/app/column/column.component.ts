@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { tap } from 'rxjs/operators';
 import { BoardService, Column } from '../board.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { BoardService, Column } from '../board.service';
 export class ColumnComponent {
   @Input() column!: Column;
   @Input() apiUrl!: string;
-  @Output() onChange = new EventEmitter();
+  @Output() onCardCreated = new EventEmitter();
 
   constructor(private readonly boardService: BoardService) {}
 
@@ -20,7 +19,6 @@ export class ColumnComponent {
         boardId: this.column.boardId,
         columnId: this.column.id,
       })
-      .pipe(tap(() => this.onChange.emit()))
-      .subscribe();
+      .subscribe(() => this.onCardCreated.emit());
   }
 }
