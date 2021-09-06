@@ -1,14 +1,13 @@
 import {
-  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, share, tap } from 'rxjs/operators';
-import { Board, BoardService, Card, Column } from '../board.service';
+import { Observable } from 'rxjs';
+import { map, mergeMap, share } from 'rxjs/operators';
+import { Board, BoardService, Column } from '../board.service';
 
 @Component({
   selector: 'app-board',
@@ -21,12 +20,9 @@ export class BoardComponent implements OnInit, OnChanges {
 
   board$!: Observable<Board>;
   name$!: Observable<string>;
-  columns$: Observable<{ column: Column; cards: Card[] }[]> = of([]);
+  columns$!: Observable<Column[]>;
 
-  constructor(
-    private readonly boardService: BoardService,
-    private readonly cdr: ChangeDetectorRef
-  ) {}
+  constructor(private readonly boardService: BoardService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.fetchBoard();
@@ -36,20 +32,6 @@ export class BoardComponent implements OnInit, OnChanges {
     this.fetchBoard();
   }
 
-  onCardCreated() {
-    console.log('onCardCreated');
-    // this.cdr.markForCheck();
-  }
-
-  onCardRemoved() {
-    console.log('onCardRemoved');
-    // this.cdr.markForCheck();
-  }
-
-  cardTrackBy(index: number, card: Card) {
-    return card.id;
-  }
-
   fetchBoard() {
     this.board$ = this.boardService
       .fetchBoard(this.apiUrl, this.uuid)
@@ -57,14 +39,7 @@ export class BoardComponent implements OnInit, OnChanges {
 
     this.name$ = this.board$.pipe(map((board) => board.name));
     this.columns$ = this.board$.pipe(
-      map((board) =>
-        board.columns.map((column) => ({
-          column,
-          cards: board.cards.filter((card) => card.columnId === column.id),
-        }))
-      ),
-      tap((c) => console.log('trigger change %o', c)),
-      tap(() => this.cdr.markForCheck())
+      mergeMap((board) => this.boardService.getColumns(board))
     );
   }
 }

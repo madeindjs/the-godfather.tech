@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BoardService, Card } from '../board.service';
 
 @Component({
@@ -9,7 +9,6 @@ import { BoardService, Card } from '../board.service';
 export class CardComponent {
   @Input() card!: Card;
   @Input() apiUrl!: string;
-  @Output() onRemoved = new EventEmitter<void>();
 
   constructor(private readonly boardService: BoardService) {}
 
@@ -18,8 +17,6 @@ export class CardComponent {
   }
 
   public removeCard() {
-    this.boardService
-      .removeCard(this.apiUrl, this.card)
-      .subscribe(() => this.onRemoved.emit());
+    this.boardService.removeCard(this.apiUrl, this.card).subscribe();
   }
 }

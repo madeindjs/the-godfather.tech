@@ -1,17 +1,34 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BoardService, Column } from '../board.service';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { Observable } from 'rxjs';
+import { BoardService, Card, Column } from '../board.service';
 
 @Component({
   selector: 'app-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
 })
-export class ColumnComponent {
+export class ColumnComponent implements OnInit, OnChanges {
   @Input() column!: Column;
   @Input() apiUrl!: string;
-  @Output() onCardCreated = new EventEmitter();
+  cards$!: Observable<Card[]>;
 
   constructor(private readonly boardService: BoardService) {}
+
+  ngOnInit(): void {
+    this.cards$ = this.boardService.getCards(this.column);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.column.currentValue) {
+      this.cards$ = this.boardService.getCards(this.column);
+    }
+  }
 
   createCard() {
     return this.boardService
@@ -19,6 +36,6 @@ export class ColumnComponent {
         boardId: this.column.boardId,
         columnId: this.column.id,
       })
-      .subscribe(() => this.onCardCreated.emit());
+      .subscribe();
   }
 }
