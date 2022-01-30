@@ -17,6 +17,7 @@ import { HashModule } from './hash/hash.module';
 import { PasswordResetModule } from './password-reset/password-reset.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { UsersModule } from './users/users.module';
     PasswordResetModule,
     BoardsModule,
     CreditsModule,
+    GithubModule,
   ],
   controllers: [AppController],
   providers: [AppService],

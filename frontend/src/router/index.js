@@ -32,6 +32,11 @@ const routes = [
     name: "About",
     component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+    path: "/github-logged",
+    name: "GithubLogged",
+    component: () => import(/* webpackChunkName: "github-logged" */ "../views/GithubLogged.vue"),
+  },
 ];
 
 const router = createRouter({
