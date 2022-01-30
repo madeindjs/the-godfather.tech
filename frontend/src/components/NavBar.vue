@@ -8,10 +8,21 @@
       <li>
         <router-link to="/image/create">Add image tag</router-link>
       </li>
-      <li><router-link to="/signin">Login</router-link> / <router-link to="/signup">Signup</router-link></li>
+      <li v-if="!state.email">
+        <router-link to="/signin">Login</router-link> / <router-link to="/signup">Signup</router-link>
+      </li>
+      <li v-if="state.email">
+        {{ state.email }}
+      </li>
     </ul>
   </nav>
 </template>
+
+<script setup>
+import { userStore } from "../store/UserStore";
+
+const state = userStore.getState();
+</script>
 
 <style>
 .nav-bar {

@@ -10,7 +10,7 @@ export class AuthController {
     const user = await this.authService.validateUser(body);
 
     if (user === undefined) {
-      throw new BadRequestException('cannot get token');
+      throw new BadRequestException(['cannot get token']);
     }
 
     const token = await this.authService.getToken(user);

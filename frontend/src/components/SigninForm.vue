@@ -18,11 +18,12 @@
 import { ref } from "vue";
 import axios from "axios";
 import { PROJECT_API_URL } from "../constants/project";
-import { useRouter } from "vue-router";
+import { userStore } from "../store/UserStore";
+import { useRoute } from "vue-router";
 
-const router = useRouter();
+const route = useRoute();
 
-const email = ref(`test@test-${new Date().getTime()}.fr`);
+const email = ref(route.query.email ?? "");
 const password = ref("123456");
 const errors = ref([]);
 
@@ -32,14 +33,16 @@ function cleanErrors() {
 
 async function submit() {
   try {
-    await axios.post(`${PROJECT_API_URL}/users`, { email: email.value, password: password.value });
-    router.push({
-      name: "Signin",
-      query: { email: email.value },
-    });
+    const response = await axios.post(`${PROJECT_API_URL}/auth`, { email: email.value, password: password.value });
+    console.log(response);
+    const data = response.data;
+    userStore.login({ email: email.value, id: data.user.id, token: data.access_token });
   } catch (error) {
-    console.error(error);
-    errors.value = error.response.data.message;
+    if (axios.isAxiosError(error)) {
+      errors.value = error.response.data.message;
+    } else {
+      console.error(error);
+    }
   }
 }
 </script>
