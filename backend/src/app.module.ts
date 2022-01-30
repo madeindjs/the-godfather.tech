@@ -13,11 +13,10 @@ import { Board } from './boards/entities/board.entity';
 import { Card } from './boards/entities/card.entity';
 import { CreditsModule } from './credits/credits.module';
 import { Credit } from './credits/entities/credit.entity';
+import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
-import { PasswordResetModule } from './password-reset/password-reset.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -50,7 +49,6 @@ import { GithubModule } from './github/github.module';
     UsersModule,
     HashModule,
     AuthModule,
-    PasswordResetModule,
     BoardsModule,
     CreditsModule,
     GithubModule,

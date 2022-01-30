@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { HashService } from '../hash/hash.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -11,13 +10,12 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly hashService: HashService,
   ) {}
 
-  async create({ email, password }: CreateUserDto) {
+  async create({ email, githubInformation }: CreateUserDto) {
     const user = await this.userRepository.save({
       email: email.toLowerCase(),
-      passwordHashed: this.hashService.hashString(password),
+      githubInformation,
     });
 
     return user;
@@ -47,14 +45,6 @@ export class UsersService {
 
     if (user === undefined) {
       throw Error('Cannot find user');
-    }
-
-    if (password !== undefined) {
-      user.passwordHashed = this.hashService.hashString(password);
-    }
-
-    if (resetPasswordToken !== undefined) {
-      user.resetPasswordToken = resetPasswordToken;
     }
 
     if (metadata !== undefined) {

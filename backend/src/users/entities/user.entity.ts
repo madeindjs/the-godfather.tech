@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { GithubInformation } from '../interface/information.interface';
 
 @Entity()
 export class User {
@@ -8,13 +9,8 @@ export class User {
   @Column({ type: 'text', unique: true, nullable: false, update: false })
   email: string;
 
-  password: string;
-
-  @Column({ type: 'text', nullable: false })
-  passwordHashed: string;
-
-  @Column({ type: 'text', nullable: true })
-  resetPasswordToken: string;
+  @Column({ type: 'jsonb', nullable: true })
+  githubInformations: GithubInformation;
 
   @Column({ type: 'text', default: '{}' })
   metadata: string;

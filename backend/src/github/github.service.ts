@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/common/http';
 import { ConfigService } from '@nestjs/config';
 import { map } from 'rxjs';
+import { GithubInformation } from '../users/interface/information.interface';
 
 @Injectable()
 export class GithubService {
@@ -26,7 +27,7 @@ export class GithubService {
       .toPromise();
   }
 
-  getUserFromToken(token: string) {
+  getUserFromToken(token: string): Promise<GithubInformation> {
     return this.httpService
       .get('https://api.github.com/user', {
         headers: {

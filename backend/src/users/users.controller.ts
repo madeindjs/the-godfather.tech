@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -7,13 +6,11 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post,
   Request,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -21,26 +18,6 @@ import { UsersService } from './users.service';
 @Controller('/api/v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    const existingUser = await this.usersService.findOneByEmail(
-      createUserDto.email,
-    );
-
-    if (existingUser !== undefined) {
-      throw new BadRequestException(['email already taken']);
-    }
-
-    return this.usersService.create(createUserDto);
-  }
-
-  @Get()
-  async findAll() {
-    const users = await this.usersService.findAll();
-
-    return users.map(({ email, id }) => ({ email, id }));
-  }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)

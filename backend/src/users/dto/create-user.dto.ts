@@ -1,10 +1,10 @@
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsObject } from 'class-validator';
+import { GithubInformation } from '../interface/information.interface';
 
 export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @IsString()
-  @MinLength(6)
-  password: string;
+  @IsObject()
+  githubInformation: GithubInformation;
 }

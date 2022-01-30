@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { HashService } from '../hash/hash.service';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
-import { GetAccessTokenDto } from './auth.dto';
 import { JwtPayload } from './auth.interfaces';
 
 @Injectable()
@@ -16,23 +15,23 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser({
-    email,
-    password,
-  }: GetAccessTokenDto): Promise<User | undefined> {
-    const user = await this.usersService.findOneByEmail(email);
+  // async validateUser({
+  //   email,
+  //   password,
+  // }: GetAccessTokenDto): Promise<User | undefined> {
+  //   const user = await this.usersService.findOneByEmail(email);
 
-    if (user === undefined) {
-      return undefined;
-    }
+  //   if (user === undefined) {
+  //     return undefined;
+  //   }
 
-    if (this.hashService.hashString(password) !== user.passwordHashed) {
-      this.logger.debug('password mismatch');
-      return undefined;
-    }
+  //   if (this.hashService.hashString(password) !== user.passwordHashed) {
+  //     this.logger.debug('password mismatch');
+  //     return undefined;
+  //   }
 
-    return user;
-  }
+  //   return user;
+  // }
 
   async getToken(user: User): Promise<string> {
     const payload: JwtPayload = {
