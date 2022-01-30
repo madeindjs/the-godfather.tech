@@ -29,7 +29,7 @@ export class UsersController {
     );
 
     if (existingUser !== undefined) {
-      throw new BadRequestException({ email: 'already exists' });
+      throw new BadRequestException(['email already taken']);
     }
 
     return this.usersService.create(createUserDto);
