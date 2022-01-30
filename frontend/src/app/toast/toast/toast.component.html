@@ -1,8 +1,0 @@
-<section class="Toast-list">
-  <div
-    *ngFor="let toast of toasts$ | async"
-    [class]="'Toast Toast-' + toast.type"
-  >
-    {{ toast.message }}
-  </div>
-</section>
