@@ -9,7 +9,7 @@
         <router-link to="/image/create">Add image tag</router-link>
       </li>
       <li v-if="!state.email">
-        <router-link to="/signin">Login</router-link> / <router-link to="/signup">Signup</router-link>
+        <SigninWithGithub />
       </li>
       <li v-if="state.email">
         {{ state.email }}
@@ -20,8 +20,10 @@
 
 <script setup>
 import { userStore } from "../store/UserStore";
+import SigninWithGithub from "./SigninWithGithub.vue";
 
 const state = userStore.getState();
+console.log(state);
 </script>
 
 <style>

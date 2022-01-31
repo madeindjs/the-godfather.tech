@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
 import { AuthDto } from './dto/auth.dto';
@@ -13,10 +13,22 @@ export class GithubController {
   ) {}
   @Post('auth')
   async auth(@Body() { code }: AuthDto) {
-    const githubToken = await this.githubService.exchangeCode(code);
-    const githubInformation = await this.githubService.getUserFromToken(
-      githubToken,
-    );
+    const githubToken = await this.githubService
+      .exchangeCode(code)
+      .catch(() => undefined);
+
+    if (githubToken === undefined) {
+      throw new UnauthorizedException(['Github Token is not valid']);
+    }
+
+    const githubInformation = await this.githubService
+      .getUserFromToken(githubToken)
+      .catch(() => undefined);
+
+    if (githubInformation === undefined) {
+      throw new UnauthorizedException(['Cannot get user informations']);
+    }
+
     const email = githubInformation.email;
 
     let user = await this.usersService.findOneByEmail(email);
@@ -29,8 +41,6 @@ export class GithubController {
     }
 
     const token = await this.authService.getToken(user);
-
-    // TODO create user without password
 
     return { token, user };
   }
