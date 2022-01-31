@@ -10,7 +10,7 @@ export class User {
   email: string;
 
   @Column({ type: 'jsonb', nullable: true })
-  githubInformations: GithubInformation;
+  githubInformation: GithubInformation;
 
   @Column({ type: 'text', default: '{}' })
   metadata: string;

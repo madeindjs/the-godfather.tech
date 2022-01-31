@@ -39,6 +39,7 @@ export class ToastStore extends Store {
    * @param {Toast} toast
    */
   remove(toast) {
+    console.log(toast);
     this._state.toasts = this._state.toasts.filter(({ id }) => id !== toast.id);
   }
 }

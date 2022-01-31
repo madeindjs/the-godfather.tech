@@ -15,7 +15,7 @@ import { useRouter } from "vue-router";
 import { userStore } from "../store/UserStore";
 
 export default {
-  async setup() {
+  setup() {
     const route = useRoute();
     const router = useRouter();
 
@@ -24,7 +24,12 @@ export default {
         const response = await axios.post(`${PROJECT_API_URL}/github/auth`, { code: route.query.code });
         const data = response.data;
         toastStore.display("Welcome", "success");
-        userStore.login({ email: data.user.email, id: data.user.id, token: data.token });
+        userStore.login({
+          email: data.user.email,
+          id: data.user.id,
+          token: data.token,
+          githubInformation: data.user.githubInformation,
+        });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           toastStore.display("Error during authentification", "error");

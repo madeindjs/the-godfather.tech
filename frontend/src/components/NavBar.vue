@@ -12,7 +12,7 @@
         <SigninWithGithub />
       </li>
       <li v-if="state.email">
-        {{ state.email }}
+        {{ state.email }}<br /><small><a href="#" @click.prevent="logout">logout</a></small>
       </li>
     </ul>
   </nav>
@@ -23,7 +23,10 @@ import { userStore } from "../store/UserStore";
 import SigninWithGithub from "./SigninWithGithub.vue";
 
 const state = userStore.getState();
-console.log(state);
+
+function logout() {
+  userStore.logout();
+}
 </script>
 
 <style>

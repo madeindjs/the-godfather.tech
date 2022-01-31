@@ -13,6 +13,8 @@ export class UsersService {
   ) {}
 
   async create({ email, githubInformation }: CreateUserDto) {
+    console.log(githubInformation);
+
     const user = await this.userRepository.save({
       email: email.toLowerCase(),
       githubInformation,
