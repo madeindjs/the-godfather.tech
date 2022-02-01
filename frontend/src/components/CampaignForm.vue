@@ -1,15 +1,21 @@
 <template>
-  <div class="campaign-form">
-    <form class="campaign-form__form" @submit.prevent="submit">
-      <label for="tags">Tags</label>
-      <input type="text" name="tags" v-model="tags" />
+  <form @submit.prevent="submit">
+    <div class="grid">
+      <label for="tags"
+        >Tags
 
-      <label for="amountPerDay">Price per view</label>
-      <input type="number" name="amountPerDay" v-model="amountPerDay" required min="0" max="1" step="0.01" />
+        <input type="text" name="tags" v-model="tags" />
+      </label>
+
+      <label for="amountPerDay"
+        >Price per view
+
+        <input type="number" name="amountPerDay" v-model="amountPerDay" required min="0" max="1" step="0.01" />
+      </label>
 
       <input type="submit" />
-    </form>
-  </div>
+    </div>
+  </form>
 </template>
 
 <script setup>
@@ -34,25 +40,3 @@ async function submit() {
   }
 }
 </script>
-
-<style scoped>
-.campaign-form__form {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-
-  row-gap: 1rem;
-}
-
-.campaign-form__form__repository {
-  grid-column: 1/-1;
-}
-
-.form-control label {
-  display: block;
-}
-.form-control input,
-.form-control select {
-  display: block;
-  width: 100%;
-}
-</style>

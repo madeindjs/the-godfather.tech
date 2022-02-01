@@ -1,22 +1,34 @@
 <template>
-  <div class="image-builder">
-    <form class="image-builder__form">
-      <label for="repository">Repository</label>
-      <GithubRepositorySelector @input="updateRepository" />
+  <div>
+    <form>
+      <div class="grid">
+        <label for="repository"
+          >Repository
 
-      <label for="numberOfSponsors">Number of sponsors</label>
-      <input type="number" name="numberOfSponsors" v-model="numberOfSponsors" required min="1" max="10" />
+          <GithubRepositorySelector @input="updateRepository" />
+        </label>
 
-      <label for="numberOfSponsors">Theme</label>
-      <select v-model="theme">
-        <option :value="theme" v-for="theme of THEMES" :key="theme">{{ theme }}</option>
-      </select>
+        <label for="numberOfSponsors"
+          >Number of sponsors
 
-      <label for="pricePerView">Price per view</label>
-      <input type="number" name="pricePerView" v-model="pricePerView" required min="0" max="1" step="0.01" />
+          <input type="number" name="numberOfSponsors" v-model="numberOfSponsors" required min="1" max="10" />
+        </label>
+
+        <label for="numberOfSponsors"
+          >Theme
+
+          <select v-model="theme">
+            <option :value="theme" v-for="theme of THEMES" :key="theme">{{ theme }}</option>
+          </select>
+        </label>
+
+        <label for="pricePerView"
+          >Price per view
+
+          <input type="number" name="pricePerView" v-model="pricePerView" required min="0" max="1" step="0.01" />
+        </label>
+      </div>
     </form>
-
-    <hr />
 
     <ImageTag
       :repository="repository"

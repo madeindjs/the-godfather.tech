@@ -1,9 +1,11 @@
 <template>
-  <div class="image-tag">
+  <article class="image-tag">
+    <header>Image preview</header>
     <!-- <img :src="imageUrl" alt="" /> -->
     <p>Include this badge in your repository</p>
     <pre class="image-tag__md">{{ markdownImage }}</pre>
-  </div>
+    <button class="outline">Copy tag</button>
+  </article>
 </template>
 <script setup>
 import { computed, defineProps } from "vue";
