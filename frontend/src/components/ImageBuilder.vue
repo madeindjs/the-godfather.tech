@@ -17,8 +17,8 @@
         <label for="numberOfSponsors"
           >Theme
 
-          <select v-model="theme">
-            <option :value="theme" v-for="theme of THEMES" :key="theme">{{ theme }}</option>
+          <select v-model="style">
+            <option :value="style" v-for="style of STYLES" :key="style">{{ style }}</option>
           </select>
         </label>
 
@@ -33,7 +33,7 @@
     <ImageTag
       :repository="repository"
       :numberOfSponsors="numberOfSponsors"
-      :theme="theme"
+      :style="style"
       :pricePerView="pricePerView"
     />
   </div>
@@ -42,13 +42,13 @@
 <script setup>
 // @ts-check
 import { ref } from "vue";
-import { THEMES } from "../constants/theme";
+import { STYLES } from "../constants/styles";
 import GithubRepositorySelector from "./GithubRepositorySelector.vue";
 import ImageTag from "./ImageTag.vue";
 
 const repository = ref("");
 const numberOfSponsors = ref(3);
-const theme = ref("classic");
+const style = ref("flat");
 const pricePerView = ref(0.01);
 </script>
 

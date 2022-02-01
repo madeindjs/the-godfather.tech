@@ -19,6 +19,7 @@ import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { BadgeModule } from './badge/badge.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { UsersModule } from './users/users.module';
     CreditsModule,
     GithubModule,
     CampaignsModule,
+    BadgeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
