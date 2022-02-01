@@ -12,7 +12,7 @@
         <option :value="theme" v-for="theme of THEMES" :key="theme">{{ theme }}</option>
       </select>
 
-      <label for="numberOfSponsors">Price per view</label>
+      <label for="pricePerView">Price per view</label>
       <input type="number" name="pricePerView" v-model="pricePerView" required min="0" max="1" step="0.01" />
     </form>
 

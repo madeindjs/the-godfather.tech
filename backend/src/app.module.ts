@@ -11,6 +11,8 @@ import { BoardsModule } from './boards/boards.module';
 import { BoardColumn } from './boards/entities/board-column.entity';
 import { Board } from './boards/entities/board.entity';
 import { Card } from './boards/entities/card.entity';
+import { CampaignsModule } from './campaigns/campaigns.module';
+import { Campaign } from './campaigns/entities/campaign.entity';
 import { CreditsModule } from './credits/credits.module';
 import { Credit } from './credits/entities/credit.entity';
 import { GithubModule } from './github/github.module';
@@ -33,7 +35,7 @@ import { UsersModule } from './users/users.module';
         database: configService.get('DATABASE_DB'),
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
-        entities: [User, Board, Credit, Board, BoardColumn, Card],
+        entities: [User, Board, Credit, Board, BoardColumn, Card, Campaign],
         synchronize: true,
         logging: true,
       }),
@@ -52,6 +54,7 @@ import { UsersModule } from './users/users.module';
     BoardsModule,
     CreditsModule,
     GithubModule,
+    CampaignsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
