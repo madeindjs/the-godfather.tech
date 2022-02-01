@@ -15,7 +15,6 @@ import { PROJECT_API_URL } from "../constants/project";
 // @ts-check
 const props = defineProps({
   repository: String,
-  numberOfSponsors: Number,
   style: String,
   pricePerView: Number,
 });
@@ -23,7 +22,6 @@ const props = defineProps({
 const imageUrl = computed(() => {
   const params = new URLSearchParams();
   params.set("repository", props.repository);
-  params.set("numberOfSponsors", String(props.numberOfSponsors));
   params.set("style", props.style);
   params.set("pricePerView", String(props.pricePerView));
 

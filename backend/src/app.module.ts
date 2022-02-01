@@ -7,10 +7,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { BoardsModule } from './boards/boards.module';
-import { BoardColumn } from './boards/entities/board-column.entity';
-import { Board } from './boards/entities/board.entity';
-import { Card } from './boards/entities/card.entity';
+import { BadgeModule } from './badge/badge.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
 import { Campaign } from './campaigns/entities/campaign.entity';
 import { CreditsModule } from './credits/credits.module';
@@ -19,7 +16,8 @@ import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { BadgeModule } from './badge/badge.module';
+import { View } from './views/entities/view.entity';
+import { ViewsModule } from './views/views.module';
 
 @Module({
   imports: [
@@ -36,7 +34,7 @@ import { BadgeModule } from './badge/badge.module';
         database: configService.get('DATABASE_DB'),
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
-        entities: [User, Board, Credit, Board, BoardColumn, Card, Campaign],
+        entities: [User, Credit, Campaign, View],
         synchronize: true,
         logging: true,
       }),
@@ -52,11 +50,11 @@ import { BadgeModule } from './badge/badge.module';
     UsersModule,
     HashModule,
     AuthModule,
-    BoardsModule,
     CreditsModule,
     GithubModule,
     CampaignsModule,
     BadgeModule,
+    ViewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

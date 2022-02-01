@@ -8,34 +8,21 @@
           <GithubRepositorySelector @input="updateRepository" />
         </label>
 
-        <label for="numberOfSponsors"
-          >Number of sponsors
-
-          <input type="number" name="numberOfSponsors" v-model="numberOfSponsors" required min="1" max="10" />
+        <label for="pricePerView"
+          >Price per view
+          <input type="number" name="pricePerView" v-model="pricePerView" required min="0" max="1" step="0.01" />
         </label>
 
         <label for="numberOfSponsors"
           >Theme
-
           <select v-model="style">
             <option :value="style" v-for="style of STYLES" :key="style">{{ style }}</option>
           </select>
         </label>
-
-        <label for="pricePerView"
-          >Price per view
-
-          <input type="number" name="pricePerView" v-model="pricePerView" required min="0" max="1" step="0.01" />
-        </label>
       </div>
     </form>
 
-    <ImageTag
-      :repository="repository"
-      :numberOfSponsors="numberOfSponsors"
-      :style="style"
-      :pricePerView="pricePerView"
-    />
+    <ImageTag :repository="repository" :style="style" :pricePerView="pricePerView" />
   </div>
 </template>
 
@@ -47,7 +34,6 @@ import GithubRepositorySelector from "./GithubRepositorySelector.vue";
 import ImageTag from "./ImageTag.vue";
 
 const repository = ref("");
-const numberOfSponsors = ref(3);
 const style = ref("flat");
 const pricePerView = ref(0.01);
 </script>
@@ -56,7 +42,6 @@ const pricePerView = ref(0.01);
 .image-builder__form {
   display: grid;
   grid-template-columns: 200px 1fr;
-
   row-gap: 1rem;
 }
 

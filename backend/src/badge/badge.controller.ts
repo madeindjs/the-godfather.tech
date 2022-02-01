@@ -1,5 +1,5 @@
-import { Controller, Get, Query, Response } from '@nestjs/common';
-import { Response as Res } from 'express';
+import { Controller, Get, Query, Request, Response } from '@nestjs/common';
+import { Request as Req, Response as Res } from 'express';
 import { BadgeService } from './badge.service';
 
 @Controller('api/v1/badge')
@@ -9,13 +9,23 @@ export class BadgeController {
   @Get('')
   getSvg(
     @Response() res: Res,
-    @Query('repository') repository: string,
+    @Request() req: Req,
+
     @Query('style') style: string,
   ) {
+    req.ip;
+
+    console.log(
+      req.baseUrl,
+      req.url,
+      req.originalUrl,
+      req.path,
+      req.headers.referer,
+    );
     // TODO get props
     const badge = this.badgeService.makeBadge({
       label: 'sponsor',
-      message: 'passed',
+      message: 'The name of the sponsors',
       color: 'green',
       style,
     });

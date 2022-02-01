@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { map } from 'rxjs';
 import { GithubInformation } from '../users/interface/information.interface';
 
+const repositoryCache = new Map<string, any>();
+
 @Injectable()
 export class GithubService {
   constructor(
@@ -37,5 +39,31 @@ export class GithubService {
       })
       .pipe(map((res) => res.data))
       .toPromise();
+  }
+
+  async getRepositoryInformation(repositoryUrl: string) {
+    const cache = repositoryCache.get(repositoryUrl);
+
+    if (cache) {
+      return cache;
+    }
+
+    const repository = repositoryUrl.replace('https://github.com/', '');
+
+    const data = await this.httpService
+      .get(`https://api.github.com/repos/${repository}`, {
+        headers: {
+          Accept: 'application/vnd.github.v3+json',
+        },
+      })
+      .pipe(map((res) => res.data))
+      .toPromise();
+
+    repositoryCache.set(repositoryUrl, data);
+
+    setTimeout(() => repositoryCache.delete(repositoryUrl), 24 * 60 * 1000);
+
+    return data;
+    //
   }
 }
