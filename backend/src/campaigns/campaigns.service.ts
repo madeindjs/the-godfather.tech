@@ -30,6 +30,6 @@ export class CampaignsService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} campaign`;
+    return this.campaignRepository.delete({ id });
   }
 }

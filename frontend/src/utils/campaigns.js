@@ -15,8 +15,7 @@ export function getCampaigns() {
 
   return axios
     .get(`${PROJECT_API_URL}/campaigns`, { headers: { Authorization: `bearer ${token}` } })
-    .then((response) => response.data)
-    .catch(() => []);
+    .then((response) => response.data);
 }
 
 /**
@@ -32,8 +31,7 @@ export function createCampaign(campaign) {
 
   return axios
     .post(`${PROJECT_API_URL}/campaigns`, campaign, { headers: { Authorization: `bearer ${token}` } })
-    .then((response) => response.data)
-    .catch(() => []);
+    .then((response) => response.data);
 }
 
 export function removeCampaign(id) {

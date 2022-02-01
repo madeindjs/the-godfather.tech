@@ -13,7 +13,7 @@
         <input type="number" name="amountPerDay" v-model="amountPerDay" required min="0" max="1" step="0.01" />
       </label>
 
-      <input type="submit" />
+      <input type="submit" :aria-busy="String(loading)" />
     </div>
   </form>
 </template>
@@ -28,8 +28,11 @@ const emit = defineEmits(["created"]);
 
 const tags = ref("tags");
 const amountPerDay = ref(0.01);
+const loading = ref(false);
 
 async function submit() {
+  loading.value = true;
+
   try {
     await createCampaign({ tags: tags.value.split(" "), amountPerDay: amountPerDay.value });
     toastStore.display("Campaign created", "success");
@@ -37,6 +40,8 @@ async function submit() {
   } catch (e) {
     toastStore.display("Cannot create campaign", "error");
     console.error(e);
+  } finally {
+    loading.value = false;
   }
 }
 </script>

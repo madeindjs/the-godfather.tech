@@ -13,7 +13,7 @@ const toast = defineProps({
 });
 
 function remove() {
-  toastStore.remove(toast);
+  toastStore.remove(toast.id);
 }
 
 setTimeout(remove, 7000);
@@ -24,11 +24,15 @@ setTimeout(remove, 7000);
   padding: 0.5rem;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 1rem;
 }
 .toast-error {
   background-color: red;
 }
 .toast-success {
   background-color: green;
+}
+.toast-warn {
+  background-color: orange;
 }
 </style>

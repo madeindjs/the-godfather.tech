@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table :aria-busy="String(loading)">
     <thead>
       <tr>
         <th>id</th>
@@ -25,11 +25,18 @@ import { getCampaigns, removeCampaign } from "../utils/campaigns";
 import { toastStore } from "../store/ToastStore";
 
 const campaigns = ref([]);
+const loading = ref(false);
 
-const reloadCampaign = () =>
-  getCampaigns().then((r) => {
-    campaigns.value = r;
-  });
+const reloadCampaign = async () => {
+  loading.value = true;
+  try {
+    campaigns.value = await getCampaigns();
+  } catch {
+    toastStore.display("Cannot load campaigns", "error");
+  } finally {
+    loading.value = false;
+  }
+};
 
 async function remove(id) {
   await removeCampaign(id);

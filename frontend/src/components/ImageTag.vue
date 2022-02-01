@@ -1,9 +1,11 @@
 <template>
-  <article class="image-tag">
+  <article>
     <header>Image preview</header>
     <!-- <img :src="imageUrl" alt="" /> -->
     <p>Include this badge in your repository</p>
-    <pre class="image-tag__md">{{ markdownImage }}</pre>
+    <figure>
+      <pre>{{ markdownImage }}</pre>
+    </figure>
     <button class="outline">Copy tag</button>
   </article>
 </template>
@@ -31,9 +33,3 @@ const markdownImage = computed(() => {
   return `![List of sponsors](${imageUrl.value})`;
 });
 </script>
-
-<style scoped>
-.image-tag__md {
-  overflow-x: scroll;
-}
-</style>

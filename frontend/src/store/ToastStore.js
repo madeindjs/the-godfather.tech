@@ -2,7 +2,7 @@
 import { Store } from "./abstract";
 
 /**
- * @typedef {'success' | 'error'} ToastLevel
+ * @typedef {'success' | 'error' | 'warn'} ToastLevel
  */
 
 /**
@@ -36,11 +36,10 @@ export class ToastStore extends Store {
 
   /**
    *
-   * @param {Toast} toast
+   * @param {number} id
    */
-  remove(toast) {
-    console.log(toast);
-    this._state.toasts = this._state.toasts.filter(({ id }) => id !== toast.id);
+  remove(id) {
+    this._state.toasts = this._state.toasts.filter((toast) => id !== toast.id);
   }
 }
 
