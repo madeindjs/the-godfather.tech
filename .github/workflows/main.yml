@@ -20,43 +20,20 @@ jobs:
         working-directory: backend
         run: npm test
 
+  # frontend-test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js 16.x
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 16.x
 
-      # - name: E2E Test
-      #   run: |
-      #     npm test:e2e
+  #     - name: Setup
+  #       run: npm ci
+  #       working-directory: frontend
 
-  kanban-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-
-      - name: Setup
-        run: npm ci
-        working-directory: kanban
-
-      - name: Test
-        working-directory: kanban
-        run: |
-          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-
-  frontend-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-
-      - name: Setup
-        run: npm ci
-        working-directory: frontend
-
-      - name: Test
-        working-directory: frontend
-        run: |
-          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  #     - name: Test
+  #       working-directory: frontend
+  #       run: |
+  #         npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
