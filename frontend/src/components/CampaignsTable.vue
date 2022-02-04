@@ -11,7 +11,10 @@
     <tbody>
       <tr v-for="(campaign, index) of campaigns" :key="index">
         <td>{{ campaign.id }}</td>
-        <td>{{ campaign.tags }}</td>
+
+        <td>
+          <span v-for="tag of campaign.tags" :key="tag" class="tag">{{ tag }}</span>
+        </td>
         <td>{{ campaign.amountPerDay }}</td>
         <td><a href="#" @click.prevent="() => remove(campaign.id)">remove</a></td>
       </tr>
@@ -46,3 +49,13 @@ async function remove(id) {
 
 reloadCampaign();
 </script>
+
+<style scoped>
+.tag {
+  padding: 0.4rem;
+  border-radius: 5px;
+  background-color: orangered;
+  /* margin-left: 0.4rem; */
+  margin-right: 0.4rem;
+}
+</style>

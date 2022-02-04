@@ -36,6 +36,14 @@ export class UserStore extends Store {
   }
 
   /**
+   * @returns {UserState}
+   */
+  getState() {
+    // @ts-ignore
+    return super.getState();
+  }
+
+  /**
    * @param {UserState} user
    */
   login(user) {

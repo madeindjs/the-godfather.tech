@@ -36,6 +36,10 @@ import ImageTag from "./ImageTag.vue";
 const repository = ref("");
 const style = ref("flat");
 const pricePerView = ref(0.01);
+
+function updateRepository(event) {
+  repository.value = event;
+}
 </script>
 
 <style scoped>

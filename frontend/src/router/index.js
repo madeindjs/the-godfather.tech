@@ -1,5 +1,16 @@
+// @ts-check
 import { createRouter, createWebHistory } from "vue-router";
+import { toastStore } from "../store/ToastStore";
+import { userStore } from "../store/UserStore";
 import Home from "../views/Home.vue";
+
+function loginGuard(_from, _to, next) {
+  if (userStore.getState().email) {
+    return next();
+  }
+  toastStore.display("You must be logged to access to this page.", "warn");
+  return next({ name: "Home" });
+}
 
 const routes = [
   {
@@ -16,6 +27,7 @@ const routes = [
     path: "/campaigns",
     name: "Campaigns",
     component: () => import(/* webpackChunkName: "campaigns" */ "../views/Campaigns.vue"),
+    beforeEnter: loginGuard,
   },
   {
     path: "/about",

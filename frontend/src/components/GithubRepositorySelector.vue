@@ -1,9 +1,12 @@
 <template>
-  <select @change="emitInput" v-model="repository">
-    <option v-for="repo of repositories" :value="repo.html_url" :key="repo.url">
-      {{ repo.name }}
-    </option>
-  </select>
+  <div>
+    <select v-if="repositories.length > 0" @change="emitInput" v-model="repository">
+      <option v-for="repo of repositories" :value="repo.html_url" :key="repo.url">
+        {{ repo.name }}
+      </option>
+    </select>
+    <input v-else type="url" @keyup="emitInput" v-model="repository" required />
+  </div>
 </template>
 <script setup>
 // @ts-check
@@ -15,7 +18,6 @@ const props = defineProps({ value: String });
 const emit = defineEmits(["input"]);
 
 function emitInput() {
-  // console.log(e.target.value);
   emit("input", repository.value);
 }
 
