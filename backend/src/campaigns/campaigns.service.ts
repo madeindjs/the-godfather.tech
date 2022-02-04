@@ -17,6 +17,11 @@ export class CampaignsService {
     return this.campaignRepository.save({ ...createCampaignDto, user });
   }
 
+  findForTags(tags: string[]) {
+    // TODO match if  campaign contains almost all theses tags
+    return this.campaignRepository.find({ tags });
+  }
+
   findAllForUser(user: User) {
     return this.campaignRepository.find({ user });
   }

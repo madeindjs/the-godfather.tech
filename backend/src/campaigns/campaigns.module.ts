@@ -9,5 +9,6 @@ import { Campaign } from './entities/campaign.entity';
   imports: [TypeOrmModule.forFeature([User, Campaign])],
   controllers: [CampaignsController],
   providers: [CampaignsService],
+  exports: [CampaignsService],
 })
 export class CampaignsModule {}

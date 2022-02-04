@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CampaignsService } from '../campaigns/campaigns.service';
+import { GithubService } from '../github/github.service';
 import { BadgeService } from './badge.service';
 
 describe('BadgeService', () => {
@@ -6,7 +8,11 @@ describe('BadgeService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [BadgeService],
+      providers: [
+        BadgeService,
+        { provide: CampaignsService, useValue: {} },
+        { provide: GithubService, useValue: {} },
+      ],
     }).compile();
 
     service = module.get<BadgeService>(BadgeService);

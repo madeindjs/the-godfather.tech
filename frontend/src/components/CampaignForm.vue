@@ -1,6 +1,11 @@
 <template>
   <form @submit.prevent="submit">
     <div class="grid">
+      <label for="content"
+        >Tags
+
+        <input type="text" name="content" v-model="content" />
+      </label>
       <label for="tags"
         >Tags
 
@@ -26,15 +31,17 @@ import { createCampaign } from "../utils/campaigns";
 
 const emit = defineEmits(["created"]);
 
-const tags = ref("tags");
+const tags = ref("");
+const content = ref("ACME corp");
 const amountPerDay = ref(0.01);
 const loading = ref(false);
 
 async function submit() {
   loading.value = true;
+  const tagsArray = tags.value === "" ? [] : tags.value.split(" ");
 
   try {
-    await createCampaign({ tags: tags.value.split(" "), amountPerDay: amountPerDay.value });
+    await createCampaign({ tags: tagsArray, amountPerDay: amountPerDay.value, content: content.value });
     toastStore.display("Campaign created", "success");
     emit("created");
   } catch (e) {

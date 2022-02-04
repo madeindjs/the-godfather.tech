@@ -19,7 +19,7 @@ export function getCampaigns() {
 }
 
 /**
- * @param {{tags: string[], amountPerDay: number}} campaign
+ * @param {{tags: string[], amountPerDay: number, content: string}} campaign
  * @returns {Promise<Array>}
  */
 export function createCampaign(campaign) {

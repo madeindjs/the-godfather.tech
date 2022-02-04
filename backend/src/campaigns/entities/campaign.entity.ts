@@ -6,6 +6,9 @@ export class Campaign {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ type: 'text', nullable: false })
+  content: string;
+
   @Column({ type: 'numeric', nullable: false })
   amountPerDay: number;
 

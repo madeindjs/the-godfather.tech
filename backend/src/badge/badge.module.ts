@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
+import { CampaignsModule } from '../campaigns/campaigns.module';
+import { GithubModule } from '../github/github.module';
 import { BadgeController } from './badge.controller';
 import { BadgeService } from './badge.service';
 
 @Module({
+  imports: [CampaignsModule, GithubModule],
   controllers: [BadgeController],
-  providers: [BadgeService]
+  providers: [BadgeService],
 })
 export class BadgeModule {}

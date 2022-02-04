@@ -10,8 +10,10 @@ export class BadgeController {
   getSvg(
     @Response() res: Res,
     @Request() req: Req,
-
-    @Query('style') style: string,
+    @Query('repository')
+    repository: string,
+    @Query('style')
+    style: 'plastic' | 'flat' | 'flat-square' | 'for-the-badge' | 'social',
   ) {
     req.ip;
 
@@ -23,10 +25,7 @@ export class BadgeController {
       req.headers.referer,
     );
     // TODO get props
-    const badge = this.badgeService.makeBadge({
-      label: 'sponsor',
-      message: 'The name of the sponsors',
-      color: 'green',
+    const badge = this.badgeService.makeBadge(repository, {
       style,
     });
 

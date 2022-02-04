@@ -2,7 +2,7 @@
   <table :aria-busy="String(loading)">
     <thead>
       <tr>
-        <th>id</th>
+        <th>Content</th>
         <th>tags</th>
         <th>amountPerDay</th>
         <th>actions</th>
@@ -10,13 +10,14 @@
     </thead>
     <tbody>
       <tr v-for="(campaign, index) of campaigns" :key="index">
-        <td>{{ campaign.id }}</td>
-
+        <td>{{ campaign.content }}</td>
         <td>
           <span v-for="tag of campaign.tags" :key="tag" class="tag">{{ tag }}</span>
         </td>
         <td>{{ campaign.amountPerDay }}</td>
-        <td><a href="#" @click.prevent="() => remove(campaign.id)">remove</a></td>
+        <td>
+          <a href="#" @click.prevent="() => remove(campaign.id)" role="button" class="secondary outline">remove</a>
+        </td>
       </tr>
     </tbody>
   </table>
