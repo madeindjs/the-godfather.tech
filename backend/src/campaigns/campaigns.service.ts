@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
-import { UpdateCampaignDto } from './dto/update-campaign.dto';
 import { Campaign } from './entities/campaign.entity';
 
 @Injectable()
@@ -24,6 +23,7 @@ export class CampaignsService {
     return this.campaignRepository
       .createQueryBuilder('c')
       .where('c.tags && ARRAY[:...tags]', { tags })
+      .andWhere('c.deactivateAt IS NULL')
       .getMany();
   }
 
@@ -31,12 +31,34 @@ export class CampaignsService {
     return this.campaignRepository.find({ user });
   }
 
+  findAllSummaryForUser(user: User) {
+    return this.campaignRepository
+      .createQueryBuilder('c')
+      .leftJoin('c.views', 'v')
+      .select('c.id', 'id')
+      .addSelect('c.content', 'content')
+      .addSelect('c.tags', 'tags')
+      .addSelect('COUNT(v.id)::INTEGER', 'viewsCount')
+      .addSelect('c."amountPerDay"::FLOAT', 'amountPerDay')
+      .addSelect('(c."amountPerDay" * COUNT(v.id))::FLOAT', 'totalAmount')
+      .addSelect('c."deactivateAt"', 'deactivateAt')
+      .where({ user })
+      .groupBy('c.id, c.content, c.tags')
+      .getRawMany();
+  }
+
   findOne(id: string) {
     return this.campaignRepository.findOne({ id });
   }
 
-  update(id: string, updateCampaignDto: UpdateCampaignDto) {
-    return `This action updates a #${id} campaign`;
+  toggleActivate(campaign: Campaign) {
+    if (campaign.deactivateAt) {
+      campaign.deactivateAt = null;
+    } else {
+      campaign.deactivateAt = new Date();
+    }
+
+    return this.campaignRepository.save(campaign);
   }
 
   remove(id: string) {

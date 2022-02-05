@@ -43,3 +43,17 @@ export function removeCampaign(id) {
 
   return axios.delete(`${PROJECT_API_URL}/campaigns/${id}`, { headers: { Authorization: `bearer ${token}` } });
 }
+
+export function deactivateCampaign(id) {
+  const token = getToken();
+
+  if (token === undefined) {
+    return Promise.resolve([]);
+  }
+
+  return axios.post(
+    `${PROJECT_API_URL}/campaigns/${id}/activate`,
+    {},
+    { headers: { Authorization: `bearer ${token}` } }
+  );
+}

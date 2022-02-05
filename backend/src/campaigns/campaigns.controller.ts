@@ -5,7 +5,6 @@ import {
   Get,
   NotFoundException,
   Param,
-  Patch,
   Post,
   Request,
   UnauthorizedException,
@@ -16,7 +15,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../users/entities/user.entity';
 import { CampaignsService } from './campaigns.service';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
-import { UpdateCampaignDto } from './dto/update-campaign.dto';
 
 @Controller('api/v1/campaigns')
 export class CampaignsController {
@@ -34,7 +32,7 @@ export class CampaignsController {
   @Get()
   @UseGuards(JwtAuthGuard)
   findAll(@Request() req: Req & { user: User }) {
-    return this.campaignsService.findAllForUser(req.user);
+    return this.campaignsService.findAllSummaryForUser(req.user);
   }
 
   @Get(':id')
@@ -43,15 +41,25 @@ export class CampaignsController {
     return this.getCampaign(id, req.user);
   }
 
-  @Patch(':id')
+  // @Patch(':id')
+  // @UseGuards(JwtAuthGuard)
+  // async update(
+  //   @Request() req: Req & { user: User },
+  //   @Param('id') id: string,
+  //   @Body() updateCampaignDto: UpdateCampaignDto,
+  // ) {
+  //   const campaign = await this.getCampaign(id, req.user);
+  //   return this.campaignsService.update(campaign.id, updateCampaignDto);
+  // }
+
+  @Post(':id/activate')
   @UseGuards(JwtAuthGuard)
-  async update(
+  async toggleActivate(
     @Request() req: Req & { user: User },
     @Param('id') id: string,
-    @Body() updateCampaignDto: UpdateCampaignDto,
   ) {
     const campaign = await this.getCampaign(id, req.user);
-    return this.campaignsService.update(campaign.id, updateCampaignDto);
+    return this.campaignsService.toggleActivate(campaign);
   }
 
   @Delete(':id')
