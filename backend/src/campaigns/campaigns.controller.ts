@@ -37,8 +37,11 @@ export class CampaignsController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  findOne(@Request() req: Req & { user: User }, @Param('id') id: string) {
-    return this.getCampaign(id, req.user);
+  async findOne(@Request() req: Req & { user: User }, @Param('id') id: string) {
+    const campaign = await this.getCampaign(id, req.user);
+    const summary = await this.campaignsService.getSummary(campaign);
+
+    return { ...campaign, ...summary };
   }
 
   // @Patch(':id')

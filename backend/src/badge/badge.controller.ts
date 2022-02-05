@@ -27,11 +27,11 @@ export class BadgeController {
       campaign !== undefined &&
       true // req.headers.referer === 'https://github.com'
     ) {
-      console.log(campaign);
-      await this.viewsService.create({ ip: req.ip, campaign });
+      await this.viewsService.create(repository, campaign, req);
     }
 
     res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'max-age=604800');
     res.send(badge);
   }
 }

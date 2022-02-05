@@ -16,14 +16,13 @@ import { PROJECT_API_URL } from "../constants/project";
 const props = defineProps({
   repository: String,
   style: String,
-  pricePerView: Number,
 });
 
 const imageUrl = computed(() => {
   const params = new URLSearchParams();
   params.set("repository", props.repository);
   params.set("style", props.style);
-  params.set("pricePerView", String(props.pricePerView));
+  params.set("version", "1");
 
   return `${PROJECT_API_URL}/badge?${params.toString()}`;
 });

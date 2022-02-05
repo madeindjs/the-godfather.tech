@@ -22,7 +22,7 @@ export class UsersController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async me(@Request() req: Request & { user: User }) {
-    return req.user.toPublicObject();
+    return req.user;
   }
 
   @Get(':id')
@@ -41,7 +41,7 @@ export class UsersController {
       throw new UnauthorizedException();
     }
 
-    return user.toPublicObject();
+    return user;
   }
 
   @Patch(':id')

@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { GithubInformation } from '../../github/github.interface';
 
 @Entity()
@@ -12,13 +17,6 @@ export class User {
   @Column({ type: 'jsonb', nullable: true })
   githubInformation: GithubInformation;
 
-  @Column({ type: 'text', default: '{}' })
-  metadata: string;
-
-  toPublicObject() {
-    return {
-      email: this.email,
-      metadata: JSON.parse(this.metadata),
-    };
-  }
+  @CreateDateColumn()
+  createdAt: Date;
 }

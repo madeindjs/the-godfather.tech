@@ -49,11 +49,6 @@ export class UsersService {
       throw Error('Cannot find user');
     }
 
-    if (metadata !== undefined) {
-      const oldMetadata = JSON.parse(user.metadata);
-      user.metadata = JSON.stringify({ ...oldMetadata, ...metadata });
-    }
-
     return this.userRepository.save(user);
   }
 

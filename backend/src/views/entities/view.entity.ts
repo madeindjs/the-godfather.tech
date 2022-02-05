@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import {
   Column,
   CreateDateColumn,
@@ -13,7 +14,16 @@ export class View {
   id: string;
 
   @Column({ type: 'text', nullable: false })
-  ip: string;
+  repository: string;
+
+  @Column({ type: 'jsonb', nullable: false })
+  request: Pick<
+    Request,
+    'headers' | 'ip' | 'cookies' | 'baseUrl' | 'params' | 'originalUrl'
+  >;
+
+  @Column({ type: 'numeric', nullable: false })
+  price: number;
 
   @ManyToOne(() => Campaign, (campaign) => campaign.id, { nullable: false })
   campaign: Campaign;

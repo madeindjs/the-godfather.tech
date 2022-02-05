@@ -45,7 +45,7 @@ export class BadgeService {
     let info: GithubInformationFull;
     try {
       info = await this.githubService.getRepositoryInformation(repository);
-      this.logger.debug('Found repository information');
+      this.logger.debug(info);
     } catch (e) {
       this.logger.debug(
         `Cannot find information of repository ${repository} - ${JSON.stringify(

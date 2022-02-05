@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -33,4 +34,7 @@ export class Campaign {
 
   @Column({ type: 'uuid' })
   userId: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

@@ -19,6 +19,22 @@ export function getCampaigns() {
 }
 
 /**
+ * @param {number | string} id
+ * @returns {Promise<Array>}
+ */
+export function getCampaign(id) {
+  const token = getToken();
+
+  if (token === undefined) {
+    return Promise.resolve(undefined);
+  }
+
+  return axios
+    .get(`${PROJECT_API_URL}/campaigns/${id}`, { headers: { Authorization: `bearer ${token}` } })
+    .then((response) => response.data);
+}
+
+/**
  * @param {{tags: string[], amountPerDay: number, content: string}} campaign
  * @returns {Promise<Array>}
  */

@@ -30,6 +30,13 @@ const routes = [
     beforeEnter: loginGuard,
   },
   {
+    path: "/campaign/:id",
+    name: "Campaign",
+    props: true,
+    component: () => import(/* webpackChunkName: "campaign" */ "../views/Campaign.vue"),
+    beforeEnter: loginGuard,
+  },
+  {
     path: "/about",
     name: "About",
     component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),

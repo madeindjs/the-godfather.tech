@@ -10,8 +10,6 @@ import { AuthModule } from './auth/auth.module';
 import { BadgeModule } from './badge/badge.module';
 import { CampaignsModule } from './campaigns/campaigns.module';
 import { Campaign } from './campaigns/entities/campaign.entity';
-import { CreditsModule } from './credits/credits.module';
-import { Credit } from './credits/entities/credit.entity';
 import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
 import { User } from './users/entities/user.entity';
@@ -34,7 +32,7 @@ import { ViewsModule } from './views/views.module';
         database: configService.get('DATABASE_DB'),
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
-        entities: [User, Credit, Campaign, View],
+        entities: [User, Campaign, View],
         synchronize: true,
         logging: true,
       }),
@@ -50,7 +48,6 @@ import { ViewsModule } from './views/views.module';
     UsersModule,
     HashModule,
     AuthModule,
-    CreditsModule,
     GithubModule,
     CampaignsModule,
     BadgeModule,
