@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CampaignsService } from '../campaigns/campaigns.service';
 import { GithubService } from '../github/github.service';
+import { ViewsService } from '../views/views.service';
 import { BadgeController } from './badge.controller';
 import { BadgeService } from './badge.service';
 
@@ -14,6 +15,7 @@ describe('BadgeController', () => {
         BadgeService,
         { provide: CampaignsService, useValue: {} },
         { provide: GithubService, useValue: {} },
+        { provide: ViewsService, useValue: {} },
       ],
     }).compile();
 

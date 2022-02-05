@@ -18,6 +18,9 @@ export class CampaignsService {
   }
 
   findForTags(tags: string[]) {
+    if (tags.length === 0) {
+      return this.campaignRepository.find({});
+    }
     return this.campaignRepository
       .createQueryBuilder('c')
       .where('c.tags && ARRAY[:...tags]', { tags })

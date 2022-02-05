@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { View } from 'typeorm/schema-builder/view/View';
+import { View } from './entities/view.entity';
 
 @Injectable()
 export class ViewsService {
@@ -10,5 +10,7 @@ export class ViewsService {
     private readonly viewRepository: Repository<View>,
   ) {}
 
-  create(repository: string) {}
+  create(view: Pick<View, 'ip' | 'campaign'>) {
+    return this.viewRepository.save(view);
+  }
 }

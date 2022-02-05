@@ -31,16 +31,14 @@ export class BadgeService {
 
     const message = campaign?.content ?? this.unknownSponsorName;
 
-    // TODO check if we should fetch a campaign
-
-    // TODO get
-
-    return makeBadge({
+    const badge = makeBadge({
       ...format,
       label: 'sponsor',
       message,
       color: 'green',
     });
+
+    return { badge, campaign };
   }
 
   private async findCampaign(repository: string): Promise<Campaign> {
@@ -59,7 +57,7 @@ export class BadgeService {
 
     if (info.topics) {
       const campaigns = await this.campaignsService.findForTags(info.topics);
-      return campaigns[0];
+      return campaigns.pop();
     }
 
     return undefined;
