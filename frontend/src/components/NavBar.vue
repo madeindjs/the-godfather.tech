@@ -11,6 +11,9 @@
       <li>
         <router-link to="/image/create">Add image tag</router-link>
       </li>
+      <li>
+        <router-link to="/faq">FAQ</router-link>
+      </li>
       <li v-if="!state.email">
         <SigninWithGithub />
       </li>
