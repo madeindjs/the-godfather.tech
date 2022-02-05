@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { GithubInformation } from '../interface/information.interface';
+import { GithubInformation } from '../../github/github.interface';
 
 @Entity()
 export class User {

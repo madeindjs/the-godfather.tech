@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Format, makeBadge } from 'badge-maker';
 import { CampaignsService } from '../campaigns/campaigns.service';
+import { Campaign } from '../campaigns/entities/campaign.entity';
+import { GithubInformationFull } from '../github/github.interface';
 import { GithubService } from '../github/github.service';
 
 @Injectable()
@@ -25,16 +27,9 @@ export class BadgeService {
       format.style = 'flat';
     }
 
-    try {
-      const info = await this.githubService.getRepositoryInformation(
-        repository,
-      );
-      this.logger.debug(info);
-      const campaigns = await this.campaignsService.findForTags(['js']);
-    } catch (e) {
-      // return default
-      this.logger.error(e);
-    }
+    const campaign = await this.findCampaign(repository);
+
+    const message = campaign?.content ?? this.unknownSponsorName;
 
     // TODO check if we should fetch a campaign
 
@@ -43,8 +38,30 @@ export class BadgeService {
     return makeBadge({
       ...format,
       label: 'sponsor',
-      message: this.unknownSponsorName,
+      message,
       color: 'green',
     });
+  }
+
+  private async findCampaign(repository: string): Promise<Campaign> {
+    let info: GithubInformationFull;
+    try {
+      info = await this.githubService.getRepositoryInformation(repository);
+      this.logger.debug('Found repository information');
+    } catch (e) {
+      this.logger.debug(
+        `Cannot find information of repository ${repository} - ${JSON.stringify(
+          e,
+        )}`,
+      );
+      return undefined;
+    }
+
+    if (info.topics) {
+      const campaigns = await this.campaignsService.findForTags(info.topics);
+      return campaigns[0];
+    }
+
+    return undefined;
   }
 }

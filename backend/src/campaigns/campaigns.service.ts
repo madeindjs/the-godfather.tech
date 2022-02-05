@@ -18,8 +18,10 @@ export class CampaignsService {
   }
 
   findForTags(tags: string[]) {
-    // TODO match if  campaign contains almost all theses tags
-    return this.campaignRepository.find({ tags });
+    return this.campaignRepository
+      .createQueryBuilder('c')
+      .where('c.tags && ARRAY[:...tags]', { tags })
+      .getMany();
   }
 
   findAllForUser(user: User) {

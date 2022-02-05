@@ -7,7 +7,7 @@ export class BadgeController {
   constructor(private readonly badgeService: BadgeService) {}
 
   @Get('')
-  getSvg(
+  async getSvg(
     @Response() res: Res,
     @Request() req: Req,
     @Query('repository')
@@ -25,7 +25,7 @@ export class BadgeController {
       req.headers.referer,
     );
     // TODO get props
-    const badge = this.badgeService.makeBadge(repository, {
+    const badge = await this.badgeService.makeBadge(repository, {
       style,
     });
 

@@ -1,5 +1,5 @@
 import { IsEmail, IsObject } from 'class-validator';
-import { GithubInformation } from '../interface/information.interface';
+import { GithubInformation } from '../../github/github.interface';
 
 export class CreateUserDto {
   @IsEmail()

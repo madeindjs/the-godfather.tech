@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/common/http';
 import { ConfigService } from '@nestjs/config';
 import { map } from 'rxjs';
-import { GithubInformation } from '../users/interface/information.interface';
+import { GithubInformation, GithubInformationFull } from './github.interface';
 
-const repositoryCache = new Map<string, any>();
+const repositoryCache = new Map<string, GithubInformationFull>();
 
 @Injectable()
 export class GithubService {
@@ -41,7 +41,9 @@ export class GithubService {
       .toPromise();
   }
 
-  async getRepositoryInformation(repositoryUrl: string) {
+  async getRepositoryInformation(
+    repositoryUrl: string,
+  ): Promise<GithubInformationFull> {
     const cache = repositoryCache.get(repositoryUrl);
 
     if (cache) {
@@ -64,6 +66,5 @@ export class GithubService {
     setTimeout(() => repositoryCache.delete(repositoryUrl), 24 * 60 * 1000);
 
     return data;
-    //
   }
 }
