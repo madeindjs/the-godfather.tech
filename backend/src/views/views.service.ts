@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Campaign } from '../campaigns/entities/campaign.entity';
 import { GithubService } from '../github/github.service';
 import { View } from './entities/view.entity';
+import { PRICE_PER_VIEW_PER_STAR } from './views.constant';
 
 function pick<T>(object: T, keys: (keyof T)[]) {
   return keys.reduce((acc, key) => {
@@ -50,7 +51,7 @@ export class ViewsService {
     const { stargazers_count: stars } =
       await this.githubService.getRepositoryInformation(repository);
 
-    return stars * 0.00001;
+    return (stars || 1) * PRICE_PER_VIEW_PER_STAR;
   }
 
   private async isRequestAlreadySeenToady(

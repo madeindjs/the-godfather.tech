@@ -18,6 +18,8 @@
         <input type="number" name="amountPerDay" v-model="amountPerDay" required min="0" max="1" step="0.01" />
       </label>
 
+      <p>TODO: min stars, max stars, total price</p>
+
       <input type="submit" :aria-busy="String(loading)" />
     </div>
   </form>

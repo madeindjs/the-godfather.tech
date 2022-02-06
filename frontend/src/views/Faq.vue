@@ -3,7 +3,9 @@
     <h1>Frequently Asked Questions</h1>
     <details open>
       <summary>How views are billed?</summary>
-      <p>The price of each views is <strong>0,001 cents per star and per view</strong>.</p>
+      <p>
+        The price of each views is <strong>{{ PRICE_PER_VIEW_PER_STAR * 100 }} cents per star and per view</strong>.
+      </p>
       <p>Bellow some examples:</p>
       <table>
         <thead>
@@ -16,10 +18,11 @@
         <tbody>
           <tr v-for="starsExample of starsExamples" :key="starsExample">
             <td>{{ starsExample }}</td>
-            <td>{{ formatMoney(starsExample * 0.00001) }}</td>
+            <td>{{ formatMoney(calculatePrice(starsExample, 1)) }}</td>
             <td>
-              {{ formatMoney(starsExample * 0.00001 * 50) }}<br /><small
-                >(<abbr title="including">incl</abbr> tax {{ formatMoney(starsExample * 0.00001 * 50 * 0.15) }})</small
+              {{ formatMoney(calculatePrice(starsExample, 50)) }}<br /><small
+                >(<abbr title="including">incl</abbr> tax
+                {{ formatMoney(calculatePrice(starsExample, 50) * 0.15) }})</small
               >
             </td>
           </tr>
@@ -38,6 +41,8 @@
 </template>
 <script setup>
 import { formatMoney } from "../utils/formatter";
+import { calculatePrice } from "../utils/price";
+import { PRICE_PER_VIEW_PER_STAR } from "../constants/price";
 
 const starsExamples = [1000, 10000, 30000, 50000];
 </script>
