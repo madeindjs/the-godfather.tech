@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <h1>Frequently Asked Questions</h1>
-    <details open>
+    <details open id="#formula">
       <summary>How views are billed?</summary>
       <p>
         The price of each views is <strong>{{ PRICE_PER_VIEW_PER_STAR * 100 }} cents per star and per view</strong>.
@@ -31,10 +31,11 @@
     </details>
 
     <details>
-      <summary>Collapsible elements 2</summary>
+      <summary>What are criteria?</summary>
+      <p></p>
       <ul>
-        <li>…</li>
-        <li>…</li>
+        <li><a href="https://github.com/topics">Github Topics</a></li>
+        <li>Number of stars</li>
       </ul>
     </details>
   </div>

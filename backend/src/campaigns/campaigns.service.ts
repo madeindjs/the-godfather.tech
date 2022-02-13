@@ -19,13 +19,13 @@ export class CampaignsService {
     return this.campaignsRepository.save({ ...createCampaignDto, user });
   }
 
-  findForTags(tags: string[]) {
-    if (tags.length === 0) {
+  findForTopics(topics: string[]) {
+    if (topics.length === 0) {
       return this.campaignsRepository.find({});
     }
     return this.campaignsRepository
       .createQueryBuilder('c')
-      .where('c.tags && ARRAY[:...tags]', { tags })
+      .where('c.topics && ARRAY[:...topics]', { topics })
       .andWhere('c.deactivateAt IS NULL')
       .getMany();
   }
@@ -40,13 +40,13 @@ export class CampaignsService {
       .leftJoin('c.views', 'v')
       .select('c.id', 'id')
       .addSelect('c.content', 'content')
-      .addSelect('c.tags', 'tags')
+      .addSelect('c.topics', 'topics')
       .addSelect('COUNT(v.id)::INTEGER', 'viewsCount')
       .addSelect('c."amountPerDay"::FLOAT', 'amountPerDay')
       .addSelect('SUM(v.price)::FLOAT', 'totalAmount')
       .addSelect('c."deactivateAt"', 'deactivateAt')
       .where({ user })
-      .groupBy('c.id, c.content, c.tags')
+      .groupBy('c.id, c.content, c.topics')
       .getRawMany();
   }
 

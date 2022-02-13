@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <NavBar />
-    <router-view />
+    <router-view class="container" />
     <Footer />
     <Toasts />
   </div>
@@ -18,10 +18,3 @@ export default defineComponent({
   setup() {},
 });
 </script>
-
-<style scoped>
-.app {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-</style>

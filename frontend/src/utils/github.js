@@ -3,14 +3,19 @@ import axios from "axios";
 import { userStore } from "../store/UserStore";
 
 /**
- *
+ * @param {string | undefined} pseudo
  * @returns {Promise<Array>}
  */
-export function getUserRepositories() {
-  const userState = userStore.getState();
+export function getUserRepositories(pseudo = undefined) {
+  let apiUrl = "";
 
-  // @ts-ignore
-  const apiUrl = userState.githubInformation?.repos_url;
+  if (pseudo) {
+    apiUrl = `https://api.github.com/users/${pseudo}/repos`;
+  } else {
+    const userState = userStore.getState();
+    // @ts-ignore
+    apiUrl = userState.githubInformation?.repos_url;
+  }
 
   if (apiUrl === undefined) {
     return Promise.resolve([]);

@@ -1,4 +1,11 @@
-import { IsArray, IsNumber, IsPositive, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateCampaignDto {
   @IsString()
@@ -8,6 +15,21 @@ export class CreateCampaignDto {
   @IsPositive()
   amountPerDay: number;
 
+  @IsNumber()
+  @IsPositive()
+  totalPrice: number;
+
   @IsArray()
-  tags: string[];
+  @IsOptional()
+  topics: string[];
+
+  @IsNumber()
+  @IsInt()
+  @IsOptional()
+  minStars: number;
+
+  @IsNumber()
+  @IsInt()
+  @IsOptional()
+  maxStars: number;
 }

@@ -17,11 +17,24 @@ export class Campaign {
   @Column({ type: 'text', nullable: false })
   content: string;
 
-  @Column({ type: 'numeric', nullable: false })
+  @Column({ type: 'numeric', nullable: false, unsigned: true })
   amountPerDay: number;
 
-  @Column({ type: 'text', array: true, default: [], nullable: false })
-  tags: string[];
+  @Column({ type: 'int', default: 0, unsigned: true })
+  totalPrice: number;
+
+  // BEGIN: criteria
+
+  @Column({ type: 'int', nullable: true, unsigned: true })
+  minStars: number;
+
+  @Column({ type: 'int', nullable: true, unsigned: true })
+  maxStars: number;
+
+  @Column({ type: 'text', array: true, default: [], nullable: true })
+  topics: string[];
+
+  // END: criteria
 
   @Column({ type: 'timestamp', nullable: true })
   deactivateAt: Date;

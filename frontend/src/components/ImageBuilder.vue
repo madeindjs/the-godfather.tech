@@ -2,10 +2,7 @@
   <div>
     <form>
       <div class="grid">
-        <div>
-          <label for="repository">Repository </label>
-          <GithubRepositorySelector @input="updateRepository" />
-        </div>
+        <GithubRepositorySelector @input="updateRepository" />
 
         <label for="numberOfSponsors"
           >Theme

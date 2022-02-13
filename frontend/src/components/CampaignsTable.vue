@@ -13,7 +13,7 @@
       <tr v-for="(campaign, index) of campaigns" :key="index">
         <td>{{ campaign.content }}</td>
         <td>
-          <span v-for="tag of campaign.tags" :key="tag" class="tag">{{ tag }}</span>
+          <span v-for="tag of campaign.topics" :key="tag" class="tag">{{ tag }}</span>
         </td>
         <td>{{ formatMoney(campaign.amountPerDay) }}</td>
         <td>

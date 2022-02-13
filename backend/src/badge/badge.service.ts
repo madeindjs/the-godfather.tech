@@ -56,7 +56,7 @@ export class BadgeService {
     }
 
     if (info.topics) {
-      const campaigns = await this.campaignsService.findForTags(info.topics);
+      const campaigns = await this.campaignsService.findForTopics(info.topics);
       return campaigns.pop();
     }
 

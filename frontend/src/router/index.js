@@ -24,14 +24,20 @@ const routes = [
     component: () => import(/* webpackChunkName: "faq" */ "../views/Faq.vue"),
   },
   {
-    path: "/image/create",
-    name: "/image/create",
-    component: () => import(/* webpackChunkName: "create-image" */ "../views/CreateImage.vue"),
+    path: "/badge/new",
+    name: "/badge/new",
+    component: () => import(/* webpackChunkName: "create-tag" */ "../views/CreateImage.vue"),
   },
   {
     path: "/campaigns",
     name: "Campaigns",
     component: () => import(/* webpackChunkName: "campaigns" */ "../views/Campaigns.vue"),
+    beforeEnter: loginGuard,
+  },
+  {
+    path: "/campaigns/new",
+    name: "CampaignForm",
+    component: () => import(/* webpackChunkName: "campaigns" */ "../views/CampaignForm.vue"),
     beforeEnter: loginGuard,
   },
   {

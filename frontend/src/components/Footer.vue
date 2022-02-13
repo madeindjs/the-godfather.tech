@@ -1,29 +1,53 @@
 <template>
   <footer class="footer">
-    <ul class="footer__links">
-      <li>
-        <router-link to="/about">About</router-link>
-      </li>
-    </ul>
+    <section>
+      <p>Site</p>
+      <ul>
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/campaigns">Campaigns</router-link></li>
+        <li>
+          <router-link to="/badge/new">Add image tag</router-link>
+        </li>
+      </ul>
+    </section>
+    <section>
+      <p>Help</p>
+      <ul>
+        <li>
+          <router-link to="/about">About</router-link>
+        </li>
+        <li>
+          <router-link to="/faq">FAQ</router-link>
+        </li>
+      </ul>
+    </section>
   </footer>
 </template>
 
-<style>
+<style scoped>
 .footer {
   margin-top: 1rem;
-}
-
-.footer__links {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 0;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  text-align: center;
 }
 
-.footer__links li {
-  display: inline;
+.footer section {
+  flex-basis: 10rem;
+  margin-bottom: 0;
+}
+
+.footer p {
+  padding-bottom: 0rem;
+  margin-bottom: 0.5rem;
+}
+.footer ul {
+  padding-left: 0;
+}
+
+.footer ul li {
+  list-style: none;
 }
 
 .footer a {

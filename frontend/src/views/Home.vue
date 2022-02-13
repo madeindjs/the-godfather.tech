@@ -1,35 +1,99 @@
 <template>
   <div class="home">
     <h1>Daddy Open Source</h1>
-    <p>Support Open Source projects</p>
+    <p>
+      Support Open Source projects using tags like this one: 👉️
+      <img
+        src="http://api.lvh.me/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fapi_on_rails&style=flat&version=1"
+        alt="Tag example"
+      />
+    </p>
+    <div class="tag-example"></div>
 
-    <SigninWithGithub />
+    <p class="buttons">
+      <a href="#how-to-developer" role="button" class="outline">👨‍💻️ I'm a developer</a>
+      <a href="#how-to-daddy" role="button" class="outline">💰️ I want to support open source projects</a>
+    </p>
 
-    <h2>You are a project owner</h2>
+    <article id="how-to-developer">
+      <header>👨‍💻️ I'm a developer</header>
 
-    <p></p>
+      <ol class="steps">
+        <li>
+          <router-link to="/badge/new">Create a badge</router-link> and put it into your <code>README.md</code> file on
+          Github.
+        </li>
+        <li>
+          Wait some visitors on your Github project. The badge will simply display sponsors name
+          <i
+            >(example:
+            <img
+              src="http://api.lvh.me/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fapi_on_rails&style=flat&version=1"
+              alt="Tag example"
+            />)</i
+          >
+        </li>
+        <li>
+          Earn money per visits. The amount per visit is defined in our
+          <router-link to="/faq#formula">simple formula</router-link>
+        </li>
+      </ol>
+    </article>
 
-    <ol>
-      <li>
-        You <router-link to="/image/create">create an image tag</router-link> and put it into your
-        <code>README.md</code> file on Github.
-      </li>
-      <li>a visitor load the <code>README.md</code></li>
-      <li>we generate a badge with a sponsor who want to sponsorise a project corresponding to his criteria</li>
-      <li>we give you the corresponding amount defined per visit</li>
-    </ol>
-
-    <p>That's it.</p>
-
-    <h2>You are a supporter</h2>
-
-    <ol>
-      <li>You define a campaign</li>
-      <li>TODO</li>
-    </ol>
+    <article id="how-to-daddy">
+      <header>💰️ I'm a sponsor</header>
+      <ol class="steps">
+        <li><SigninWithGithub /></li>
+        <li>
+          <router-link to="/campaigns/new">Create a campaign</router-link> with a fixed amount per day and criteria for
+          open sources projects you want to support.
+        </li>
+        <li>Your brand will be displayed on some badge on different projects</li>
+      </ol>
+    </article>
   </div>
 </template>
 
 <script setup>
 import SigninWithGithub from "../components/SigninWithGithub.vue";
 </script>
+
+<style scoped>
+h1 {
+  display: none;
+}
+.steps ol {
+  /* padding-left: 2rem; */
+  /* display: flex; */
+  counter-reset: steps;
+  display: grid;
+  grid-column: 1fr;
+}
+.steps li {
+  counter-increment: steps;
+  list-style: none;
+  text-align: center;
+  /* display: block; */
+}
+.steps li::before {
+  content: "Step " counter(steps);
+  list-style-position: inside;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: block;
+  color: lightblue;
+}
+.buttons {
+  display: flex;
+  column-gap: 1rem;
+  justify-content: center;
+}
+.tag-example {
+  padding: 1rem;
+  text-align: center;
+  font-size: 3rem;
+}
+/* .steps li::marker {
+  display: block;
+} */
+</style>
