@@ -3,10 +3,7 @@
     <h1>Daddy Open Source</h1>
     <p>
       Support Open Source projects using tags like this one: 👉️
-      <img
-        src="http://api.lvh.me/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fapi_on_rails&style=flat&version=1"
-        alt="Tag example"
-      />
+      <img :src="badgeSrc" alt="Tag example" />
     </p>
     <div class="tag-example"></div>
 
@@ -25,13 +22,7 @@
         </li>
         <li>
           Wait some visitors on your Github project. The badge will simply display sponsors name
-          <i
-            >(example:
-            <img
-              src="http://api.lvh.me/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fapi_on_rails&style=flat&version=1"
-              alt="Tag example"
-            />)</i
-          >
+          <i>(example: <img :src="badgeSrc" alt="Tag example" />)</i>
         </li>
         <li>
           Earn money per visits. The amount per visit is defined in our
@@ -55,7 +46,13 @@
 </template>
 
 <script setup>
+import { computed } from "@vue/runtime-core";
 import SigninWithGithub from "../components/SigninWithGithub.vue";
+import { PROJECT_API_URL } from "../constants/project";
+
+const badgeSrc = computed(
+  () => `${PROJECT_API_URL}/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fapi_on_rails&style=flat&version=1`
+);
 </script>
 
 <style scoped>

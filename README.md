@@ -14,3 +14,49 @@ This is a monorepo of Embed Kanban with theses repositories
 ```sh
 docker-compose up
 ```
+
+### Docker
+
+Build image is available here: [arousseau/daddy-open-source](https://hub.docker.com/repository/docker/arousseau/daddy-open-source).
+
+Build a fresh Docker image
+
+```sh
+docker build -t "daddy-open-source:lastest" .
+```
+
+Before run it, you may want to create a network
+
+```sh
+docker network create --driver bridge br-daddy
+```
+
+you may want to start a side Postgres container like this
+
+```sh
+docker run \
+  -e POSTGRES_USER=daddy \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=daddy \
+  -p 5432:5432 \
+  --name daddy-db \
+  --network br-daddy \
+  postgres:13
+
+docker exec daddy-db psql -U daddy -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
+```
+
+Then run it
+
+```sh
+docker run \
+  -e JWT_SECRET=azerty \
+  -e DATABASE_USER=daddy \
+  -e DATABASE_PASSWORD=password \
+  -e DATABASE_HOST=daddy-db \
+  -e DATABASE_DB=daddy \
+  -p 3000:3000 \
+  --name daddy-server \
+  --network br-daddy \
+  "daddy-open-source:lastest"
+```
