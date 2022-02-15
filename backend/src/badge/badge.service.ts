@@ -4,6 +4,7 @@ import { CampaignsService } from '../campaigns/campaigns.service';
 import { Campaign } from '../campaigns/entities/campaign.entity';
 import { GithubInformationFull } from '../github/github.interface';
 import { GithubService } from '../github/github.service';
+import { randomElementInArray } from '../utils/array.utils';
 
 @Injectable()
 export class BadgeService {
@@ -45,7 +46,7 @@ export class BadgeService {
     let info: GithubInformationFull;
     try {
       info = await this.githubService.getRepositoryInformation(repository);
-      this.logger.debug(info);
+      // this.logger.debug(info);
     } catch (e) {
       this.logger.debug(
         `Cannot find information of repository ${repository} - ${JSON.stringify(
@@ -55,11 +56,14 @@ export class BadgeService {
       return undefined;
     }
 
-    if (info.topics) {
-      const campaigns = await this.campaignsService.findForTopics(info.topics);
-      return campaigns.pop();
+    const campaigns = await this.campaignsService.findForGithubInformation(
+      info,
+    );
+
+    if (campaigns.length === 0) {
+      return undefined;
     }
 
-    return undefined;
+    return randomElementInArray(campaigns);
   }
 }

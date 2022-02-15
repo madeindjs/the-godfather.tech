@@ -27,7 +27,8 @@ export class BadgeController {
       campaign !== undefined &&
       true // req.headers.referer === 'https://github.com'
     ) {
-      await this.viewsService.create(repository, campaign, req);
+      // not await
+      this.viewsService.create(repository, campaign, req);
     }
 
     res.setHeader('Content-Type', 'image/svg+xml');

@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { GithubInformationFull } from '../github/github.interface';
 import { User } from '../users/entities/user.entity';
+import { getPriceForStars } from '../utils/price.utils';
 import { View } from '../views/entities/view.entity';
 import { CreateCampaignDto } from './dto/create-campaign.dto';
 import { Campaign } from './entities/campaign.entity';
@@ -17,6 +19,35 @@ export class CampaignsService {
 
   create(createCampaignDto: CreateCampaignDto, user: User) {
     return this.campaignsRepository.save({ ...createCampaignDto, user });
+  }
+
+  async findForGithubInformation({
+    topics,
+    stargazers_count: stars,
+  }: GithubInformationFull): Promise<Campaign[]> {
+    const price = getPriceForStars(stars);
+
+    const query = this.campaignsRepository
+      .createQueryBuilder('c')
+      .where('c.deactivateAt IS NULL')
+      .andWhere('c."minStars" IS NULL OR c."minStars" <= :stars', { stars })
+      .andWhere('c."maxStars" IS NULL OR c."maxStars" >= :stars', { stars })
+      .andWhere('c."totalPrice"::FLOAT < (c."currentPrice"::FLOAT + :price)', {
+        price,
+      });
+    // TODO add campaign budget
+    // TODO add budget per day
+
+    if (topics.length > 0) {
+      query.andWhere('c.topics && ARRAY[:...topics]', { topics });
+    }
+
+    return query.getMany();
+  }
+
+  incrementCurrentPrice(campaign: Campaign, amount: number | string) {
+    campaign.currentPrice = Number(campaign.currentPrice) + Number(amount);
+    return this.campaignsRepository.save(campaign);
   }
 
   findForTopics(topics: string[]) {

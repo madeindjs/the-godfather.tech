@@ -20,7 +20,10 @@ export class Campaign {
   @Column({ type: 'numeric', nullable: false, unsigned: true })
   amountPerDay: number;
 
-  @Column({ type: 'int', default: 0, unsigned: true })
+  @Column({ type: 'numeric', default: 0, unsigned: true })
+  currentPrice: number;
+
+  @Column({ type: 'numeric', default: 0, unsigned: true })
   totalPrice: number;
 
   // BEGIN: criteria

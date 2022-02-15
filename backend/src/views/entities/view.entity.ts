@@ -8,6 +8,11 @@ import {
 } from 'typeorm';
 import { Campaign } from '../../campaigns/entities/campaign.entity';
 
+export type ViewRequest = Pick<
+  Request,
+  'headers' | 'ip' | 'cookies' | 'baseUrl' | 'params' | 'originalUrl'
+>;
+
 @Entity()
 export class View {
   @PrimaryGeneratedColumn('uuid')
@@ -17,10 +22,7 @@ export class View {
   repository: string;
 
   @Column({ type: 'jsonb', nullable: false })
-  request: Pick<
-    Request,
-    'headers' | 'ip' | 'cookies' | 'baseUrl' | 'params' | 'originalUrl'
-  >;
+  request: ViewRequest;
 
   @Column({ type: 'numeric', nullable: false })
   price: number;
