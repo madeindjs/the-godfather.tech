@@ -1,4 +1,4 @@
-VERSION = 0.0.3-alpha
+VERSION = 0.0.4-alpha
 DOCKER_NAME = arousseau/daddy-open-source
 DOCKER_TAG = arousseau/daddy-open-source:${VERSION}
 
