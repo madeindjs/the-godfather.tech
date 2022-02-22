@@ -3,16 +3,16 @@ DOCKER_NAME = arousseau/daddy-open-source
 DOCKER_TAG = arousseau/daddy-open-source:${VERSION}
 
 build:
-	if docker image ls | grep "${DOCKER_NAME}" | grep "${VERSION}";then\
+	@if docker image ls | grep "${DOCKER_NAME}" | grep "${VERSION}";then\
 		echo "${DOCKER_TAG} already exists, skip build";\
 	else\
-		docker build -t "${DOCKER_NAME}" --no-cache . ;\
+		docker build -t "${DOCKER_TAG}" --no-cache . ;\
 	fi
 
-publish:
+publish: build
 	docker push "${DOCKER_TAG}"
 
-run:
+run: build
 	docker run \
 		-e JWT_SECRET=azerty \
 		-e DATABASE_USER=daddy \
