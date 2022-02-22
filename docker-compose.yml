@@ -10,6 +10,17 @@ services:
       - 3000
     depends_on:
       - postgres
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_DB: ${DATABASE_DB}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GITHUB_CLIENT_REDIRECT_URI: ${GITHUB_CLIENT_REDIRECT_URI}
+      STRIPE_CLIENT_ID: ${STRIPE_CLIENT_ID}
+      STRIPE_CLIENT_SECRET: ${STRIPE_CLIENT_ID}
 
   frontend:
     image: node:16-alpine
@@ -17,6 +28,10 @@ services:
     command: sh -c "npm install && npm run serve"
     volumes:
       - ./frontend:/usr/src/app
+    environment:
+      VUE_APP_GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      VUE_APP_GITHUB_CLIENT_REDIRECT_URI: ${GITHUB_CLIENT_REDIRECT_URI}
+      VUE_APP_STRIPE_CLIENT_ID: ${STRIPE_CLIENT_ID}
     expose:
       - 8080
 
