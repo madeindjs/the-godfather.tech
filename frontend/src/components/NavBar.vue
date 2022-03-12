@@ -15,8 +15,8 @@
       <li v-if="!state.email">
         <SigninWithGithub />
       </li>
-      <li v-if="state.email" style="text-align: right">
-        {{ state.email }}<br /><small><a href="#" @click.prevent="logout">logout</a></small>
+      <li v-else>
+        <router-link to="/account" :title="state.email">My account</router-link>
       </li>
     </ul>
   </nav>
@@ -27,10 +27,6 @@ import { userStore } from "../store/UserStore";
 import SigninWithGithub from "./SigninWithGithub.vue";
 
 const state = userStore.getState();
-
-function logout() {
-  userStore.logout();
-}
 </script>
 
 <style scoped>

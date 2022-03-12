@@ -19,6 +19,12 @@ const routes = [
     component: Home,
   },
   {
+    path: "/account",
+    name: "Account",
+    component: () => import(/* webpackChunkName: "account" */ "../views/Account.vue"),
+    beforeEnter: loginGuard,
+  },
+  {
     path: "/faq",
     name: "FAQ",
     component: () => import(/* webpackChunkName: "faq" */ "../views/Faq.vue"),

@@ -12,6 +12,7 @@ import { CampaignsModule } from './campaigns/campaigns.module';
 import { Campaign } from './campaigns/entities/campaign.entity';
 import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
+import { PaiementsModule } from './paiements/paiements.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { View } from './views/entities/view.entity';
@@ -52,6 +53,7 @@ import { ViewsModule } from './views/views.module';
     CampaignsModule,
     BadgeModule,
     ViewsModule,
+    PaiementsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

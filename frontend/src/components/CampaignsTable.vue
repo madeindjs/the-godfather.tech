@@ -1,35 +1,38 @@
 <template>
-  <table :aria-busy="String(loading)">
-    <thead>
-      <tr>
-        <th>Content</th>
-        <th>tags</th>
-        <th>amountPerDay</th>
-        <th>Bill</th>
-        <th>actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(campaign, index) of campaigns" :key="index">
-        <td>{{ campaign.content }}</td>
-        <td>
-          <span v-for="tag of campaign.topics" :key="tag" class="tag">{{ tag }}</span>
-        </td>
-        <td>{{ formatMoney(campaign.amountPerDay) }}</td>
-        <td>
-          {{ formatMoney(campaign.totalAmount) }}<br /><i>({{ campaign.viewsCount }} views)</i>
-        </td>
-        <td>
-          <router-link role="button" :to="'/campaign/' + campaign.id">view</router-link>
-          <CampaignButtonRemove :campaign="campaign" @change="reloadCampaign" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div :aria-busy="String(loading)">
+    <table v-if="haveCampaigns">
+      <thead>
+        <tr>
+          <th>Content</th>
+          <th>tags</th>
+          <th>amountPerDay</th>
+          <th>Bill</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(campaign, index) of campaigns" :key="index">
+          <td>{{ campaign.content }}</td>
+          <td>
+            <span v-for="tag of campaign.topics" :key="tag" class="tag">{{ tag }}</span>
+          </td>
+          <td>{{ formatMoney(campaign.amountPerDay) }}</td>
+          <td>
+            {{ formatMoney(campaign.totalAmount) }}<br /><i>({{ campaign.viewsCount }} views)</i>
+          </td>
+          <td>
+            <router-link role="button" :to="'/campaign/' + campaign.id">view</router-link>
+            <CampaignButtonRemove :campaign="campaign" @change="reloadCampaign" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p v-else>You don't have campaigns yet.</p>
+  </div>
 </template>
 <script setup>
 // @ts-check
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { getCampaigns } from "../utils/campaigns";
 import { toastStore } from "../store/ToastStore";
 import CampaignButtonRemove from "./CampaignButtonRemove.vue";
@@ -38,6 +41,8 @@ import { formatMoney } from "../utils/formatter";
 
 const campaigns = ref([]);
 const loading = ref(false);
+
+const haveCampaigns = computed(() => !!campaigns?.value?.length);
 
 const reloadCampaign = async () => {
   loading.value = true;
