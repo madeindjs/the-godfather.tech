@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import Stripe from 'stripe';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { CreatePaiementDto } from './dto/create-paiement.dto';
 import { UpdatePaiementDto } from './dto/update-paiement.dto';
@@ -91,8 +92,8 @@ export class PaiementsService {
     }
   }
 
-  findAll() {
-    return `This action returns all paiements`;
+  findAllForUser(user: User) {
+    return this.paiementsRepository.find({ user });
   }
 
   findOne(id: number) {

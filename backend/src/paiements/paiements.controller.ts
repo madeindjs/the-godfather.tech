@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
   Request,
@@ -15,6 +16,12 @@ import { PaiementsService } from './paiements.service';
 @Controller('/api/v1/paiements')
 export class PaiementsController {
   constructor(private readonly paiementsService: PaiementsService) {}
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  getList(@Request() { user }: Req & { user: User }) {
+    return this.paiementsService.findAllForUser(user);
+  }
 
   @Post()
   @UseGuards(JwtAuthGuard)

@@ -10,6 +10,7 @@
     </div>
 
     <h2>My credits</h2>
+    <PaiementsTable />
     <BuyCredits />
   </div>
 </template>
@@ -19,6 +20,7 @@
 
 import { userStore } from "../store/UserStore";
 import BuyCredits from "../components/BuyCredits.vue";
+import PaiementsTable from "../components/PaiementsTable.vue";
 
 const state = userStore.getState();
 
