@@ -16,7 +16,11 @@ export class AppController {
 
   @Get('config')
   getConfig() {
-    return ['STRIPE_CLIENT_ID', 'GITHUB_CLIENT_ID'].reduce((acc, key) => {
+    return [
+      'STRIPE_CLIENT_ID',
+      'GITHUB_CLIENT_ID',
+      'GITHUB_CLIENT_REDIRECT_URI',
+    ].reduce((acc, key) => {
       acc[key] = this.configService.get(key);
       return acc;
     }, {});

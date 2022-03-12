@@ -1,4 +1,10 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Logger,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
 import { AuthDto } from './dto/auth.dto';
@@ -6,6 +12,8 @@ import { GithubService } from './github.service';
 
 @Controller('/api/v1/github')
 export class GithubController {
+  private readonly logger = new Logger(GithubController.name);
+
   constructor(
     private readonly githubService: GithubService,
     private readonly usersService: UsersService,
@@ -15,7 +23,10 @@ export class GithubController {
   async auth(@Body() { code }: AuthDto) {
     const githubToken = await this.githubService
       .exchangeCode(code)
-      .catch(() => undefined);
+      .catch((e) => {
+        this.logger.error(e);
+        return undefined;
+      });
 
     if (githubToken === undefined) {
       throw new UnauthorizedException(['Github Token is not valid']);
