@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { getMockedRepository } from '../../test/mocks/repository.mock';
+import { CampaignsService } from '../campaigns/campaigns.service';
 import { GithubService } from '../github/github.service';
 import { View } from './entities/view.entity';
 import { ViewsController } from './views.controller';
@@ -16,6 +17,7 @@ describe('ViewsController', () => {
         ViewsService,
         { provide: getRepositoryToken(View), useValue: getMockedRepository() },
         { provide: GithubService, useValue: {} },
+        { provide: CampaignsService, useValue: {} },
       ],
     }).compile();
 

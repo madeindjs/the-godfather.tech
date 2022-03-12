@@ -12,6 +12,7 @@ describe('BadgeService', () => {
         BadgeService,
         { provide: CampaignsService, useValue: {} },
         { provide: GithubService, useValue: {} },
+        { provide: CampaignsService, useValue: {} },
       ],
     }).compile();
 
