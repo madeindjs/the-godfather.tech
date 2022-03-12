@@ -1,11 +1,11 @@
 <template>
-  <div :aria-busy="loading">
-    <form v-if="stripe && !displayForm" @submit.prevent="initStripeForm">
+  <div :aria-busy="isLoading">
+    <form v-if="!displayForm" @submit.prevent="initStripeForm">
       <label for="amount">Amount</label>
       <input id="amount" type="number" step="1" min="0" v-model="amount" />
       <input type="submit" value="Buy credits" />
     </form>
-    <form id="payment-form" v-show="displayForm">
+    <form id="payment-form" v-show="displayForm" @submit.prevent="submit">
       <div id="payment-element">
         <!-- Elements will create form elements here -->
       </div>
@@ -19,41 +19,14 @@
 <script setup>
 // @ts-check
 import { ref } from "vue";
-import { loadStripe } from "@stripe/stripe-js/pure";
-import { getConfigKey } from "../utils/config";
-import { createPaiement } from "../utils/paiements";
+import { useStripeForm } from "../composition/useStripe";
 
-const loading = ref(false);
 const displayForm = ref(false);
-const amount = ref(10);
 
-const stripe = ref();
+const { amount, isLoading, init, submit } = useStripeForm();
 
-async function load() {
-  loading.value = true;
-  const clientId = await getConfigKey("STRIPE_CLIENT_ID");
-  stripe.value = await loadStripe(clientId);
-  loading.value = false;
-}
-
-async function initStripeForm() {
-  if (!stripe.value) return;
-
-  const { clientSecret } = await createPaiement({ amount: amount.value });
-
-  const options = {
-    clientSecret,
-    // Fully customizable with appearance API.
-    appearance: {
-      /*...*/
-    },
-  };
-
-  const elements = stripe.value.elements(options);
-  const paymentElement = elements.create("payment");
-  paymentElement.mount("#payment-element");
+const initStripeForm = () => {
   displayForm.value = true;
-}
-
-load();
+  init();
+};
 </script>

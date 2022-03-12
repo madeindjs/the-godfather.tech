@@ -63,6 +63,12 @@ const routes = [
     name: "GithubLogged",
     component: () => import(/* webpackChunkName: "github-logged" */ "../views/GithubLogged.vue"),
   },
+  {
+    path: "/order-complete",
+    name: "OrderComplete",
+    component: () => import(/* webpackChunkName: "account" */ "../views/OrderComplete.vue"),
+    beforeEnter: loginGuard,
+  },
 ];
 
 const router = createRouter({

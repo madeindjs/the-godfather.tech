@@ -1,5 +1,14 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { Request as Req } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../users/entities/user.entity';
 import { CreatePaiementDto } from './dto/create-paiement.dto';
 import { PaiementsService } from './paiements.service';
 
@@ -9,34 +18,21 @@ export class PaiementsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async create(@Body() createPaiementDto: CreatePaiementDto) {
-    const { client_secret: clientSecret } = await this.paiementsService.create(
-      createPaiementDto,
-    );
+  async create(
+    @Body() createPaiementDto: CreatePaiementDto,
+    @Request() { user }: Req & { user: User },
+  ) {
+    const { client_secret: clientSecret } = await this.paiementsService.create({
+      ...createPaiementDto,
+      user,
+    });
 
     return { clientSecret };
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.paiementsService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.paiementsService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updatePaiementDto: UpdatePaiementDto,
-  // ) {
-  //   return this.paiementsService.update(+id, updatePaiementDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.paiementsService.remove(+id);
-  // }
+  @Post('webhooks')
+  @HttpCode(201)
+  async webhook(@Request() request: Req) {
+    return this.paiementsService.handleWebhook(request);
+  }
 }

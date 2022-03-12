@@ -34,13 +34,15 @@
 // @ts-check
 import { ref, computed } from "vue";
 import { getCampaigns } from "../utils/campaigns";
-import { toastStore } from "../store/ToastStore";
 import CampaignButtonRemove from "./CampaignButtonRemove.vue";
+import { useToaster } from "../composition/useToaster";
 
 import { formatMoney } from "../utils/formatter";
 
 const campaigns = ref([]);
 const loading = ref(false);
+
+const { showError } = useToaster();
 
 const haveCampaigns = computed(() => !!campaigns?.value?.length);
 
@@ -49,7 +51,7 @@ const reloadCampaign = async () => {
   try {
     campaigns.value = await getCampaigns();
   } catch {
-    toastStore.display("Cannot load campaigns", "error");
+    showError("Cannot load campaigns");
   } finally {
     loading.value = false;
   }

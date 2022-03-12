@@ -12,6 +12,7 @@ import { CampaignsModule } from './campaigns/campaigns.module';
 import { Campaign } from './campaigns/entities/campaign.entity';
 import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
+import { Paiement } from './paiements/entities/paiement.entity';
 import { PaiementsModule } from './paiements/paiements.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
@@ -33,7 +34,7 @@ import { ViewsModule } from './views/views.module';
         database: configService.get('DATABASE_DB'),
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
-        entities: [User, Campaign, View],
+        entities: [User, Campaign, View, Paiement],
         synchronize: true,
         logging: true,
       }),
