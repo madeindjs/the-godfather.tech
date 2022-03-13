@@ -96,6 +96,12 @@ export class PaiementsService {
     return this.paiementsRepository.find({ user });
   }
 
+  async findTotalForUser(user: User) {
+    const paiements = await this.findAllForUser(user);
+
+    return paiements.reduce((acc, p) => Number(p.amount) + acc, 0);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} paiement`;
   }

@@ -28,6 +28,7 @@
 </template>
 
 <script setup>
+// @ts-check
 import { userStore } from "../store/UserStore";
 import SigninWithGithub from "./SigninWithGithub.vue";
 

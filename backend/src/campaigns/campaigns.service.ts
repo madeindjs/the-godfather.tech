@@ -65,6 +65,12 @@ export class CampaignsService {
     return this.campaignsRepository.find({ user });
   }
 
+  async findTotalForUser(user: User) {
+    const summaries = await this.findAllSummaryForUser(user);
+
+    return summaries.reduce((acc, p) => Number(p.totalAmount) + acc, 0);
+  }
+
   findAllSummaryForUser(user: User) {
     return this.campaignsRepository
       .createQueryBuilder('c')

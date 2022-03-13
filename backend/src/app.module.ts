@@ -18,6 +18,7 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { View } from './views/entities/view.entity';
 import { ViewsModule } from './views/views.module';
+import { BalanceModule } from './balance/balance.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { ViewsModule } from './views/views.module';
     BadgeModule,
     ViewsModule,
     PaiementsModule,
+    BalanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

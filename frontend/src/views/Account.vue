@@ -12,6 +12,7 @@
     </p>
 
     <h2>My orders</h2>
+    <p>Currently you dispose to a credit of <Balance /></p>
     <p>You need to add credits to start a campaign.</p>
     <p>Bellow you can find a list of your previous orders.</p>
     <PaiementsTable />
@@ -24,6 +25,7 @@
 
 import { userStore } from "../store/UserStore";
 import BuyCredits from "../components/BuyCredits.vue";
+import Balance from "../components/Balance.vue";
 import PaiementsTable from "../components/PaiementsTable.vue";
 
 const state = userStore.getState();
