@@ -1,3 +1,11 @@
+<style scoped>
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 4rem 1fr auto;
+  row-gap: 1rem;
+}
+</style>
 <template>
   <div class="app">
     <NavBar />

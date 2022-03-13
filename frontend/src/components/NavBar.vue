@@ -11,12 +11,17 @@
       </li>
       <li v-if="state.email"><router-link to="/campaigns">Campaigns</router-link></li>
     </ul>
-    <ul>
-      <li v-if="!state.email">
-        <SigninWithGithub />
+    <ul v-if="state.email">
+      <li>
+        <router-link to="/account" :title="state.email">Buy credit</router-link>
       </li>
-      <li v-else>
+      <li>
         <router-link to="/account" :title="state.email">My account</router-link>
+      </li>
+    </ul>
+    <ul v-else>
+      <li>
+        <SigninWithGithub />
       </li>
     </ul>
   </nav>

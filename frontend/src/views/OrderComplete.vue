@@ -1,20 +1,20 @@
 <template>
   <div class="order-complete" :aria-busy="isStripeLoading">
     <h1>Order complete</h1>
-    <p>{{ message }}</p>
+    <p aria-busy="true">Your paiement is processing.</p>
   </div>
 </template>
 
 <script setup>
 // @ts-check
-import { ref, watch } from "vue";
+import { watch } from "vue";
+import { useRouter } from "vue-router";
 import { useStripe } from "../composition/useStripe";
 import { useToaster } from "../composition/useToaster";
+const router = useRouter();
 
 const { stripe, isStripeLoading } = useStripe();
-const { showError, showSuccess } = useToaster();
-
-const message = ref("");
+const { showError, showSuccess, showWarn } = useToaster();
 
 watch(stripe, () => {
   if (!stripe.value) return;
@@ -40,21 +40,18 @@ function load() {
       case "succeeded":
         showSuccess("Success! Payment received.");
         break;
-
       case "processing":
-        message.value = "Payment processing. We'll update you when payment is received.";
+        showWarn("Payment processing. We'll update you when payment is received.");
         break;
-
       case "requires_payment_method":
         showError("Payment failed. Please try another payment method.");
-        // Redirect your user back to your payment page to attempt collecting
-        // payment again
         break;
-
       default:
-        message.value = "Something went wrong.";
+        showError("Something went wrong.");
         break;
     }
+
+    router.push({ name: "Account" });
   });
 }
 </script>
