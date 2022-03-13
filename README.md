@@ -15,6 +15,12 @@ This is a monorepo of Embed Kanban with theses repositories
 docker-compose up
 ```
 
+Also start Stripe CLI for webhook
+
+```sh
+stripe listen --forward-to http://localhost/api/v1/campaigns/webhook
+```
+
 ### Docker
 
 Build image is available here: [arousseau/daddy-open-source](https://hub.docker.com/repository/docker/arousseau/daddy-open-source).

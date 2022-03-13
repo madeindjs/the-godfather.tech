@@ -17,24 +17,39 @@ export class Campaign {
   @Column({ type: 'text', nullable: false })
   content: string;
 
-  @Column({ type: 'numeric', nullable: false, unsigned: true })
+  @Column({ type: 'text', nullable: false, update: false })
+  stripePaymentIntentId: string;
+
+  @Column({ type: 'text', nullable: false, update: false })
+  stripePaymentIClientSecret: string;
+
+  @Column({ type: 'numeric', nullable: false, unsigned: true, update: false })
   amountPerDay: number;
 
   @Column({ type: 'numeric', default: 0, unsigned: true })
   currentPrice: number;
 
-  @Column({ type: 'numeric', default: 0, unsigned: true })
+  @Column({ type: 'numeric', default: 0, unsigned: true, update: false })
   totalPrice: number;
+
+  @Column({ type: 'timestamp', nullable: true })
+  paidAt: Date;
 
   // BEGIN: criteria
 
-  @Column({ type: 'int', nullable: true, unsigned: true })
+  @Column({ type: 'int', nullable: true, unsigned: true, update: false })
   minStars: number;
 
-  @Column({ type: 'int', nullable: true, unsigned: true })
+  @Column({ type: 'int', nullable: true, unsigned: true, update: false })
   maxStars: number;
 
-  @Column({ type: 'text', array: true, default: [], nullable: true })
+  @Column({
+    type: 'text',
+    array: true,
+    default: [],
+    nullable: true,
+    update: false,
+  })
   topics: string[];
 
   // END: criteria
@@ -48,7 +63,7 @@ export class Campaign {
   @OneToMany(() => View, (view) => view.campaign, { nullable: false })
   views: View[];
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'uuid', update: false })
   userId: string;
 
   @CreateDateColumn()

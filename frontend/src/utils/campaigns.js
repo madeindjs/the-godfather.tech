@@ -36,7 +36,7 @@ export function getCampaign(id) {
 
 /**
  * @param {{tags: string[], amountPerDay: number, content: string, totalPrice: number, minStars?: number, maxStars?: number}} campaign
- * @returns {Promise<Array>}
+ * @returns {Promise<{id: string}>}
  */
 export function createCampaign(campaign) {
   const token = getToken();

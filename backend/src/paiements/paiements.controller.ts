@@ -29,10 +29,11 @@ export class PaiementsController {
     @Body() createPaiementDto: CreatePaiementDto,
     @Request() { user }: Req & { user: User },
   ) {
-    const { client_secret: clientSecret } = await this.paiementsService.create({
-      ...createPaiementDto,
-      user,
-    });
+    const { client_secret: clientSecret } =
+      await this.paiementsService.createIntent({
+        ...createPaiementDto,
+        user,
+      });
 
     return { clientSecret };
   }

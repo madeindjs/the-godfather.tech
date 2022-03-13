@@ -18,7 +18,7 @@
           </td>
           <td>{{ formatMoney(campaign.amountPerDay) }}</td>
           <td>
-            {{ formatMoney(campaign.totalAmount) }}<br /><i>({{ campaign.viewsCount }} views)</i>
+            {{ formatMoney(campaign.currentPrice) }}<br /><i>({{ campaign.viewsCount }} views)</i>
           </td>
           <td>
             <router-link role="button" :to="'/campaign/' + campaign.id">view</router-link>

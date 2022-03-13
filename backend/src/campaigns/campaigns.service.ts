@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
 import { Repository } from 'typeorm';
 import { GithubInformationFull } from '../github/github.interface';
+import { PaiementsService } from '../paiements/paiements.service';
 import { User } from '../users/entities/user.entity';
 import { getPriceForStars } from '../utils/price.utils';
 import { View } from '../views/entities/view.entity';
@@ -10,15 +12,28 @@ import { Campaign } from './entities/campaign.entity';
 
 @Injectable()
 export class CampaignsService {
+  private readonly logger = new Logger(CampaignsService.name);
+
   constructor(
     @InjectRepository(Campaign)
     private readonly campaignsRepository: Repository<Campaign>,
     @InjectRepository(View)
     private readonly viewsRepository: Repository<View>,
+    private readonly paiementsService: PaiementsService,
   ) {}
 
-  create(createCampaignDto: CreateCampaignDto, user: User) {
-    return this.campaignsRepository.save({ ...createCampaignDto, user });
+  async create(createCampaignDto: CreateCampaignDto, user: User) {
+    const intent = await this.paiementsService.createIntent({
+      amount: createCampaignDto.totalPrice,
+      user,
+    });
+
+    return this.campaignsRepository.save({
+      ...createCampaignDto,
+      user,
+      stripePaymentIntentId: intent.id,
+      stripePaymentIClientSecret: intent.client_secret,
+    });
   }
 
   async findForGithubInformation({
@@ -34,8 +49,8 @@ export class CampaignsService {
       .andWhere('c."maxStars" IS NULL OR c."maxStars" >= :stars', { stars })
       .andWhere('c."totalPrice"::FLOAT < (c."currentPrice"::FLOAT + :price)', {
         price,
-      });
-    // TODO add campaign budget
+      })
+      .andWhere('c."paidAt" IS NOT NULL');
     // TODO add budget per day
 
     if (topics.length > 0) {
@@ -66,9 +81,12 @@ export class CampaignsService {
   }
 
   async findTotalForUser(user: User) {
-    const summaries = await this.findAllSummaryForUser(user);
+    const summaries = await this.campaignsRepository.find({
+      where: { user },
+      select: ['totalPrice'],
+    });
 
-    return summaries.reduce((acc, p) => Number(p.totalAmount) + acc, 0);
+    return summaries.reduce((acc, p) => Number(p.totalPrice) + acc, 0);
   }
 
   findAllSummaryForUser(user: User) {
@@ -80,8 +98,10 @@ export class CampaignsService {
       .addSelect('c.topics', 'topics')
       .addSelect('COUNT(v.id)::INTEGER', 'viewsCount')
       .addSelect('c."amountPerDay"::FLOAT', 'amountPerDay')
-      .addSelect('SUM(v.price)::FLOAT', 'totalAmount')
+      .addSelect('c."currentPrice"::FLOAT', 'currentPrice')
+      .addSelect('c."totalPrice"::FLOAT', 'totalPrice')
       .addSelect('c."deactivateAt"', 'deactivateAt')
+      .addSelect('c."paidAt"', 'paidAt')
       .where({ user })
       .groupBy('c.id, c.content, c.topics')
       .getRawMany();
@@ -93,7 +113,7 @@ export class CampaignsService {
 
   async getSummary(campaign: Campaign) {
     return {
-      totalAmount: await this.getTotalAmount(campaign),
+      currentPrice: await this.getCurrentPrice(campaign),
       viewsCount: await this.getViewsCount(campaign),
       viewsSummary: await this.getViewsSummary(campaign),
     };
@@ -110,15 +130,15 @@ export class CampaignsService {
       .getRawMany();
   }
 
-  private async getTotalAmount(campaign: Campaign): Promise<number> {
-    const { totalAmount } = await this.viewsRepository
+  private async getCurrentPrice(campaign: Campaign): Promise<number> {
+    const result = await this.viewsRepository
       .createQueryBuilder('v')
       .select('SUM(v.price)::FLOAT', 'totalAmount')
       .where('v.campaignId = :id', { id: campaign.id })
       .groupBy('v."campaignId"')
       .getRawOne();
 
-    return totalAmount;
+    return result?.totalAmount ?? 0;
   }
 
   private getViewsCount(campaign: Campaign): Promise<number> {
@@ -137,5 +157,36 @@ export class CampaignsService {
 
   remove(id: string) {
     return this.campaignsRepository.delete({ id });
+  }
+
+  async handleWebhook(request: Request) {
+    const event = this.paiementsService.extractEvent(request);
+
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object as any;
+        const campaign = await this.campaignsRepository.findOne({
+          stripePaymentIntentId: paymentIntent.id,
+        });
+
+        if (!campaign) {
+          const message = `Cannot find campaign for paymentIntentId=${paymentIntent.id}`;
+          this.logger.error(message);
+          throw new BadRequestException(message);
+        }
+
+        campaign.paidAt = new Date();
+        await this.campaignsRepository.save(campaign);
+        break;
+      case 'payment_method.attached':
+        const paymentMethod = event.data.object;
+        // Then define and call a method to handle the successful attachment of a PaymentMethod.
+        // handlePaymentMethodAttached(paymentMethod);
+        break;
+      default:
+        // Unexpected event type
+        this.logger.warn(`Unhandled event type ${event.type}.`);
+    }
   }
 }

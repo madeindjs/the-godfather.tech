@@ -27,7 +27,7 @@ export class PaiementsService {
     this.stripe = new Stripe(stripeSecret, { apiVersion: '2020-08-27' });
   }
 
-  create(createPaiementDto: CreatePaiementDto) {
+  createIntent(createPaiementDto: CreatePaiementDto) {
     return this.stripe.paymentIntents.create({
       amount: createPaiementDto.amount * 100,
       currency: 'eur',
@@ -38,26 +38,29 @@ export class PaiementsService {
     });
   }
 
-  async handleWebhook(request: Request) {
-    let event: Stripe.Event = request.body;
-    // Only verify the event if you have an endpoint secret defined.
-    // Otherwise use the basic event deserialized with JSON.parse
-    if (this.endpointSecret) {
-      // Get the signature sent by Stripe
-      const signature = request.headers['stripe-signature'];
-      try {
-        event = this.stripe.webhooks.constructEvent(
-          request.body,
-          signature,
-          this.endpointSecret,
-        );
-      } catch (err) {
-        throw new BadRequestException(
-          err,
-          'Webhook signature verification failed.',
-        );
-      }
+  extractEvent(request: Request): Stripe.Event {
+    this.logger.debug(`receive event from stripe`);
+
+    // Get the signature sent by Stripe
+    const signature = request.headers['stripe-signature'];
+    try {
+      return this.stripe.webhooks.constructEvent(
+        // @ts-ignore
+        request.rawBody,
+        signature,
+        this.endpointSecret,
+      );
+    } catch (err) {
+      this.logger.error({ err, body: request.body, headers: request.headers });
+      throw new BadRequestException(
+        err,
+        'Webhook signature verification failed.',
+      );
     }
+  }
+
+  async handleWebhook(request: Request) {
+    const event = this.extractEvent(request);
 
     // Handle the event
     switch (event.type) {
