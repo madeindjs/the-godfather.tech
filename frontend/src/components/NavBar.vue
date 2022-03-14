@@ -13,9 +13,6 @@
     </ul>
     <ul v-if="state.email">
       <li>
-        <router-link to="/account" :title="state.email">Buy credit</router-link>
-      </li>
-      <li>
         <router-link to="/account" :title="state.email">My account</router-link>
       </li>
     </ul>

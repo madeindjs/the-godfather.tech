@@ -12,7 +12,7 @@
       </p>
 
       <div v-if="!campaign.paidAt">
-        <p>This campaign is not paid. You must paid</p>
+        <p>⚠️ This campaign is not paid. You must paid</p>
         <PayCampaign :campaign="campaign" />
       </div>
 
@@ -60,7 +60,10 @@ import { formatMoney } from "../utils/formatter";
 import { useCampaign } from "../composition/useCampaign";
 import CampaignButtonRemove from "../components/CampaignButtonRemove.vue";
 import PayCampaign from "../components/PayCampaign";
+import { useStripeRedirect } from "../composition/useStripe";
 const props = defineProps(["id"]);
+
+useStripeRedirect();
 
 const { campaign, isLoading, activeText, fetchCampaign } = useCampaign(props.id);
 </script>
