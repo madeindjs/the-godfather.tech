@@ -44,6 +44,11 @@ export class CampaignsController {
     return { ...campaign, ...summary };
   }
 
+  @Post('webhook')
+  handleWebhook(@Request() req: Req) {
+    return this.campaignsService.handleWebhook(req);
+  }
+
   // @Patch(':id')
   // @UseGuards(JwtAuthGuard)
   // async update(

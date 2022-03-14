@@ -12,13 +12,24 @@
       </thead>
       <tbody>
         <tr v-for="(campaign, index) of campaigns" :key="index">
-          <td>{{ campaign.content }}</td>
+          <td>
+            <router-link
+              v-if="!campaign.paidAt"
+              aria-label="This campaign was not paid yet."
+              data-tooltip="This campaign was not paid yet."
+              :to="'/campaign/' + campaign.id"
+            >
+              ⚠️
+            </router-link>
+
+            {{ campaign.content }}
+          </td>
           <td>
             <span v-for="tag of campaign.topics" :key="tag" class="tag">{{ tag }}</span>
           </td>
           <td>{{ formatMoney(campaign.amountPerDay) }}</td>
           <td>
-            {{ formatMoney(campaign.totalAmount) }}<br /><i>({{ campaign.viewsCount }} views)</i>
+            {{ formatMoney(campaign.currentPrice) }}<br /><i>({{ campaign.viewsCount }} views)</i>
           </td>
           <td>
             <router-link role="button" :to="'/campaign/' + campaign.id">view</router-link>
