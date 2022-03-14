@@ -106,8 +106,8 @@ export class CampaignsService {
     return {
       currentPrice: await this.getCurrentPrice(campaign),
       viewsCount: await this.getViewsCount(campaign),
-      viewsSummary: await this.getViewsSummary(campaign),
-      reposSummary: await this.getReposSummary(campaign),
+      viewsSummaries: await this.getViewsSummary(campaign),
+      reposSummaries: await this.getReposSummary(campaign),
     };
   }
 
@@ -127,6 +127,7 @@ export class CampaignsService {
       .createQueryBuilder('v')
       .select(`v.repository`, 'repository')
       .addSelect('COUNT(1)::FLOAT', 'totalViews')
+      .addSelect('SUM(v.price)::FLOAT', 'totalPrice')
       .where('v.campaignId = :id', { id: campaign.id })
       .groupBy(`v.repository`)
       .orderBy('COUNT(1)::FLOAT')

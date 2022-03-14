@@ -66,7 +66,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="viewsSummary of campaign.viewsSummary" :key="viewsSummary.date">
+            <tr v-for="viewsSummary of campaign.viewsSummaries" :key="viewsSummary.date">
               <td>{{ formatDateTime(viewsSummary.date) }}</td>
               <td>{{ viewsSummary.totalViews }}</td>
               <td>{{ formatMoney(viewsSummary.totalPrice) }}</td>
@@ -82,36 +82,7 @@
         </table>
 
         <h3>Per repositories</h3>
-        <!-- <p>
-          At this point, this campaign <strong>cost you {{ formatMoney(campaign.currentPrice) }}</strong> for
-          <i>{{ campaign.viewsCount }} views</i>.
-        </p> -->
-        <table>
-          <thead>
-            <tr>
-              <th>repository</th>
-              <th>number of views</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="repoSummary of campaign.reposSummary" :key="repoSummary.repository">
-              <td>
-                <a :href="repoSummary.repository" rel="noreferrer noopener">{{
-                  formatGhName(repoSummary.repository)
-                }}</a>
-              </td>
-              <td>
-                <progress
-                  min="0"
-                  :max="campaign.viewsCount"
-                  :value="repoSummary.totalViews"
-                  :aria-label="'Number of view for repository ' + repoSummary.repository"
-                ></progress>
-                <span>{{ repoSummary.totalViews }} / {{ campaign.viewsCount }} views</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <ReposSummaries :reposSummaries="campaign.reposSummaries" />
       </div>
 
       <CampaignButtonRemove :campaign="campaign" @change="fetchCampaign" />
@@ -122,10 +93,11 @@
 <script setup>
 // @ts-check
 import { defineProps } from "vue";
-import { formatMoney, formatDateTime, formatGhName } from "../utils/formatter";
+import { formatMoney, formatDateTime } from "../utils/formatter";
 import { useCampaign } from "../composition/useCampaign";
 import CampaignButtonRemove from "../components/CampaignButtonRemove.vue";
 import CampaignProgress from "../components/CampaignProgress.vue";
+import ReposSummaries from "../components/ReposSummaries.vue";
 import PayCampaign from "../components/PayCampaign";
 import { useStripeRedirect } from "../composition/useStripe";
 const props = defineProps(["id"]);

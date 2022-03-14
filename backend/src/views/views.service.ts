@@ -19,7 +19,7 @@ function pick<T>(object: T, keys: (keyof T)[]) {
 export class ViewsService {
   constructor(
     @InjectRepository(View)
-    private readonly viewRepository: Repository<View>,
+    private readonly viewsRepository: Repository<View>,
     private readonly githubService: GithubService,
     private readonly campaignsService: CampaignsService,
   ) {}
@@ -32,7 +32,7 @@ export class ViewsService {
     const price = await this.getPricePerView(repository);
     await this.campaignsService.incrementCurrentPrice(campaign, price);
 
-    return this.viewRepository.save({
+    return this.viewsRepository.save({
       repository,
       campaign,
       price,
@@ -57,7 +57,7 @@ export class ViewsService {
     campaign: Campaign,
     request: Request,
   ): Promise<boolean> {
-    const count = await this.viewRepository.count({
+    const count = await this.viewsRepository.count({
       repository,
       campaign,
       request: this.getViewRequest(request),
@@ -74,5 +74,16 @@ export class ViewsService {
       'params',
       'originalUrl',
     ]);
+  }
+
+  public async getReposSummary() {
+    return this.viewsRepository
+      .createQueryBuilder('v')
+      .select(`v.repository`, 'repository')
+      .addSelect('COUNT(1)::FLOAT', 'totalViews')
+      .addSelect('SUM(v.price)::FLOAT', 'totalPrice')
+      .groupBy(`v.repository`)
+      .orderBy('COUNT(1)::FLOAT')
+      .getRawMany();
   }
 }

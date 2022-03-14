@@ -42,12 +42,17 @@
         <li>Your brand will be displayed on some badge on different projects</li>
       </ol>
     </article>
+
+    <h2>You already supported...</h2>
+
+    <TotalReposSummaries :defaultSortByMoney="true" />
   </div>
 </template>
 
 <script setup>
 import { computed } from "@vue/runtime-core";
 import SigninWithGithub from "../components/SigninWithGithub.vue";
+import TotalReposSummaries from "../components/TotalReposSummaries.vue";
 import { PROJECT_API_URL } from "../constants/project";
 
 const badgeSrc = computed(
