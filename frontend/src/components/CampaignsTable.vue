@@ -4,9 +4,7 @@
       <thead>
         <tr>
           <th>Content</th>
-          <th>tags</th>
-          <th>amountPerDay</th>
-          <th>Bill</th>
+          <th>target</th>
           <th>actions</th>
         </tr>
       </thead>
@@ -25,15 +23,12 @@
             {{ campaign.content }}
           </td>
           <td>
-            <span v-for="tag of campaign.topics" :key="tag" class="tag">{{ tag }}</span>
-          </td>
-          <td>{{ formatMoney(campaign.amountPerDay) }}</td>
-          <td>
-            {{ formatMoney(campaign.currentPrice) }}<br /><i>({{ campaign.viewsCount }} views)</i>
+            {{ formatMoney(campaign.currentPrice) }} / {{ formatMoney(campaign.totalPrice) }}
+            <i>({{ campaign.viewsCount }} views)</i>
+            <CampaignProgress :campaign="campaign" />
           </td>
           <td>
-            <router-link role="button" :to="'/campaign/' + campaign.id">view</router-link>
-            <CampaignButtonRemove :campaign="campaign" @change="reloadCampaign" />
+            <router-link :to="'/campaign/' + campaign.id">view</router-link>
           </td>
         </tr>
       </tbody>
@@ -45,7 +40,7 @@
 // @ts-check
 import { ref, computed } from "vue";
 import { getCampaigns } from "../utils/campaigns";
-import CampaignButtonRemove from "./CampaignButtonRemove.vue";
+import CampaignProgress from "./CampaignProgress.vue";
 import { useToaster } from "../composition/useToaster";
 
 import { formatMoney } from "../utils/formatter";

@@ -80,15 +80,6 @@ export class CampaignsService {
     return this.campaignsRepository.find({ user });
   }
 
-  async findTotalForUser(user: User) {
-    const summaries = await this.campaignsRepository.find({
-      where: { user },
-      select: ['totalPrice'],
-    });
-
-    return summaries.reduce((acc, p) => Number(p.totalPrice) + acc, 0);
-  }
-
   findAllSummaryForUser(user: User) {
     return this.campaignsRepository
       .createQueryBuilder('c')
@@ -116,6 +107,7 @@ export class CampaignsService {
       currentPrice: await this.getCurrentPrice(campaign),
       viewsCount: await this.getViewsCount(campaign),
       viewsSummary: await this.getViewsSummary(campaign),
+      reposSummary: await this.getReposSummary(campaign),
     };
   }
 
@@ -123,10 +115,21 @@ export class CampaignsService {
     return this.viewsRepository
       .createQueryBuilder('v')
       .select(`TO_CHAR(v."createdAt", 'YYYY-MM-DD')`, 'date')
-      .addSelect('SUM(v.price)::FLOAT', 'totalAmount')
+      .addSelect('SUM(v.price)::FLOAT', 'totalPrice')
       .addSelect('COUNT(1)::FLOAT', 'totalViews')
       .where('v.campaignId = :id', { id: campaign.id })
       .groupBy(`TO_CHAR(v."createdAt", 'YYYY-MM-DD')`)
+      .getRawMany();
+  }
+
+  private async getReposSummary(campaign: Campaign) {
+    return this.viewsRepository
+      .createQueryBuilder('v')
+      .select(`v.repository`, 'repository')
+      .addSelect('COUNT(1)::FLOAT', 'totalViews')
+      .where('v.campaignId = :id', { id: campaign.id })
+      .groupBy(`v.repository`)
+      .orderBy('COUNT(1)::FLOAT')
       .getRawMany();
   }
 

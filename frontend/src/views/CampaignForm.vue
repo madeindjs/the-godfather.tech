@@ -11,7 +11,7 @@
       <div class="grid">
         <label for="content"
           >Content
-          <input type="text" name="content" v-model="content" />
+          <input type="text" name="content" v-model="content" required />
           <small>This is the text who will appear on badge</small>
         </label>
         <label for="totalPrice"
@@ -20,37 +20,42 @@
           <small>Bellow this value, the campaign will be stopped.</small>
         </label>
         <label for="amountPerDay"
-          >Amount per day
-          <input type="number" name="amountPerDay" v-model="amountPerDay" required min="0" step="0.01" />
+          >Amount per day (in €)
+          <input
+            type="number"
+            name="amountPerDay"
+            v-model="amountPerDay"
+            required
+            min="0"
+            :max="totalPrice"
+            step="0.5"
+          />
         </label>
       </div>
 
       <fieldset>
         <legend data-tooltip="Filter repositories you want to support">Criteria</legend>
-        <label for="criteria-topic">
-          <input type="checkbox" name="criteria" value="topic" id="criteria-topic" v-model="displayTopics" />
-          repository who contains <a href="https://github.com/topics">Github topics</a>
+        <p>Enter criteria to target which repositories you want to support. Leave input empty if not apply.</p>
+
+        <label for="tags"
+          >Topics
+          <input type="text" name="tags" v-model="tags" />
+          <small>Separate topic by spaces</small>
         </label>
-        <label for="criteria-stars">
-          <input type="checkbox" name="criteria" value="star" id="criteria-stars" v-model="displayStars" />
-          repository who match given stars
-        </label>
+        <div class="grid">
+          <label for="minStars"
+            >Number of minimum stars
+            <input type="number" name="minStars" v-model="minStars" min="1" :max="maxStars ?? null" />
+          </label>
+          <label for="minStars"
+            >Number of maximum stars
+            <input type="number" name="minStars" v-model="maxStars" :min="minStars ?? null" />
+          </label>
+        </div>
       </fieldset>
-      <label for="tags" v-if="displayTopics"
-        >Topics
-        <input type="text" name="tags" v-model="tags" />
-        <small>Separate topic by spaces</small>
-      </label>
-      <label for="minStars" v-if="displayStars"
-        >Number of minimum stars
-        <input type="number" name="minStars" v-model="minStars" min="0" :max="maxStars ?? null" />
-      </label>
-      <label for="minStars" v-if="displayStars"
-        >Number of maximum stars
-        <input type="number" name="minStars" v-model="maxStars" min="0" />
-      </label>
 
       <input type="submit" :aria-busy="String(loading)" value="Create campaign" />
+      <small>You will asked to pay after the creation.</small>
     </form>
   </div>
 </template>
@@ -67,10 +72,8 @@ const { showError, showSuccess } = useToaster();
 const router = useRouter();
 
 const tags = ref("");
-const displayTopics = ref(false);
-const displayStars = ref(false);
 const content = ref("ACME corp");
-const amountPerDay = ref(0.01);
+const amountPerDay = ref(1.0);
 const minStars = ref(undefined);
 const maxStars = ref(undefined);
 const totalPrice = ref(10);

@@ -16,6 +16,7 @@ export function useCampaign(id) {
     if (!campaign.value) {
       return "?";
     }
+
     if (campaign.value.deactivateAt) {
       return "not active";
     }
