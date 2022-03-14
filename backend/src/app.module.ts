@@ -12,13 +12,11 @@ import { CampaignsModule } from './campaigns/campaigns.module';
 import { Campaign } from './campaigns/entities/campaign.entity';
 import { GithubModule } from './github/github.module';
 import { HashModule } from './hash/hash.module';
-import { Paiement } from './paiements/entities/paiement.entity';
 import { PaiementsModule } from './paiements/paiements.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { View } from './views/entities/view.entity';
 import { ViewsModule } from './views/views.module';
-import { BalanceModule } from './balance/balance.module';
 
 @Module({
   imports: [
@@ -35,7 +33,7 @@ import { BalanceModule } from './balance/balance.module';
         database: configService.get('DATABASE_DB'),
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
-        entities: [User, Campaign, View, Paiement],
+        entities: [User, Campaign, View],
         synchronize: true,
         logging: true,
       }),
@@ -56,7 +54,6 @@ import { BalanceModule } from './balance/balance.module';
     BadgeModule,
     ViewsModule,
     PaiementsModule,
-    BalanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
