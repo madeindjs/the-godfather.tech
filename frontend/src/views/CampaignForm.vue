@@ -23,33 +23,34 @@
           >Amount per day
           <input type="number" name="amountPerDay" v-model="amountPerDay" required min="0" step="0.01" />
         </label>
-        <fieldset>
-          <legend data-tooltip="Filter repositories you want to support">Criteria</legend>
-          <label for="criteria-topic">
-            <input type="checkbox" name="criteria" value="topic" id="criteria-topic" v-model="displayTopics" />
-            repository who contains <a href="https://github.com/topics">Github topics</a>
-          </label>
-          <label for="criteria-stars">
-            <input type="checkbox" name="criteria" value="star" id="criteria-stars" v-model="displayStars" />
-            repository who match given stars
-          </label>
-        </fieldset>
-        <label for="tags" v-if="displayTopics"
-          >Topics
-          <input type="text" name="tags" v-model="tags" />
-          <small>Separate topic by spaces</small>
-        </label>
-        <label for="minStars" v-if="displayStars"
-          >Number of minimum stars
-          <input type="number" name="minStars" v-model="minStars" min="0" :max="maxStars ?? null" />
-        </label>
-        <label for="minStars" v-if="displayStars"
-          >Number of maximum stars
-          <input type="number" name="minStars" v-model="maxStars" min="0" />
-        </label>
-
-        <input type="submit" :aria-busy="String(loading)" value="Create campaign" />
       </div>
+
+      <fieldset>
+        <legend data-tooltip="Filter repositories you want to support">Criteria</legend>
+        <label for="criteria-topic">
+          <input type="checkbox" name="criteria" value="topic" id="criteria-topic" v-model="displayTopics" />
+          repository who contains <a href="https://github.com/topics">Github topics</a>
+        </label>
+        <label for="criteria-stars">
+          <input type="checkbox" name="criteria" value="star" id="criteria-stars" v-model="displayStars" />
+          repository who match given stars
+        </label>
+      </fieldset>
+      <label for="tags" v-if="displayTopics"
+        >Topics
+        <input type="text" name="tags" v-model="tags" />
+        <small>Separate topic by spaces</small>
+      </label>
+      <label for="minStars" v-if="displayStars"
+        >Number of minimum stars
+        <input type="number" name="minStars" v-model="minStars" min="0" :max="maxStars ?? null" />
+      </label>
+      <label for="minStars" v-if="displayStars"
+        >Number of maximum stars
+        <input type="number" name="minStars" v-model="maxStars" min="0" />
+      </label>
+
+      <input type="submit" :aria-busy="String(loading)" value="Create campaign" />
     </form>
   </div>
 </template>
