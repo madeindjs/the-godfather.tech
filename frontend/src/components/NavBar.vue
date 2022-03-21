@@ -3,6 +3,7 @@
     <ul>
       <li>
         <strong>
+          <!-- TODO: use logo -->
           <router-link to="/">Home</router-link>
         </strong>
       </li>

@@ -31,6 +31,7 @@
         <p>Criteria of this campaign</p>
 
         <ul>
+          <!-- TODO: display more criteria -->
           <li>
             <strong>topics:</strong>
             <ul v-if="campaign.topics.length">
