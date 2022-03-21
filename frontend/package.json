@@ -1,6 +1,7 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "the-godfather-tech",
+  "version": "0.0.6-alpha",
+  "license": "gpl3",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

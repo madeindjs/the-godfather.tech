@@ -3,7 +3,6 @@ COPY ./frontend /usr/app
 WORKDIR /usr/app
 RUN npm install
 RUN npm run build --production
-# TODO remove .env
 
 
 FROM node:16-alpine as BackendBuild

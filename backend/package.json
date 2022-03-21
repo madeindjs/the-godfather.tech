@@ -1,10 +1,10 @@
 {
-  "name": "nest-poc",
-  "version": "0.0.1",
+  "name": "the-godfather-tech-api",
+  "version": "0.0.6-alpha",
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "gpl3",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
