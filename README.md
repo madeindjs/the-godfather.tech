@@ -1,4 +1,4 @@
-# Daddy Open Source
+# the-godfather.tech
 
 A web-application to create badge sponsored badge in you `README.md`. Sponsor will pay you to get his name inside the badge within campaigns.
 

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Daddy Open Source</h1>
+    <h1>the-godfather.tech</h1>
     <p>
       Support Open Source projects using tags like this one: 👉️
       <img :src="badgeSrc" alt="Tag example" />
@@ -14,6 +14,8 @@
 
     <article id="how-to-developer">
       <header>👨‍💻️ I'm a developer</header>
+
+      <p>You simply need to add a badge on your repository:</p>
 
       <ol class="steps">
         <li>
