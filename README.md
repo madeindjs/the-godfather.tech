@@ -1,5 +1,7 @@
 # the-godfather.tech
 
+![List of sponsors](https://the-godfather.tech/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fthe-godfather.tech&style=flat&version=1)
+
 A web-application to create badge sponsored badge in you `README.md`. Sponsor will pay you to get his name inside the badge within campaigns.
 
 This is a monorepo of Embed Kanban with theses repositories
