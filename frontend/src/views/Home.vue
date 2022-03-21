@@ -2,7 +2,7 @@
   <div class="home">
     <h1>the-godfather.tech</h1>
     <p>
-      Support Open Source projects using tags like this one: 👉️
+      Support Open Source projects using badge like this one: 👉️
       <img :src="badgeSrc" alt="Tag example" />
     </p>
     <div class="tag-example"></div>
