@@ -46,7 +46,7 @@ export class GithubController {
 
     if (user === undefined) {
       user = await this.usersService.create({
-        email: githubInformation.email,
+        email,
         githubInformation,
       });
     }
