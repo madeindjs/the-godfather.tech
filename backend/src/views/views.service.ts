@@ -25,7 +25,10 @@ export class ViewsService {
   ) {}
 
   async create(repository: string, campaign: Campaign, request: Request) {
-    // TODO: check if request come from Github
+    if (!request.headers.referer?.startsWith('https://github.com')) {
+      return;
+    }
+
     if (await this.isRequestAlreadySeenToady(repository, campaign, request)) {
       return undefined;
     }
