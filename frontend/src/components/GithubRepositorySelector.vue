@@ -4,13 +4,12 @@
       <label for="pseudo">Pseudo Github</label>
       <input type="text" v-model="pseudo" @change="loadUserRepositories" />
     </div>
-    <label v-if="repositories.length > 0" for="repository"
+    <label v-if="repositories.length > 0 || isLoading" for="repository" :aria-busy="isLoading"
       >Repository
-      <select @change="emitInput" v-model="repository" name="repository">
-        <option v-for="repo of repositories" :value="repo.html_url" :key="repo.url">
-          {{ repo.name }}
-        </option>
-      </select>
+      <input type="url" v-model="repository" name="repository" @change="emitInput" list="repositories" />
+      <datalist id="repositories">
+        <option v-for="repo of repositories" :value="repo.html_url" :key="repo.url" />
+      </datalist>
       <small v-if="estimatedPrice">
         This repository can generate
         <mark>{{ formatMoney(estimatedPrice) }} per {{ nbViewsExamples }} views</mark>.<br />
@@ -40,6 +39,7 @@ function emitInput() {
 const pseudo = ref("");
 const repositories = ref([]);
 const repository = ref(props.value ?? "");
+const loading = ref(false);
 
 const nbViewsExamples = 1000;
 
@@ -61,6 +61,7 @@ const estimatedPrice = computed(() => {
 });
 
 function loadUserRepositories() {
+  loading.value = true;
   getUserRepositories(pseudo.value)
     .then((r) => {
       repositories.value = r;
@@ -69,7 +70,8 @@ function loadUserRepositories() {
         emitInput();
       }
     })
-    .catch(() => toastStore.display(`Cannot load repositories for ${userState.email ?? pseudo.value}`, "error"));
+    .catch(() => toastStore.display(`Cannot load repositories for ${userState.email ?? pseudo.value}`, "error"))
+    .then(() => (loading.value = false));
 }
 
 if (userState.email) {
