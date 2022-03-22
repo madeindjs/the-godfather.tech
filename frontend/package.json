@@ -1,6 +1,6 @@
 {
   "name": "the-godfather-tech",
-  "version": "0.0.6-alpha",
+  "version": "0.0.7-alpha",
   "license": "gpl3",
   "private": true,
   "scripts": {
