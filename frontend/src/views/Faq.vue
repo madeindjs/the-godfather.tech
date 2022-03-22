@@ -4,8 +4,8 @@
 
     <h2>Global</h2>
 
-    <details id="#formula" :open="isFormulaOpen">
-      <summary>How views are billed?</summary>
+    <details :open="isFormulaOpen">
+      <summary id="formula">How views are billed?</summary>
       <p>
         The price of each views is <strong>{{ PRICE_PER_VIEW_PER_STAR * 100 }} cents per star and per view</strong>.
       </p>
