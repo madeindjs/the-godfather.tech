@@ -1,6 +1,6 @@
 <template>
   <div class="create-image">
-    <h1>Add an image to your repository</h1>
+    <h1>Generate a badge</h1>
     <ImageBuilder />
   </div>
 </template>

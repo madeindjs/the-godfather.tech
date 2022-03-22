@@ -34,10 +34,17 @@ const routes = [
     component: () => import(/* webpackChunkName: "faq" */ "../views/Faq.vue"),
   },
   {
-    path: "/badge/new",
-    name: "/badge/new",
-    meta: { title: "New badge" },
+    path: "/badges/new",
+    name: "BadgeForm",
+    meta: { title: "Generate badge" },
     component: () => import(/* webpackChunkName: "create-tag" */ "../views/CreateImage.vue"),
+  },
+  {
+    path: "/badges",
+    name: "Badges",
+    meta: { title: "My badges" },
+    component: () => import(/* webpackChunkName: "create-tag" */ "../views/Badges.vue"),
+    beforeEnter: loginGuard,
   },
   {
     path: "/campaigns",

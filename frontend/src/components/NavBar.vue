@@ -8,7 +8,7 @@
         </strong>
       </li>
       <li>
-        <router-link to="/badge/new">Add image tag</router-link>
+        <router-link to="/badges/new">Generate badge</router-link>
       </li>
       <li v-if="state.email"><router-link to="/campaigns">Campaigns</router-link></li>
     </ul>
