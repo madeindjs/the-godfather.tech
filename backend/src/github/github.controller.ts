@@ -41,6 +41,7 @@ export class GithubController {
       throw new UnauthorizedException(['Cannot get user informations']);
     }
 
+    // TODO: use github id instead of email
     const email = githubInformation.email;
 
     if (!email) {

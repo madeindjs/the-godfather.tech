@@ -72,3 +72,9 @@ docker run \
   --network br-daddy \
   "daddy-open-source:lastest"
 ```
+
+## TODO
+
+- [ ] Find a way about camo
+  - $ curl -X PURGE https://camo.githubusercontent.com/4d04abe0044d94fefcf9af2133223....
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-anonymized-urls
