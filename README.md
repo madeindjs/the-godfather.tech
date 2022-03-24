@@ -1,6 +1,6 @@
 # the-godfather.tech
 
-Support Open Source projects using badge like this one: 👉️ ![List of sponsors](https://the-godfather.tech/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fthe-godfather.tech&style=flat&version=1)
+Support Open Source projects using badge like this one: 👉️ ![List of sponsors](https://the-godfather.tech/api/v1/badge?repository=https%3A%2F%2Fgithub.com%2Fmadeindjs%2Fthe-godfather.tech&style=flat&version=1&maxAge=10)
 
 This SAAS help:
 
