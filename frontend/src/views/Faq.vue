@@ -59,7 +59,7 @@
     <details>
       <summary>How to include tag?</summary>
       <p>
-        <router-link to="/badge/new">Create a badge</router-link> and put it into your <code>README.md</code> file on
+        <router-link to="/badges/new">Create a badge</router-link> and put it into your <code>README.md</code> file on
         Github.
       </p>
     </details>

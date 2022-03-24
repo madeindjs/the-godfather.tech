@@ -17,7 +17,7 @@
 
         <ol class="steps">
           <li>
-            <router-link to="/badge/new">Create a badge</router-link> and put it into your <code>README.md</code> on
+            <router-link to="/badges/new">Create a badge</router-link> and put it into your <code>README.md</code> on
             Github.
           </li>
           <li>Wait some visitors on your Github project. The badge will display sponsors name</li>

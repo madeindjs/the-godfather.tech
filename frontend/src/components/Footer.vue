@@ -14,7 +14,7 @@
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/campaigns">Campaigns</router-link></li>
         <li>
-          <router-link to="/badge/new">Add image tag</router-link>
+          <router-link to="/badges/new">Add image tag</router-link>
         </li>
       </ul>
     </section>
