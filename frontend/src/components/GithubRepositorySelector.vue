@@ -39,7 +39,7 @@ function emitInput() {
 const pseudo = ref("");
 const repositories = ref([]);
 const repository = ref(props.value ?? "");
-const loading = ref(false);
+const isLoading = ref(false);
 
 const nbViewsExamples = 1000;
 
@@ -61,7 +61,7 @@ const estimatedPrice = computed(() => {
 });
 
 function loadUserRepositories() {
-  loading.value = true;
+  isLoading.value = true;
   getUserRepositories(pseudo.value)
     .then((r) => {
       repositories.value = r;
@@ -71,7 +71,7 @@ function loadUserRepositories() {
       }
     })
     .catch(() => toastStore.display(`Cannot load repositories for ${userState.email ?? pseudo.value}`, "error"))
-    .then(() => (loading.value = false));
+    .then(() => (isLoading.value = false));
 }
 
 if (userState.email) {
