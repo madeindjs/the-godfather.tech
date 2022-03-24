@@ -32,7 +32,8 @@ export default {
         });
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          toastStore.display("Error during authentification", "error");
+          const message = error.response.data?.message?.join(" -- ") ?? "Error during authentification";
+          toastStore.display(message, "error");
         } else {
           console.error(error);
         }

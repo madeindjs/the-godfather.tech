@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Logger,
@@ -41,6 +42,12 @@ export class GithubController {
     }
 
     const email = githubInformation.email;
+
+    if (!email) {
+      throw new BadRequestException([
+        'Cannot retrieve associated email to this account. Please make sure that you set a public email (https://github.com/settings/profile).',
+      ]);
+    }
 
     let user = await this.usersService.findOneByEmail(email);
 
